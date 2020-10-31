@@ -1,10 +1,10 @@
 import React from 'react';
-import { Counter } from './features/counter/Counter';
+import { Counter } from './pages/Counter';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div>
-      App
+      SNS App
     </div>
   );
 }
