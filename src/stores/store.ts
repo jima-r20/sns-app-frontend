@@ -3,7 +3,7 @@ import counterReducer from './slices/counterSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    counter: counterReducer,  // あとで消す
   },
 });
 
