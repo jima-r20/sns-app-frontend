@@ -1,63 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import { RouteComponentProps } from 'react-router-dom';
-// import * as H from 'history';
+import { Link as RRLink } from 'react-router-dom';
 import {
   Avatar,
   Box,
   Button,
   Checkbox,
   Container,
-  createStyles,
   CssBaseline,
   FormControlLabel,
-  Grid,
-  Link,
-  makeStyles,
   TextField,
-  Theme,
   Typography,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 
 import Copyright from '../components/Copyright';
+import { authDefaultStyles } from '../../styles/Auth.styles';
 
+// import { RouteComponentProps } from 'react-router-dom';
+// import * as H from 'history';
 // interface Props extends RouteComponentProps<{}> {
 //   history: H.History;
 // }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%',
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-    question: {
-      display: 'inline-block',
-      width: '100%',
-      textAlign: 'center',
-    },
-    errorMessage: {
-      color: 'red',
-    },
-  })
-);
-
 const SignInPage: React.FC = () => {
-  const classes = useStyles();
+  const classes = authDefaultStyles();
   const { register, errors, handleSubmit } = useForm();
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -151,10 +118,10 @@ const SignInPage: React.FC = () => {
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
             type="password"
             id="password"
+            label="Password"
+            name="password"
             autoComplete="current-password"
             helperText={passwordErrorMessage}
             inputRef={register({
@@ -178,9 +145,9 @@ const SignInPage: React.FC = () => {
           >
             Sign In
           </Button>
-          <Link href="/signup" variant="body2" className={classes.question}>
-            Don't have an account? Sign Up
-          </Link>
+          <Box textAlign="center">
+            <RRLink to="/signup">Don't have an account? Sign Up</RRLink>
+          </Box>
         </form>
       </div>
       <Box mt={8}>
