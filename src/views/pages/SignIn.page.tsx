@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link as RRLink } from 'react-router-dom';
 import {
@@ -32,6 +32,9 @@ import { authDefaultStyles } from '../../styles/Auth.styles';
 interface State {
   email: string;
   password: string;
+  isEmailInputedOnce: boolean;
+  isPasswordInputedOnce: boolean;
+  matchEmailPattern: boolean;
   showPassword: boolean;
 }
 
@@ -42,11 +45,15 @@ interface FormData {
 
 const SignInPage: React.FC = () => {
   const classes = authDefaultStyles();
+  const emailPattern: RegExp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
   const { register, errors, handleSubmit } = useForm<FormData>();
 
   const [values, setValues] = useState<State>({
-    email: 'init',
-    password: 'init',
+    email: '',
+    password: '',
+    isEmailInputedOnce: false,
+    isPasswordInputedOnce: false,
+    matchEmailPattern: false,
     showPassword: false,
   });
 
@@ -59,9 +66,23 @@ const SignInPage: React.FC = () => {
   const handleChange = (prop: keyof State) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    let isInputedOnce!: keyof State;
+    if (prop === 'email' && !values.isEmailInputedOnce) {
+      isInputedOnce = 'isEmailInputedOnce';
+      console.log('isEmailInputedOnce');
+    }
+    if (prop === 'password' && !values.isPasswordInputedOnce) {
+      isInputedOnce = 'isPasswordInputedOnce';
+      console.log('isPasswordInputedOnce');
+    }
     setValues({
       ...values,
       [prop]: event.target.value,
+      [isInputedOnce]: true,
+      matchEmailPattern:
+        prop === 'email'
+          ? event.target.value.match(emailPattern) !== null
+          : values.matchEmailPattern,
     });
   };
 
@@ -86,11 +107,11 @@ const SignInPage: React.FC = () => {
           Sign In
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSignIn}>
-          {errors.email && errors.email.type === 'pattern' ? (
+          {/* {errors.email && errors.email.type === 'pattern' ? (
             <div className={classes.errorMessage}>{errors.email.message}</div>
-          ) : null}
+          ) : null} */}
           <TextField
-            error={values.email === ''}
+            error={values.email === '' && values.isEmailInputedOnce}
             variant="outlined"
             margin="normal"
             required
@@ -101,43 +122,29 @@ const SignInPage: React.FC = () => {
             autoComplete="email"
             autoFocus
             helperText={
-              !values.email ? 'Please enter your email address' : null
+              (!values.email && values.isEmailInputedOnce
+                ? 'Please enter your email address'
+                : null) ||
+              (Boolean(values.email) &&
+              values.email.match(emailPattern) === null
+                ? 'Please enter your email address in the correct format'
+                : null)
             }
             inputRef={register({
               required: true,
               pattern: {
-                value: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/,
+                value: emailPattern,
                 message: 'Not match email pattern',
               },
             })}
             onChange={handleChange('email')}
           />
-          {/* <TextField
-            error={values.password === ''}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            type="password"
-            id="password"
-            label="Password"
-            name="password"
-            autoComplete="current-password"
-            helperText={
-              values.password === '' ? 'Please enter your password' : null
-            }
-            inputRef={register({
-              required: true,
-            })}
-            onChange={handleChange('password')}
-          /> */}
-
           <FormControl
             variant="outlined"
             fullWidth
             margin="normal"
             required
-            error={values.password === ''}
+            error={values.password === '' && values.isPasswordInputedOnce}
           >
             <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
@@ -164,7 +171,9 @@ const SignInPage: React.FC = () => {
               labelWidth={70}
             />
             <FormHelperText>
-              {!values.password ? 'Please enter your password' : null}
+              {!values.password && values.isPasswordInputedOnce
+                ? 'Please enter your password'
+                : null}
             </FormHelperText>
           </FormControl>
 
@@ -175,9 +184,8 @@ const SignInPage: React.FC = () => {
           <Button
             disabled={
               values.email === '' ||
-              values.email === 'init' ||
               values.password === '' ||
-              values.password === 'init'
+              !values.matchEmailPattern
             }
             type="submit"
             fullWidth
