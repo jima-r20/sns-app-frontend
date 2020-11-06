@@ -8,11 +8,17 @@ import {
   Checkbox,
   Container,
   CssBaseline,
+  FormControl,
   FormControlLabel,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { LockOutlined } from '@material-ui/icons';
+import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
 
 import Copyright from '../components/Copyright';
 import { authDefaultStyles } from '../../styles/Auth.styles';
@@ -23,55 +29,43 @@ import { authDefaultStyles } from '../../styles/Auth.styles';
 //   history: H.History;
 // }
 
+interface State {
+  email: string;
+  password: string;
+  showPassword: boolean;
+}
+
 const SignInPage: React.FC = () => {
   const classes = authDefaultStyles();
   const { register, errors, handleSubmit } = useForm();
-  const [isEmail, setIsEmail] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
-  const [isPassword, setIsPassword] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
 
-  useEffect(() => {
-    console.log('effected');
-  }, [
-    isEmail,
-    emailError,
-    emailErrorMessage,
-    isPassword,
-    passwordError,
-    passwordErrorMessage,
-  ]);
+  const [values, setValues] = useState<State>({
+    email: 'init',
+    password: 'init',
+    showPassword: false,
+  });
 
   const handleSignIn = () => {
     console.log('called');
   };
 
-  const checkEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (!value) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter your email address');
-      setIsEmail(false);
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-      setIsEmail(true);
-    }
+  const handleChange = (prop: keyof State) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setValues({
+      ...values,
+      [prop]: event.target.value,
+    });
   };
 
-  const checkPasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (!value) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Please enter your password');
-      setIsPassword(false);
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-      setIsPassword(true);
-    }
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
   };
 
   return (
@@ -90,10 +84,10 @@ const SignInPage: React.FC = () => {
           onSubmit={handleSubmit(handleSignIn)}
         >
           {errors.email && errors.email.type === 'pattern' ? (
-            <div className={classes.errorMessage}>Not match email pattern</div>
+            <div className={classes.errorMessage}>{errors.email.message}</div>
           ) : null}
           <TextField
-            error={emailError}
+            error={values.email === ''}
             variant="outlined"
             margin="normal"
             required
@@ -103,17 +97,20 @@ const SignInPage: React.FC = () => {
             name="email"
             autoComplete="email"
             autoFocus
-            helperText={emailErrorMessage}
+            helperText={
+              !values.email ? 'Please enter your email address' : null
+            }
             inputRef={register({
               required: true,
-              pattern: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/,
+              pattern: {
+                value: /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/,
+                message: 'Not match email pattern',
+              },
             })}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              checkEmailInput(e)
-            }
+            onChange={handleChange('email')}
           />
-          <TextField
-            error={passwordError}
+          {/* <TextField
+            error={values.password === ''}
             variant="outlined"
             margin="normal"
             required
@@ -123,20 +120,62 @@ const SignInPage: React.FC = () => {
             label="Password"
             name="password"
             autoComplete="current-password"
-            helperText={passwordErrorMessage}
+            helperText={
+              values.password === '' ? 'Please enter your password' : null
+            }
             inputRef={register({
               required: true,
             })}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              checkPasswordInput(e)
-            }
-          />
+            onChange={handleChange('password')}
+          /> */}
+
+          <FormControl
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
+            error={values.password === ''}
+          >
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput
+              type={values.showPassword ? 'text' : 'password'}
+              id="password"
+              name="password"
+              autoComplete="current-password"
+              inputRef={register({
+                required: true,
+              })}
+              onChange={handleChange('password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={70}
+            />
+            <FormHelperText>
+              {!values.password ? 'Please enter your password' : null}
+            </FormHelperText>
+          </FormControl>
+
           <FormControlLabel
             control={<Checkbox value="remenber" color="primary" />}
             label="Remember me"
           />
           <Button
-            disabled={isEmail && isPassword ? false : true}
+            disabled={
+              values.email === '' ||
+              values.email === 'init' ||
+              values.password === '' ||
+              values.password === 'init'
+            }
             type="submit"
             fullWidth
             variant="contained"
