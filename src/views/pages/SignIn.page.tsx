@@ -35,9 +35,14 @@ interface State {
   showPassword: boolean;
 }
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
 const SignInPage: React.FC = () => {
   const classes = authDefaultStyles();
-  const { register, errors, handleSubmit } = useForm();
+  const { register, errors, handleSubmit } = useForm<FormData>();
 
   const [values, setValues] = useState<State>({
     email: 'init',
@@ -45,9 +50,11 @@ const SignInPage: React.FC = () => {
     showPassword: false,
   });
 
-  const handleSignIn = () => {
-    console.log('called');
-  };
+  const handleSignIn = handleSubmit(({ email, password }) => {
+    console.log(
+      `handleSignIn is called. data: { email: ${email}, password: ${password} }`
+    );
+  });
 
   const handleChange = (prop: keyof State) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -78,11 +85,7 @@ const SignInPage: React.FC = () => {
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={handleSubmit(handleSignIn)}
-        >
+        <form className={classes.form} noValidate onSubmit={handleSignIn}>
           {errors.email && errors.email.type === 'pattern' ? (
             <div className={classes.errorMessage}>{errors.email.message}</div>
           ) : null}
