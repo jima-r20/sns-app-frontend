@@ -41,7 +41,7 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSignIn.fulfilled, (state, action) => {
-      localStorage.setItem('localJWT', action.payload.access)
+      localStorage.setItem('localJwtToken', action.payload.accessToken)
     })
   }
 });

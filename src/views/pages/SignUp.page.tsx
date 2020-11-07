@@ -236,11 +236,12 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
             onChange={handleChange('displayName')}
           />
           <TextField
+            disabled
             variant="outlined"
             margin="normal"
             fullWidth
             id="avatar"
-            label="Avatar"
+            label="Avatar (Comming soon)"
             name="avatar"
             autoComplete="avatar"
             inputRef={register}
