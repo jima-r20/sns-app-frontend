@@ -15,7 +15,7 @@ interface AuthState {
 // const apiUrl = process.env.REACT_APP_DEV_API_URL;
 const apiUrl = 'http://localhost:3000/';
 
-export const signUp = createAsyncThunk(
+export const fetchSignUp = createAsyncThunk(
   'user/signUp',
   async (newUser: PROPS_SIGNUP) => {
     const res = await axios.post(`${apiUrl}user/signup`, newUser);
@@ -24,7 +24,7 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const signIn = createAsyncThunk(
+export const fetchSignIn = createAsyncThunk(
   'user/signIn',
   async (user: PROPS_SIGNIN) => {
     const res = await axios.post(`${apiUrl}user/signin`, user);
@@ -40,7 +40,7 @@ export const userSlice = createSlice({
 
   },
   extraReducers: (builder) => {
-    builder.addCase(signIn.fulfilled, (state, action) => {
+    builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       localStorage.setItem('localJWT', action.payload.access)
     })
   }

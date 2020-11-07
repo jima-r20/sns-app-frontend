@@ -25,7 +25,7 @@ import { authDefaultStyles } from '../../styles/Auth.styles';
 
 import * as H from 'history';
 import { RouteComponentProps } from 'react-router-dom';
-import { signUp } from '../../stores/slices/user.slice';
+import { fetchSignUp } from '../../stores/slices/user.slice';
 interface Props extends RouteComponentProps<{}> {
   history: H.History;
 }
@@ -71,8 +71,8 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
 
   const handleSignUp = handleSubmit(async (data: FormData) => {
     console.log(data);
-    const result = await dispatch(signUp(data));
-    if (signUp.fulfilled.match(result)) {
+    const result = await dispatch(fetchSignUp(data));
+    if (fetchSignUp.fulfilled.match(result)) {
       props.history.push('/signin');
     }
   });
