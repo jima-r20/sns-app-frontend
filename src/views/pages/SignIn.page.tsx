@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link as RRLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../stores/store';
 import {
   Avatar,
   Box,
@@ -25,6 +27,7 @@ import { authDefaultStyles } from '../../styles/Auth.styles';
 
 import { RouteComponentProps } from 'react-router-dom';
 import * as H from 'history';
+import { signIn } from '../../stores/slices/user.slice';
 interface Props extends RouteComponentProps<{}> {
   history: H.History;
 }
@@ -47,6 +50,7 @@ const SignInPage: React.FC<Props> = (props: Props) => {
   const classes = authDefaultStyles();
   const emailPattern: RegExp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
   const { register, errors, handleSubmit } = useForm<FormData>();
+  const dispatch: AppDispatch = useDispatch();
 
   const [values, setValues] = useState<State>({
     email: '',
@@ -57,9 +61,11 @@ const SignInPage: React.FC<Props> = (props: Props) => {
     showPassword: false,
   });
 
-  const handleSignIn = handleSubmit((data: FormData) => {
-    console.log(data);
-    props.history.push('/top');
+  const handleSignIn = handleSubmit(async (data: FormData) => {
+    const result = await dispatch(signIn(data));
+    if (signIn.fulfilled.match(result)) {
+      props.history.push('/top');
+    }
   });
 
   const handleChange = (prop: keyof State) => (

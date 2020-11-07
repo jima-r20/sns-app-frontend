@@ -25,7 +25,7 @@ import { authDefaultStyles } from '../../styles/Auth.styles';
 
 import * as H from 'history';
 import { RouteComponentProps } from 'react-router-dom';
-import { signUp } from '../../stores/slices/auth.slice';
+import { signUp } from '../../stores/slices/user.slice';
 interface Props extends RouteComponentProps<{}> {
   history: H.History;
 }
@@ -38,6 +38,7 @@ interface State {
   isPasswordInputedOnce: boolean;
   isDisplayNameInputedOnce: boolean;
   matchEmailPattern: boolean;
+  matchPasswordPattern: boolean;
   showPassword: boolean;
 }
 
@@ -52,6 +53,7 @@ interface FormData {
 const SignUpPage: React.FC<Props> = (props: Props) => {
   const classes = authDefaultStyles();
   const emailPattern: RegExp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+  const passwordPattern: RegExp = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
   const { register, errors, handleSubmit } = useForm<FormData>();
   const dispatch: AppDispatch = useDispatch();
 
@@ -63,13 +65,16 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
     isPasswordInputedOnce: false,
     isDisplayNameInputedOnce: false,
     matchEmailPattern: false,
+    matchPasswordPattern: false,
     showPassword: false,
   });
 
   const handleSignUp = handleSubmit(async (data: FormData) => {
     console.log(data);
-    await dispatch(signUp(data));
-    props.history.push('/signin');
+    const result = await dispatch(signUp(data));
+    if (signUp.fulfilled.match(result)) {
+      props.history.push('/signin');
+    }
   });
 
   const handleChange = (prop: keyof State) => (
@@ -93,6 +98,10 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
         prop === 'email'
           ? event.target.value.match(emailPattern) !== null
           : values.matchEmailPattern,
+      matchPasswordPattern:
+        prop === 'password'
+          ? event.target.value.match(passwordPattern) !== null
+          : values.matchPasswordPattern,
     });
   };
 
@@ -153,7 +162,9 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
             margin="normal"
             required
             error={
-              (values.password === '' || values.password.length < 8) &&
+              (values.password === '' ||
+                values.password.match(passwordPattern) === null ||
+                values.password.length < 8) &&
               values.isPasswordInputedOnce
             }
           >
@@ -165,6 +176,7 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
               autoComplete="current-password"
               inputRef={register({
                 required: true,
+                pattern: passwordPattern,
                 minLength: 8,
               })}
               onChange={handleChange('password')}
@@ -186,6 +198,10 @@ const SignUpPage: React.FC<Props> = (props: Props) => {
               {(!values.password && values.isPasswordInputedOnce
                 ? 'Please enter your password'
                 : null) ||
+                (Boolean(values.password) &&
+                values.password.match(passwordPattern) === null
+                  ? 'Please include uppercase, lowercase, number and symbol'
+                  : null) ||
                 (Boolean(values.password) && values.password.length < 8
                   ? 'Please enter your password in 8 characters or less'
                   : null)}
