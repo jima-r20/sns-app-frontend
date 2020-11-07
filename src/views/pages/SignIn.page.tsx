@@ -57,10 +57,8 @@ const SignInPage: React.FC = () => {
     showPassword: false,
   });
 
-  const handleSignIn = handleSubmit(({ email, password }) => {
-    console.log(
-      `handleSignIn is called. data: { email: ${email}, password: ${password} }`
-    );
+  const handleSignIn = handleSubmit((data: FormData) => {
+    console.log(data);
   });
 
   const handleChange = (prop: keyof State) => (
@@ -69,11 +67,9 @@ const SignInPage: React.FC = () => {
     let isInputedOnce!: keyof State;
     if (prop === 'email' && !values.isEmailInputedOnce) {
       isInputedOnce = 'isEmailInputedOnce';
-      console.log('isEmailInputedOnce');
     }
     if (prop === 'password' && !values.isPasswordInputedOnce) {
       isInputedOnce = 'isPasswordInputedOnce';
-      console.log('isPasswordInputedOnce');
     }
     setValues({
       ...values,
@@ -111,7 +107,11 @@ const SignInPage: React.FC = () => {
             <div className={classes.errorMessage}>{errors.email.message}</div>
           ) : null} */}
           <TextField
-            error={values.email === '' && values.isEmailInputedOnce}
+            error={
+              (values.email === '' ||
+                values.email.match(emailPattern) === null) &&
+              values.isEmailInputedOnce
+            }
             variant="outlined"
             margin="normal"
             required
