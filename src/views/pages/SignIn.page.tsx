@@ -23,11 +23,11 @@ import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
 import Copyright from '../components/Copyright';
 import { authDefaultStyles } from '../../styles/Auth.styles';
 
-// import { RouteComponentProps } from 'react-router-dom';
-// import * as H from 'history';
-// interface Props extends RouteComponentProps<{}> {
-//   history: H.History;
-// }
+import { RouteComponentProps } from 'react-router-dom';
+import * as H from 'history';
+interface Props extends RouteComponentProps<{}> {
+  history: H.History;
+}
 
 interface State {
   email: string;
@@ -43,7 +43,7 @@ interface FormData {
   password: string;
 }
 
-const SignInPage: React.FC = () => {
+const SignInPage: React.FC<Props> = (props: Props) => {
   const classes = authDefaultStyles();
   const emailPattern: RegExp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
   const { register, errors, handleSubmit } = useForm<FormData>();
@@ -59,6 +59,7 @@ const SignInPage: React.FC = () => {
 
   const handleSignIn = handleSubmit((data: FormData) => {
     console.log(data);
+    props.history.push('/top');
   });
 
   const handleChange = (prop: keyof State) => (

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link as RRLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../stores/store';
 import {
   Avatar,
   Box,
@@ -21,11 +23,12 @@ import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
 import Copyright from '../components/Copyright';
 import { authDefaultStyles } from '../../styles/Auth.styles';
 
-// import * as H from 'history';
-// import { RouteComponentProps } from 'react-router-dom';
-// interface Props extends RouteComponentProps<{}> {
-//   history: H.History;
-// }
+import * as H from 'history';
+import { RouteComponentProps } from 'react-router-dom';
+import { signUp } from '../../stores/slices/auth.slice';
+interface Props extends RouteComponentProps<{}> {
+  history: H.History;
+}
 
 interface State {
   email: string;
@@ -46,10 +49,11 @@ interface FormData {
   about?: string;
 }
 
-const SignUpPage: React.FC = () => {
+const SignUpPage: React.FC<Props> = (props: Props) => {
   const classes = authDefaultStyles();
   const emailPattern: RegExp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
   const { register, errors, handleSubmit } = useForm<FormData>();
+  const dispatch: AppDispatch = useDispatch();
 
   const [values, setValues] = useState<State>({
     email: '',
@@ -62,8 +66,10 @@ const SignUpPage: React.FC = () => {
     showPassword: false,
   });
 
-  const handleSignUp = handleSubmit((data: FormData) => {
+  const handleSignUp = handleSubmit(async (data: FormData) => {
     console.log(data);
+    await dispatch(signUp(data));
+    props.history.push('/signin');
   });
 
   const handleChange = (prop: keyof State) => (
