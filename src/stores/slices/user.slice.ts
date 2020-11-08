@@ -67,4 +67,6 @@ export const userSlice = createSlice({
   }
 });
 
+export const selectMyProfile = (state: RootState) => state.user.myprofile;
+
 export default userSlice.reducer;
