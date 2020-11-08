@@ -3,13 +3,11 @@ import { RootState } from '../store'
 import axios from 'axios';
 import { PROPS_SIGNIN, PROPS_SIGNUP } from '../../types';
 
-interface AuthState {
-  // myprofile: {
-  //   id: number;
-  //   displayName: string;
-  //   avatar: string;
-  //   about: string;
-  // }
+interface MyProfile {
+  id: number;
+  displayName: string;
+  avatar: string;
+  about: string;
 }
 
 // const apiUrl = process.env.REACT_APP_DEV_API_URL;
@@ -33,16 +31,39 @@ export const fetchSignIn = createAsyncThunk(
   }
 );
 
+export const fetchGetUser = createAsyncThunk(
+  'user/getUser',
+  async () => {
+    const res = await axios.get(`${apiUrl}user/myprofile`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`
+      }
+    });
+    console.log(res.data);
+    return res.data;
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {},
+  initialState: {
+    myprofile: {
+      id: 0,
+      displayName: '',
+      avatar: '',
+      about: ''
+    } as MyProfile
+  },
   reducers: {
 
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       localStorage.setItem('localJwtToken', action.payload.accessToken)
-    })
+    });
+    builder.addCase(fetchGetUser.fulfilled, (state, action) => {
+      state.myprofile = action.payload;
+    });
   }
 });
 

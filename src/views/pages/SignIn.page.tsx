@@ -27,7 +27,7 @@ import { authDefaultStyles } from '../../styles/Auth.styles';
 
 import { RouteComponentProps } from 'react-router-dom';
 import * as H from 'history';
-import { fetchSignIn } from '../../stores/slices/user.slice';
+import { fetchGetUser, fetchSignIn } from '../../stores/slices/user.slice';
 interface Props extends RouteComponentProps<{}> {
   history: H.History;
 }
@@ -64,6 +64,7 @@ const SignInPage: React.FC<Props> = (props: Props) => {
   const handleSignIn = handleSubmit(async (data: FormData) => {
     const result = await dispatch(fetchSignIn(data));
     if (fetchSignIn.fulfilled.match(result)) {
+      await dispatch(fetchGetUser());
       props.history.push('/top');
     }
   });
