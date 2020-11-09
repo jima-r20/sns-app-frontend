@@ -2,23 +2,23 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
 export const DMItemStyle = makeStyles((theme: Theme) =>
   createStyles({
-    DMCard: {
+    card: {
       width: '100%',
       margin: '2% 0',
       // backgroundColor: '#777',
       // color: 'white'
     },
-    DMContainer: {
+    container: {
       display: 'flex',
       alignItems: 'center',
       padding: '3%',
     },
-    DMAvatar: {
+    avatar: {
       margin: '0 auto',
       width: theme.spacing(3),
       height: theme.spacing(3),
     },
-    DMMessage: {
+    message: {
       display: 'block',
       paddingRight: '5%',
       paddingLeft: '15%',

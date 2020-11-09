@@ -23,7 +23,7 @@ const RightSideBar: React.FC = () => {
         variant="permanent"
         anchor="right"
         classes={{
-          paper: classes.rightSideDrawerPaper,
+          paper: classes.drawerPaper,
         }}
       >
         <Toolbar />
@@ -31,14 +31,14 @@ const RightSideBar: React.FC = () => {
         {/* =====================
                   DM List
         ========================= */}
-        <List className={classes.rightSideDM}>
-          <ListItem className={classes.rightSideListHeader}>
+        <List className={classes.DMList}>
+          <ListItem className={classes.listHeader}>
             <ListItemIcon>
               <ChatBubble />
             </ListItemIcon>
             <ListItemText primary="DM" />
           </ListItem>
-          <Container className={classes.rightSideDMContainer}>
+          <Container className={classes.DMContainer}>
             <DMItem
               displayName="Ariel"
               message="This is a direct message from Ariel."
@@ -58,14 +58,14 @@ const RightSideBar: React.FC = () => {
         {/* =====================
             FriendRequest List
         ========================= */}
-        <List className={classes.rightSideFriReq}>
-          <ListItem className={classes.rightSideListHeader}>
+        <List className={classes.friReqList}>
+          <ListItem className={classes.listHeader}>
             <ListItemIcon>
               <PersonAdd />
             </ListItemIcon>
             <ListItemText primary="Friends Request" />
           </ListItem>
-          <Container className={classes.rightSideFriReqContainer}>
+          <Container className={classes.friReqContainer}>
             <FriendRequestItem displayName="Ariel" />
             <FriendRequestItem displayName="Steve" />
             <FriendRequestItem displayName="Paul" />

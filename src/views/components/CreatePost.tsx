@@ -7,42 +7,27 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { CreatePostStyle } from '../../styles/CreatePost.style';
 
 const CreatePost: React.FC = () => {
+  const classes = CreatePostStyle();
+
   return (
     <React.Fragment>
-      <Paper
-        style={{ marginBottom: '2%', paddingRight: '2%', paddingLeft: '2%' }}
-      >
-        <Grid
-          container
-          spacing={1}
-          style={{ display: 'flex', alignItems: 'center', paddingTop: '1%' }}
-        >
+      <Paper className={classes.paper}>
+        <Grid container spacing={1} className={classes.container}>
           <Grid item xs={1}>
-            <Avatar style={{ margin: '0 auto' }}>R</Avatar>
+            <Avatar className={classes.avater}>R</Avatar>
           </Grid>
           <Grid item xs={9}>
             <Typography variant="body2" component="p">
               What's happening?
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={2}
-            style={{ display: 'flex', justifyContent: 'center' }}
-          >
+          <Grid item xs={2} className={classes.postButton}>
             <Chip clickable color="primary" label="Post" />
           </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              paddingRight: '5%',
-              paddingLeft: '5%',
-              paddingBottom: '2%',
-            }}
-          >
+          <Grid item xs={12}>
             <TextField
               id="create-post"
               multiline
@@ -50,6 +35,7 @@ const CreatePost: React.FC = () => {
               variant="outlined"
               fullWidth
               placeholder="Let's post what happened"
+              className={classes.textField}
             />
           </Grid>
         </Grid>

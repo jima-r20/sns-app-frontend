@@ -21,11 +21,11 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
 
   return (
     <React.Fragment>
-      <Card variant="outlined" className={classes.DMCard}>
+      <Card variant="outlined" className={classes.card}>
         <CardActionArea>
-          <Grid container spacing={1} className={classes.DMContainer}>
+          <Grid container spacing={1} className={classes.container}>
             <Grid item xs={2}>
-              <Avatar className={classes.DMAvatar}>{avatarIcon}</Avatar>
+              <Avatar className={classes.avatar}>{avatarIcon}</Avatar>
             </Grid>
             <Grid item xs={10}>
               <Typography variant="body2" component="p">
@@ -36,7 +36,7 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
             <Grid item xs={12}>
               {/* <Paper variant="outlined" className={classes.DMTextPaper}> */}
               {/* <Typography variant="body2" component="p"> */}
-              <Typography variant="caption" className={classes.DMMessage}>
+              <Typography variant="caption" className={classes.message}>
                 {message}
               </Typography>
               {/* </Paper> */}

@@ -35,17 +35,17 @@ const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
 
   return (
     <React.Fragment>
-      <Card variant="outlined" className={classes.friReqCard}>
-        <Grid container spacing={1} className={classes.friReqContainer}>
+      <Card variant="outlined" className={classes.card}>
+        <Grid container spacing={1} className={classes.container}>
           <Grid item xs={2}>
-            <Avatar className={classes.friReqAvatar}>{avatarIcon}</Avatar>
+            <Avatar className={classes.avatar}>{avatarIcon}</Avatar>
           </Grid>
           <Grid item xs={3}>
             <Typography variant="body2" component="p">
               {displayName}
             </Typography>
           </Grid>
-          <Grid item xs={7} className={classes.approveButton}>
+          <Grid item xs={7} className={classes.buttons}>
             <ThemeProvider theme={theme}>
               <Chip clickable color="primary" size="small" label="Approve" />
               <Chip clickable color="secondary" size="small" label="Reject" />

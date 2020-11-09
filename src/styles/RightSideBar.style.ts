@@ -2,7 +2,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
 export const RightSideBarStyle = makeStyles((theme: Theme) =>
   createStyles({
-    rightSideDrawerPaper: {
+    drawerPaper: {
       position: 'relative',
       width: 320,
       transition: theme.transitions.create('width', {
@@ -10,24 +10,24 @@ export const RightSideBarStyle = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    rightSideListHeader: {
+    listHeader: {
       position: 'fixed',
       backgroundColor: 'white',
       height: '5vh',
       zIndex: 1,
     },
-    rightSideDM: {
+    DMList: {
       height: '50vh',
     },
-    rightSideDMContainer: {
+    DMContainer: {
       overflow: 'auto',
       height: '40vh',
       marginTop: '5vh',
     },
-    rightSideFriReq: {
+    friReqList: {
       height: '40vh',
     },
-    rightSideFriReqContainer: {
+    friReqContainer: {
       overflow: 'auto',
       marginTop: '5vh',
       height: '30vh',

@@ -1,25 +1,25 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
-export const FriendRequestItmStyle = makeStyles((theme: Theme) => 
+export const FriendRequestItmStyle = makeStyles((theme: Theme) =>
   createStyles({
-    friReqCard: {
+    card: {
       width: '100%',
-      margin: '2% 0'
+      margin: '2% 0',
     },
-    friReqContainer: {
+    container: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3%'
+      padding: '3%',
     },
-    friReqAvatar: {
+    avatar: {
       margin: '0 auto',
       width: theme.spacing(3),
       height: theme.spacing(3),
     },
-    approveButton: {
+    buttons: {
       display: 'flex',
       justifyContent: 'flex-end',
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+    },
   })
 );
