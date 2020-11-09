@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import {
-  AppBar,
   Avatar,
-  Badge,
   Box,
   Button,
   Card,
@@ -23,26 +21,25 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { mainListItems } from '../components/listItems';
-import {
-  ChatBubble,
-  ChevronLeft,
-  Menu,
-  Notifications,
-  PersonAdd,
-} from '@material-ui/icons';
+import { ChatBubble, ChevronLeft, PersonAdd } from '@material-ui/icons';
+import MainListItems from '../components/MainListItems';
 import Copyright from '../components/Copyright';
 import { TopPageStyles } from '../../styles/TopPage.styles';
+import HeaderBar from '../components/HeaderBar';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  closeSideBar,
+  selectIsOpenSideBar,
+} from '../../stores/slices/page.slice';
+import { AppDispatch } from '../../stores/store';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
-  const [open, setOpen] = useState<boolean>(true);
+  const dispatch: AppDispatch = useDispatch();
+  const open = useSelector(selectIsOpenSideBar);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleDrawerClose = async () => {
+    await dispatch(closeSideBar());
   };
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -50,40 +47,7 @@ const TopPage: React.FC = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
-      >
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
-          >
-            <Menu />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            SNS App
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={99} color="secondary">
-              <Notifications />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-
+      <HeaderBar />
       <Drawer
         variant="permanent"
         classes={{
@@ -97,7 +61,9 @@ const TopPage: React.FC = () => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <MainListItems />
+        </List>
         {/* <Divider />
         <List>{secondaryListItems}</List> */}
       </Drawer>
@@ -279,8 +245,28 @@ const TopPage: React.FC = () => {
             </Grid>
             <Grid item xs={12}>
               <Card variant="outlined" className={classes.sideCard}>
-                <CardContent>
-                  <Avatar className={classes.small}>S</Avatar>
+                <CardContent
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 'auto',
+                  }}
+                >
+                  <Avatar
+                    className={classes.small}
+                    style={{ marginRight: '5%' }}
+                  >
+                    S
+                  </Avatar>
+                  Steve
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    style={{ marginLeft: 'auto' }}
+                  >
+                    Approve
+                  </Button>
                 </CardContent>
               </Card>
             </Grid>

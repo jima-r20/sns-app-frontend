@@ -99,11 +99,11 @@ export const TopPageStyles = makeStyles((theme: Theme) =>
     },
     rightSideDM: {
       height: '50vh',
-      justifyContent: 'center'
+      // justifyContent: 'center'
     },
     rightSideFriendRequest: {
       height: '40vh',
-      justifyContent: 'center'
+      // justifyContent: 'center'
     },
     rightSideListHeader: {
       position: 'fixed',
