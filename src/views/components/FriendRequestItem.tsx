@@ -1,10 +1,35 @@
 import React from 'react';
-import { Grid, Avatar, Button, Paper, Typography } from '@material-ui/core';
+import {
+  Grid,
+  Avatar,
+  Button,
+  Paper,
+  Typography,
+  Card,
+  CardActions,
+  Chip,
+  createMuiTheme,
+  ThemeProvider,
+} from '@material-ui/core';
 import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
+import { blue, lightBlue, red } from '@material-ui/core/colors';
 
 interface PROPS_FRIEND_REQUEST {
   displayName: string;
 }
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: lightBlue[100],
+      contrastText: blue[900],
+    },
+    secondary: {
+      main: red[100],
+      contrastText: red[900],
+    },
+  },
+});
 
 const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
   const classes = FriendRequestItmStyle();
@@ -13,7 +38,7 @@ const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
 
   return (
     <React.Fragment>
-      <Paper variant="outlined" className={classes.friReqPaper}>
+      <Card variant="outlined" className={classes.friReqCard}>
         <Grid container spacing={1} className={classes.friReqContainer}>
           <Grid item xs={2}>
             <Avatar className={classes.friReqAvatar}>{avatarIcon}</Avatar>
@@ -24,12 +49,19 @@ const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
             </Typography>
           </Grid>
           <Grid item xs={7} className={classes.approveButton}>
-            <Button variant="outlined" color="primary" size="small">
+            <ThemeProvider theme={theme}>
+              <Chip clickable color="primary" size="small" label="Approve" />
+              <Chip clickable color="secondary" size="small" label="Reject" />
+            </ThemeProvider>
+            {/* <Button color="primary" size="small">
               Approve
-            </Button>
+            </Button> */}
+            {/* <Button color="secondary" size="small">
+              Reject
+            </Button> */}
           </Grid>
         </Grid>
-      </Paper>
+      </Card>
     </React.Fragment>
   );
 };

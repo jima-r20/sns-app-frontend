@@ -2,8 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 
 export const DMItemStyle = makeStyles((theme: Theme) => 
   createStyles({
-    DMPaper: {
-      padding: '3%',
+    DMCard: {
       width: '100%',
       margin: '2% 0',
       // backgroundColor: '#777',
@@ -11,7 +10,8 @@ export const DMItemStyle = makeStyles((theme: Theme) =>
     },
     DMContainer: {
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      padding: '3%'
     },
     DMAvatar: {
       margin: '0 auto',

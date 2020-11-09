@@ -2,14 +2,14 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 
 export const FriendRequestItmStyle = makeStyles((theme: Theme) => 
   createStyles({
-    friReqPaper: {
-      padding: '3%',
+    friReqCard: {
       width: '100%',
       margin: '2% 0'
     },
     friReqContainer: {
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      padding: '3%'
     },
     friReqAvatar: {
       margin: '0 auto',
@@ -18,7 +18,8 @@ export const FriendRequestItmStyle = makeStyles((theme: Theme) =>
     },
     approveButton: {
       display: 'flex',
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      alignItems: 'center'
     }
   })
 );

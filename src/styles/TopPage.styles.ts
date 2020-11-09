@@ -67,11 +67,11 @@ export const TopPageStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       height: '100vh',
       overflow: 'auto',
+      backgroundColor: '#ccc'
     },
     container: {
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
-      backgroundColor: '#ccc'
     },
     // paper: {  // いらないかも
     //   padding: theme.spacing(2),

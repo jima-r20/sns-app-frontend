@@ -1,5 +1,13 @@
 import React from 'react';
-import { Grid, Avatar, Divider, Typography, Paper } from '@material-ui/core';
+import {
+  Grid,
+  Avatar,
+  Divider,
+  Typography,
+  Paper,
+  CardActionArea,
+  Card,
+} from '@material-ui/core';
 import { DMItemStyle } from '../../styles/DMItem.style';
 
 interface PROPS_DM {
@@ -14,26 +22,31 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
 
   return (
     <React.Fragment>
-      <Paper variant="outlined" className={classes.DMPaper}>
-        <Grid container spacing={1} className={classes.DMContainer}>
-          <Grid item xs={2}>
-            <Avatar className={classes.DMAvatar}>{avatarIcon}</Avatar>
-          </Grid>
-          <Grid item xs={10}>
-            <Typography variant="body2" component="p">
-              {displayName}
-            </Typography>
-          </Grid>
-          <Divider />
-          <Grid item xs={12}>
-            <Paper variant="outlined" className={classes.DMTextPaper}>
+      <Card variant="outlined" className={classes.DMCard}>
+        <CardActionArea>
+          <Grid container spacing={1} className={classes.DMContainer}>
+            <Grid item xs={2}>
+              <Avatar className={classes.DMAvatar}>{avatarIcon}</Avatar>
+            </Grid>
+            <Grid item xs={10}>
               <Typography variant="body2" component="p">
-                {message}
+                {displayName}
               </Typography>
-            </Paper>
+            </Grid>
+            <Divider />
+            <Grid
+              item
+              xs={12}
+              style={{ paddingRight: '5%', paddingLeft: '17%' }}
+            >
+              {/* <Paper variant="outlined" className={classes.DMTextPaper}> */}
+              {/* <Typography variant="body2" component="p"> */}
+              <Typography variant="caption">{message}</Typography>
+              {/* </Paper> */}
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </CardActionArea>
+      </Card>
     </React.Fragment>
   );
 };
