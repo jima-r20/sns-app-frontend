@@ -1,6 +1,6 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
-export const DMItemStyle = makeStyles((theme: Theme) => 
+export const DMItemStyle = makeStyles((theme: Theme) =>
   createStyles({
     DMCard: {
       width: '100%',
@@ -11,15 +11,17 @@ export const DMItemStyle = makeStyles((theme: Theme) =>
     DMContainer: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3%'
+      padding: '3%',
     },
     DMAvatar: {
       margin: '0 auto',
       width: theme.spacing(3),
       height: theme.spacing(3),
     },
-    DMTextPaper: {
-      padding: '1.5%'
-    }
+    DMMessage: {
+      display: 'block',
+      paddingRight: '5%',
+      paddingLeft: '15%',
+    },
   })
-)
+);

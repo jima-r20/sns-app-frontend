@@ -1,6 +1,6 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
-export const RightSideBarStyle = makeStyles((theme: Theme) => 
+export const RightSideBarStyle = makeStyles((theme: Theme) =>
   createStyles({
     rightSideDrawerPaper: {
       position: 'relative',
@@ -21,8 +21,8 @@ export const RightSideBarStyle = makeStyles((theme: Theme) =>
     },
     rightSideDMContainer: {
       overflow: 'auto',
-      height: '40vh', 
-      marginTop: '5vh'
+      height: '40vh',
+      marginTop: '5vh',
     },
     rightSideFriReq: {
       height: '40vh',
@@ -30,7 +30,7 @@ export const RightSideBarStyle = makeStyles((theme: Theme) =>
     rightSideFriReqContainer: {
       overflow: 'auto',
       marginTop: '5vh',
-      height: '30vh'
-    }
+      height: '30vh',
+    },
   })
-)
+);

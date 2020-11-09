@@ -2,11 +2,8 @@ import React from 'react';
 import {
   Grid,
   Avatar,
-  Button,
-  Paper,
   Typography,
   Card,
-  CardActions,
   Chip,
   createMuiTheme,
   ThemeProvider,
@@ -21,12 +18,12 @@ interface PROPS_FRIEND_REQUEST {
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: lightBlue[100],
-      contrastText: blue[900],
+      main: lightBlue[600],
+      // contrastText: blue[900],
     },
     secondary: {
-      main: red[100],
-      contrastText: red[900],
+      main: red[400],
+      // contrastText: red[900],
     },
   },
 });
@@ -53,12 +50,6 @@ const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
               <Chip clickable color="primary" size="small" label="Approve" />
               <Chip clickable color="secondary" size="small" label="Reject" />
             </ThemeProvider>
-            {/* <Button color="primary" size="small">
-              Approve
-            </Button> */}
-            {/* <Button color="secondary" size="small">
-              Reject
-            </Button> */}
           </Grid>
         </Grid>
       </Card>

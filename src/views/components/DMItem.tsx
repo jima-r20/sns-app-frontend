@@ -4,7 +4,6 @@ import {
   Avatar,
   Divider,
   Typography,
-  Paper,
   CardActionArea,
   Card,
 } from '@material-ui/core';
@@ -34,14 +33,12 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
               </Typography>
             </Grid>
             <Divider />
-            <Grid
-              item
-              xs={12}
-              style={{ paddingRight: '5%', paddingLeft: '17%' }}
-            >
+            <Grid item xs={12}>
               {/* <Paper variant="outlined" className={classes.DMTextPaper}> */}
               {/* <Typography variant="body2" component="p"> */}
-              <Typography variant="caption">{message}</Typography>
+              <Typography variant="caption" className={classes.DMMessage}>
+                {message}
+              </Typography>
               {/* </Paper> */}
             </Grid>
           </Grid>

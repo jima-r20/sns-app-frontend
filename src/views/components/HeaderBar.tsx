@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import {
@@ -9,15 +9,15 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Menu, Notifications } from '@material-ui/icons';
-import { TopPageStyles } from '../../styles/TopPage.styles';
 import { AppDispatch } from '../../stores/store';
 import {
   openSideBar,
   selectIsOpenSideBar,
 } from '../../stores/slices/page.slice';
+import { HeaderBarStyle } from '../../styles/HeaderBar.style';
 
 const HeaderBar: React.FC = () => {
-  const classes = TopPageStyles();
+  const classes = HeaderBarStyle();
   const dispatch: AppDispatch = useDispatch();
   const open = useSelector(selectIsOpenSideBar);
 

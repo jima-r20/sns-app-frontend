@@ -4,15 +4,15 @@ import clsx from 'clsx';
 import { Divider, Drawer, IconButton, List } from '@material-ui/core';
 import { ChevronLeft } from '@material-ui/icons';
 import MainListItems from './MainListItems';
-import { TopPageStyles } from '../../styles/TopPage.styles';
 import { AppDispatch } from '../../stores/store';
 import {
   closeSideBar,
   selectIsOpenSideBar,
 } from '../../stores/slices/page.slice';
+import { LeftSideBarStyle } from '../../styles/LeftSideBar.style';
 
 const LeftSideBar: React.FC = () => {
-  const classes = TopPageStyles();
+  const classes = LeftSideBarStyle();
   const dispatch: AppDispatch = useDispatch();
   const open = useSelector(selectIsOpenSideBar);
 
