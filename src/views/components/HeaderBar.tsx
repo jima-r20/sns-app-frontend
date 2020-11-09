@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import {
   AppBar,
@@ -10,7 +11,6 @@ import {
 import { Menu, Notifications } from '@material-ui/icons';
 import { TopPageStyles } from '../../styles/TopPage.styles';
 import { AppDispatch } from '../../stores/store';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   openSideBar,
   selectIsOpenSideBar,
