@@ -6,17 +6,16 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Grid,
   Divider,
   Container,
 } from '@material-ui/core';
 import { ChatBubble, PersonAdd } from '@material-ui/icons';
-import { TopPageStyles } from '../../styles/TopPage.styles';
 import DMItem from './DMItem';
 import FriendRequestItem from './FriendRequestItem';
+import { RightSideBarStyle } from '../../styles/RightSideBar.style';
 
 const RightSideBar: React.FC = () => {
-  const classes = TopPageStyles();
+  const classes = RightSideBarStyle();
 
   return (
     <React.Fragment>
@@ -24,7 +23,7 @@ const RightSideBar: React.FC = () => {
         variant="permanent"
         anchor="right"
         classes={{
-          paper: classes.rightDrawerPaper,
+          paper: classes.rightSideDrawerPaper,
         }}
       >
         <Toolbar />
@@ -39,25 +38,19 @@ const RightSideBar: React.FC = () => {
             </ListItemIcon>
             <ListItemText primary="DM" />
           </ListItem>
-          <Container className={classes.rightSideDMList}>
-            <Grid
-              container
-              spacing={1}
-              // className={classes.rightSideDMList}
-            >
-              <DMItem
-                displayName="Ariel"
-                message="This is a direct message from Ariel."
-              />
-              <DMItem
-                displayName="Michel"
-                message="Hi, how are you? Long time no see..."
-              />
-              <DMItem
-                displayName="Jack"
-                message="Good evening! Do you know where my wallet...?"
-              />
-            </Grid>
+          <Container className={classes.rightSideDMContainer}>
+            <DMItem
+              displayName="Ariel"
+              message="This is a direct message from Ariel."
+            />
+            <DMItem
+              displayName="Michel"
+              message="Hi, how are you? Long time no see..."
+            />
+            <DMItem
+              displayName="Jack"
+              message="Good evening! Do you know where my wallet...?"
+            />
           </Container>
         </List>
         <Divider />
@@ -65,26 +58,20 @@ const RightSideBar: React.FC = () => {
         {/* =====================
             FriendRequest List
         ========================= */}
-        <List className={classes.rightSideFriendRequest}>
+        <List className={classes.rightSideFriReq}>
           <ListItem className={classes.rightSideListHeader}>
             <ListItemIcon>
               <PersonAdd />
             </ListItemIcon>
             <ListItemText primary="Friends Request" />
           </ListItem>
-          <Container className={classes.rightSideFriendRequestList}>
-            <Grid
-              container
-              spacing={1}
-              // className={classes.rightSideFriendRequestList}
-            >
-              <FriendRequestItem displayName="Ariel" />
-              <FriendRequestItem displayName="Steve" />
-              <FriendRequestItem displayName="Paul" />
-              <FriendRequestItem displayName="Bass" />
-              <FriendRequestItem displayName="Trump" />
-              <FriendRequestItem displayName="Jiny" />
-            </Grid>
+          <Container className={classes.rightSideFriReqContainer}>
+            <FriendRequestItem displayName="Ariel" />
+            <FriendRequestItem displayName="Steve" />
+            <FriendRequestItem displayName="Paul" />
+            <FriendRequestItem displayName="Bass" />
+            <FriendRequestItem displayName="Trump" />
+            <FriendRequestItem displayName="Jiny" />
           </Container>
         </List>
       </Drawer>

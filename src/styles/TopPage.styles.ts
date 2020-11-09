@@ -71,55 +71,16 @@ export const TopPageStyles = makeStyles((theme: Theme) =>
     container: {
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
+      backgroundColor: '#ccc'
     },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-    },
-    fixedHeight: {
-      height: 240,
-    },
-    sideCard: {
-      // width: '90%',
-      // margin: '0 auto',
-    },
-    small: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
-    },
-    rightDrawerPaper: {
-      position: 'relative',
-      width: 320,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    rightSideDM: {
-      height: '50vh',
-      // justifyContent: 'center'
-    },
-    rightSideFriendRequest: {
-      height: '40vh',
-      // justifyContent: 'center'
-    },
-    rightSideListHeader: {
-      position: 'fixed',
-      backgroundColor: 'white',
-      height: '5vh',
-      zIndex: 1,
-    },
-    rightSideDMList: {
-      overflow: 'auto',
-      height: '40vh', 
-      marginTop: '5vh'
-    },
-    rightSideFriendRequestList: {
-      overflow: 'auto',
-      marginTop: '5vh',
-      height: '30vh'
-    }
+    // paper: {  // いらないかも
+    //   padding: theme.spacing(2),
+    //   display: 'flex',
+    //   overflow: 'auto',
+    //   flexDirection: 'column',
+    // },
+    // fixedHeight: {  // いらないかも
+    //   height: 240,
+    // },
   })
 );

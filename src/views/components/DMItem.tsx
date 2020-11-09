@@ -1,14 +1,6 @@
 import React from 'react';
-import {
-  Grid,
-  Card,
-  CardHeader,
-  Avatar,
-  Divider,
-  CardContent,
-  Typography,
-} from '@material-ui/core';
-import { TopPageStyles } from '../../styles/TopPage.styles';
+import { Grid, Avatar, Divider, Typography, Paper } from '@material-ui/core';
+import { DMItemStyle } from '../../styles/DMItem.style';
 
 interface PROPS_DM {
   displayName: string;
@@ -16,26 +8,32 @@ interface PROPS_DM {
 }
 
 const DMItem: React.FC<PROPS_DM> = (props) => {
-  const classes = TopPageStyles();
+  const classes = DMItemStyle();
   const { displayName, message } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
 
   return (
     <React.Fragment>
-      <Grid item xs={12}>
-        <Card variant="outlined" className={classes.sideCard}>
-          <CardHeader
-            avatar={<Avatar className={classes.small}>{avatarIcon}</Avatar>}
-            title={displayName}
-          />
-          <Divider />
-          <CardContent>
+      <Paper variant="outlined" className={classes.DMPaper}>
+        <Grid container spacing={1} className={classes.DMContainer}>
+          <Grid item xs={2}>
+            <Avatar className={classes.DMAvatar}>{avatarIcon}</Avatar>
+          </Grid>
+          <Grid item xs={10}>
             <Typography variant="body2" component="p">
-              {message}
+              {displayName}
             </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+          </Grid>
+          <Divider />
+          <Grid item xs={12}>
+            <Paper variant="outlined" className={classes.DMTextPaper}>
+              <Typography variant="body2" component="p">
+                {message}
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Paper>
     </React.Fragment>
   );
 };
