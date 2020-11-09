@@ -1,8 +1,7 @@
 import React from 'react';
-import clsx from 'clsx';
 import { Box, Container, CssBaseline } from '@material-ui/core';
-import Copyright from '../components/Copyright';
 import { TopPageStyles } from '../../styles/TopPage.styles';
+import Copyright from '../components/Copyright';
 import HeaderBar from '../components/HeaderBar';
 import LeftSideBar from '../components/LeftSideBar';
 import PostList from '../components/PostList';

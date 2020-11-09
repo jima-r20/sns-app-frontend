@@ -7,17 +7,13 @@ import {
   ListItemIcon,
   ListItemText,
   Grid,
-  Card,
-  CardHeader,
-  Avatar,
   Divider,
-  CardContent,
-  Typography,
-  Button,
+  Container,
 } from '@material-ui/core';
 import { ChatBubble, PersonAdd } from '@material-ui/icons';
 import { TopPageStyles } from '../../styles/TopPage.styles';
 import DMItem from './DMItem';
+import FriendRequestItem from './FriendRequestItem';
 
 const RightSideBar: React.FC = () => {
   const classes = TopPageStyles();
@@ -32,6 +28,10 @@ const RightSideBar: React.FC = () => {
         }}
       >
         <Toolbar />
+
+        {/* =====================
+                  DM List
+        ========================= */}
         <List className={classes.rightSideDM}>
           <ListItem className={classes.rightSideListHeader}>
             <ListItemIcon>
@@ -39,22 +39,32 @@ const RightSideBar: React.FC = () => {
             </ListItemIcon>
             <ListItemText primary="DM" />
           </ListItem>
-          <Grid container spacing={1} className={classes.rightSideDMList}>
-            <DMItem
-              displayName="Ariel"
-              message="This is a direct message from Ariel."
-            />
-            <DMItem
-              displayName="Michel"
-              message="Hi, how are you? Long time no see..."
-            />
-            <DMItem
-              displayName="Jack"
-              message="Good evening! Do you know where my wallet...?"
-            />
-          </Grid>
+          <Container className={classes.rightSideDMList}>
+            <Grid
+              container
+              spacing={1}
+              // className={classes.rightSideDMList}
+            >
+              <DMItem
+                displayName="Ariel"
+                message="This is a direct message from Ariel."
+              />
+              <DMItem
+                displayName="Michel"
+                message="Hi, how are you? Long time no see..."
+              />
+              <DMItem
+                displayName="Jack"
+                message="Good evening! Do you know where my wallet...?"
+              />
+            </Grid>
+          </Container>
         </List>
         <Divider />
+
+        {/* =====================
+            FriendRequest List
+        ========================= */}
         <List className={classes.rightSideFriendRequest}>
           <ListItem className={classes.rightSideListHeader}>
             <ListItemIcon>
@@ -62,66 +72,20 @@ const RightSideBar: React.FC = () => {
             </ListItemIcon>
             <ListItemText primary="Friends Request" />
           </ListItem>
-          <Grid
-            container
-            spacing={1}
-            className={classes.rightSideFriendRequestList}
-          >
-            <Grid item xs={12}>
-              <Card variant="outlined" className={classes.sideCard}>
-                <CardHeader
-                  avatar={<Avatar className={classes.small}>A</Avatar>}
-                  title="Ariel"
-                  action={
-                    <Button variant="outlined" color="primary" size="small">
-                      Approve
-                    </Button>
-                  }
-                  style={{ alignItems: 'center' }}
-                />
-              </Card>
+          <Container className={classes.rightSideFriendRequestList}>
+            <Grid
+              container
+              spacing={1}
+              // className={classes.rightSideFriendRequestList}
+            >
+              <FriendRequestItem displayName="Ariel" />
+              <FriendRequestItem displayName="Steve" />
+              <FriendRequestItem displayName="Paul" />
+              <FriendRequestItem displayName="Bass" />
+              <FriendRequestItem displayName="Trump" />
+              <FriendRequestItem displayName="Jiny" />
             </Grid>
-            <Grid item xs={12}>
-              <Card variant="outlined" className={classes.sideCard}>
-                <CardHeader
-                  avatar={<Avatar className={classes.small}>S</Avatar>}
-                  title="Steve"
-                  action={
-                    <Button variant="outlined" color="primary" size="small">
-                      Approve
-                    </Button>
-                  }
-                />
-              </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Card variant="outlined" className={classes.sideCard}>
-                <CardContent
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: 'auto',
-                  }}
-                >
-                  <Avatar
-                    className={classes.small}
-                    style={{ marginRight: '5%' }}
-                  >
-                    S
-                  </Avatar>
-                  Steve
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    style={{ marginLeft: 'auto' }}
-                  >
-                    Approve
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          </Container>
         </List>
       </Drawer>
     </React.Fragment>

@@ -82,8 +82,8 @@ export const TopPageStyles = makeStyles((theme: Theme) =>
       height: 240,
     },
     sideCard: {
-      width: '90%',
-      margin: '0 auto',
+      // width: '90%',
+      // margin: '0 auto',
     },
     small: {
       width: theme.spacing(3),
