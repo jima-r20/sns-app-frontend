@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { Menu, Notifications } from '@material-ui/icons';
+import { Menu, Notifications, PostAdd } from '@material-ui/icons';
 import { AppDispatch } from '../../stores/store';
 import {
   openSideBar,
@@ -53,6 +53,9 @@ const HeaderBar: React.FC = () => {
           >
             SNS App
           </Typography>
+          <IconButton color="inherit">
+            <PostAdd />
+          </IconButton>
           <IconButton color="inherit">
             <Badge badgeContent={99} color="secondary">
               <Notifications />

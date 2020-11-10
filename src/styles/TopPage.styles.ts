@@ -21,10 +21,11 @@ export const TopPageStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       width: '100%',
       zIndex: 1,
-      backgroundColor: 'white',
+      backgroundColor: '#fff',
     },
     pageTitle: {
       fontWeight: 'bold',
+      paddingTop: theme.spacing(1),
     },
     // paper: {  // いらないかも
     //   padding: theme.spacing(2),

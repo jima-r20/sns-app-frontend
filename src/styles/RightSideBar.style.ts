@@ -5,10 +5,10 @@ export const RightSideBarStyle = makeStyles((theme: Theme) =>
     drawerPaper: {
       position: 'relative',
       width: 320,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      // transition: theme.transitions.create('width', {
+      //   easing: theme.transitions.easing.sharp,
+      //   duration: theme.transitions.duration.enteringScreen,
+      // }),
     },
     listHeader: {
       position: 'fixed',

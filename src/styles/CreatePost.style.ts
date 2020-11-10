@@ -6,6 +6,8 @@ export const CreatePostStyle = makeStyles((theme: Theme) =>
       marginBottom: '2%',
       paddingRight: '2%',
       paddingLeft: '2%',
+      // position: 'fixed',
+      // zIndex: 1,
     },
     container: {
       display: 'flex',
