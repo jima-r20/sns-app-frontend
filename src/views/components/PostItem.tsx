@@ -30,7 +30,9 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
             />
             <Divider />
             <CardContent>
-              <Typography>{content}</Typography>
+              <Typography variant="body2" component="p">
+                {content}
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Card>

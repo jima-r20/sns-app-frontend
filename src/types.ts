@@ -11,3 +11,7 @@ export interface PROPS_SIGNIN {
   email: string;
   password: string;
 }
+
+export interface PROPS_CREATE_POST {
+  content: string;
+}

@@ -16,6 +16,7 @@ const PostList: React.FC = () => {
           .reverse()
           .map((post) => (
             <PostItem
+              key={post.id}
               displayName={post.postFrom.displayName}
               content={post.content}
             />

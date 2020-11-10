@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { PROPS_CREATE_POST } from '../../types';
 import { RootState } from '../store';
 
 interface User {
@@ -31,6 +32,18 @@ export const fetchGetPosts = createAsyncThunk('post/getPosts', async () => {
   return res.data;
 });
 
+export const fetchCreatePost = createAsyncThunk(
+  'post/createPost',
+  async (data: PROPS_CREATE_POST) => {
+    const res = await axios.post(`${apiUrl}post`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    return res.data;
+  }
+);
+
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
@@ -52,6 +65,9 @@ export const postSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchGetPosts.fulfilled, (state, action) => {
       return { ...state, posts: action.payload };
+    });
+    builder.addCase(fetchCreatePost.fulfilled, (state, action) => {
+      return { ...state, posts: [...state.posts, action.payload] };
     });
   },
 });
