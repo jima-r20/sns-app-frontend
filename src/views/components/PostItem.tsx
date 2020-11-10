@@ -12,10 +12,12 @@ import {
 
 interface PROPS_POST {
   displayName: string;
+  content: string;
 }
 
 const PostItem: React.FC<PROPS_POST> = (props) => {
-  const avatarIcon = props.displayName.charAt(0).toUpperCase();
+  const { displayName, content } = props;
+  const avatarIcon = displayName.charAt(0).toUpperCase();
 
   return (
     <React.Fragment>
@@ -24,21 +26,11 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
           <CardActionArea>
             <CardHeader
               avatar={<Avatar>{avatarIcon}</Avatar>}
-              title={props.displayName}
+              title={displayName}
             />
             <Divider />
             <CardContent>
-              <Typography>
-                This is a sample. Heat oil in a (14- to 16-inch) paella pan or a
-                large, deep skillet over medium-high heat. Add chicken, shrimp
-                and chorizo, and cook, stirring occasionally until lightly
-                browned, 6 to 8 minutes. Transfer shrimp to a large plate and
-                set aside, leaving chicken and chorizo in the pan. Add pimentón,
-                bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-                stirring often until thickened and fragrant, about 10 minutes.
-                Add saffron broth and remaining 4 1/2 cups chicken broth; bring
-                to a boil.
-              </Typography>
+              <Typography>{content}</Typography>
             </CardContent>
           </CardActionArea>
         </Card>

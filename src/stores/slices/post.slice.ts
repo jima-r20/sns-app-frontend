@@ -28,7 +28,6 @@ export const fetchGetPosts = createAsyncThunk('post/getPosts', async () => {
       Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
     },
   });
-  console.log(res.data);
   return res.data;
 });
 
