@@ -65,7 +65,7 @@ const SignInPage: React.FC<Props> = (props: Props) => {
     const result = await dispatch(fetchSignIn(data));
     if (fetchSignIn.fulfilled.match(result)) {
       await dispatch(fetchGetUser());
-      props.history.push('/top');
+      props.history.push('/posts');
     }
   });
 

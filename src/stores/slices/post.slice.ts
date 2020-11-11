@@ -17,8 +17,15 @@ interface Post {
   postFrom: User;
 }
 
+interface SelectedPost {
+  id: number;
+  content: string;
+  displayName: string;
+}
+
 interface InitialState {
   posts: Post[];
+  selectedPost: SelectedPost;
 }
 
 const apiUrl = 'http://localhost:3000/';
@@ -60,8 +67,17 @@ export const postSlice = createSlice({
         },
       },
     ],
+    selectedPost: {
+      id: 0,
+      content: '',
+      displayName: '',
+    },
   } as InitialState,
-  reducers: {},
+  reducers: {
+    setSelectedPost(state, action) {
+      state.selectedPost = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchGetPosts.fulfilled, (state, action) => {
       return { ...state, posts: action.payload };
@@ -72,6 +88,9 @@ export const postSlice = createSlice({
   },
 });
 
+export const { setSelectedPost } = postSlice.actions;
+
 export const selectPosts = (state: RootState) => state.post.posts;
+export const selectSelectedPost = (state: RootState) => state.post.selectedPost;
 
 export default postSlice.reducer;

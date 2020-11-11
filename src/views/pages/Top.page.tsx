@@ -22,12 +22,15 @@ import { fetchGetPosts, selectPosts } from '../../stores/slices/post.slice';
 import { fetchGetUser } from '../../stores/slices/user.slice';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostItem from '../components/PostItem';
+import { selectSelectedPost } from '../../stores/slices/post.slice';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
   const dispatch: AppDispatch = useDispatch();
 
   let match = useRouteMatch();
+
+  const selectedPost = useSelector(selectSelectedPost);
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -50,30 +53,40 @@ const TopPage: React.FC = () => {
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Switch>
-          {/* ================================
-                      投稿一覧表示
-          ================================= */}
-          <Route path={match.url} exact>
-            <Toolbar className={classes.subHeader}>
-              <Typography variant="h5" className={classes.pageTitle}>
-                HOME
-              </Typography>
-            </Toolbar>
+        {/* <Switch> */}
+        <Toolbar className={classes.subHeader}>
+          <Typography variant="h5" className={classes.pageTitle}>
+            HOME
+          </Typography>
+        </Toolbar>
 
-            <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={classes.container}>
+          <Switch>
+            {/* ================================
+                          投稿一覧表示
+              ================================= */}
+            <Route path={match.url} exact>
               <CreatePost />
               <PostList />
-              <Box pt={4}>
-                <Copyright />
-              </Box>
-            </Container>
-          </Route>
+            </Route>
+            {/* ================================
+                          投稿詳細表示
+              ================================= */}
+            <Route path={`${match.url}/:id`} exact>
+              <PostItem
+                id={selectedPost.id}
+                displayName={selectedPost.displayName}
+                content={selectedPost.content}
+              />
+            </Route>
+          </Switch>
 
-          {/* ================================
-                      投稿詳細表示
-          ================================= */}
-          <Route path={`${match.url}/:id`} exact>
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+
+        {/* <Route path={`${match.url}/:id`} exact>
             <Toolbar className={classes.subHeader}>
               <Typography variant="h5" className={classes.pageTitle}>
                 Post Detail
@@ -82,14 +95,18 @@ const TopPage: React.FC = () => {
 
             <Container maxWidth="lg" className={classes.container}>
               <Grid container spacing={1}>
-                <PostItem displayName="detail-test" content="aaaaaaaaa" />
+                <PostItem
+                  id={1}
+                  displayName="detail-test"
+                  content="aaaaaaaaa"
+                />
               </Grid>
               <Box pt={4}>
                 <Copyright />
               </Box>
             </Container>
-          </Route>
-        </Switch>
+          </Route> */}
+        {/* </Switch> */}
       </main>
 
       <RightSideBar />
