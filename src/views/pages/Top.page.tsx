@@ -23,6 +23,7 @@ import { fetchGetUser } from '../../stores/slices/user.slice';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostItem from '../components/PostItem';
 import { selectSelectedPost } from '../../stores/slices/post.slice';
+import MyProfile from '../components/MyProfile';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -44,6 +45,8 @@ const TopPage: React.FC = () => {
     };
     fetchBootLoader();
   }, [dispatch]);
+
+  console.log(`This page parent URL: ${match.url}`);
 
   return (
     <div className={classes.root}>
@@ -72,12 +75,18 @@ const TopPage: React.FC = () => {
             {/* ================================
                           投稿詳細表示
               ================================= */}
-            <Route path={`${match.url}/:id`} exact>
+            <Route path={`${match.url}/post/:id`} exact>
               <PostItem
                 id={selectedPost.id}
                 displayName={selectedPost.displayName}
                 content={selectedPost.content}
               />
+            </Route>
+            {/* ================================
+                        マイプロフィール表示
+              ================================= */}
+            <Route path={`${match.url}/myprofile`} exact>
+              <MyProfile />
             </Route>
           </Switch>
 

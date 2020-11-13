@@ -12,22 +12,34 @@ import {
   People,
   Person,
 } from '@material-ui/icons';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 const MainListItems: React.FC = () => {
+  let match = useRouteMatch();
+
+  console.log(`Left side match.url: ${match.url}`);
+
   return (
     <React.Fragment>
-      <ListItem button>
-        <ListItemIcon>
-          <Home />
-        </ListItemIcon>
-        <ListItemText primary="HOME" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <Person />
-        </ListItemIcon>
-        <ListItemText primary="Profile" />
-      </ListItem>
+      <Link to={match.url} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <ListItem button>
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="HOME" />
+        </ListItem>
+      </Link>
+      <Link
+        to={`${match.url}/myprofile`}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <Person />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </ListItem>
+      </Link>
       <ListItem button>
         <ListItemIcon>
           <ChatBubble />

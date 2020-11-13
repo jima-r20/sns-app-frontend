@@ -67,7 +67,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
             ============================ */
               <CardActionArea>
                 <Link
-                  to={`${match.url}/${id}`}
+                  to={`${match.url}/post/${id}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                   onClick={() => {
                     dispatch(setSelectedPost({ id, content, displayName }));
@@ -103,6 +103,9 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 </CardContent>
                 <Grid container spacing={1}>
                   <Grid item xs={4}></Grid>
+                  {/* 
+                    自分の投稿の場合、Edit, Deleteボタンを表示 
+                  */}
                   {displayName === myprofile.displayName ? (
                     <React.Fragment>
                       <Grid item container xs={2} justify="center">
@@ -127,6 +130,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   ) : (
                     <Grid item xs={4}></Grid>
                   )}
+
                   <Grid item xs={4}>
                     <Button
                       variant="outlined"
@@ -137,7 +141,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                       }}
                     >
                       <Link
-                        to="/posts"
+                        to="/top"
                         style={{ textDecoration: 'none', color: 'inherit' }}
                       >
                         Back
