@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import zIndex from '@material-ui/core/styles/zIndex';
 
 export const TopPageStyles = makeStyles((theme: Theme) =>
   createStyles({

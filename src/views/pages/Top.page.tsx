@@ -19,11 +19,11 @@ import CreatePost from '../components/CreatePost';
 import { AppDispatch } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetPosts, selectPosts } from '../../stores/slices/post.slice';
-import { fetchGetUser } from '../../stores/slices/user.slice';
+import { fetchGetUser, selectMyProfile } from '../../stores/slices/user.slice';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostItem from '../components/PostItem';
 import { selectSelectedPost } from '../../stores/slices/post.slice';
-import MyProfile from '../components/MyProfile';
+import Profile from '../components/Profile';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -32,6 +32,7 @@ const TopPage: React.FC = () => {
   let match = useRouteMatch();
 
   const selectedPost = useSelector(selectSelectedPost);
+  const myProfile = useSelector(selectMyProfile);
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -86,7 +87,7 @@ const TopPage: React.FC = () => {
                         マイプロフィール表示
               ================================= */}
             <Route path={`${match.url}/myprofile`} exact>
-              <MyProfile />
+              <Profile profile={myProfile} />
             </Route>
           </Switch>
 
