@@ -18,7 +18,11 @@ import { TopPageStyles } from '../../styles/TopPage.styles';
 import CreatePost from '../components/CreatePost';
 import { AppDispatch } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGetPosts, selectPosts } from '../../stores/slices/post.slice';
+import {
+  fetchGetMyPosts,
+  fetchGetPosts,
+  selectPosts,
+} from '../../stores/slices/post.slice';
 import { fetchGetUser, selectMyProfile } from '../../stores/slices/user.slice';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostItem from '../components/PostItem';
@@ -42,6 +46,7 @@ const TopPage: React.FC = () => {
           return null;
         }
         await dispatch(fetchGetPosts());
+        await dispatch(fetchGetMyPosts());
       }
     };
     fetchBootLoader();
@@ -88,6 +93,17 @@ const TopPage: React.FC = () => {
               ================================= */}
             <Route path={`${match.url}/myprofile`} exact>
               <Profile profile={myProfile} />
+              <PostList mypost />
+            </Route>
+            {/* ================================
+                        自身の投稿詳細表示
+              ================================= */}
+            <Route path={`${match.url}/myprofile/post/:id`} exact>
+              <PostItem
+                id={selectedPost.id}
+                displayName={selectedPost.displayName}
+                content={selectedPost.content}
+              />
             </Route>
           </Switch>
 
@@ -95,28 +111,6 @@ const TopPage: React.FC = () => {
             <Copyright />
           </Box>
         </Container>
-
-        {/* <Route path={`${match.url}/:id`} exact>
-            <Toolbar className={classes.subHeader}>
-              <Typography variant="h5" className={classes.pageTitle}>
-                Post Detail
-              </Typography>
-            </Toolbar>
-
-            <Container maxWidth="lg" className={classes.container}>
-              <Grid container spacing={1}>
-                <PostItem
-                  id={1}
-                  displayName="detail-test"
-                  content="aaaaaaaaa"
-                />
-              </Grid>
-              <Box pt={4}>
-                <Copyright />
-              </Box>
-            </Container>
-          </Route> */}
-        {/* </Switch> */}
       </main>
 
       <RightSideBar />

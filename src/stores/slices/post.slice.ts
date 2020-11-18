@@ -25,6 +25,7 @@ interface SelectedPost {
 
 interface InitialState {
   posts: Post[];
+  myposts: Post[];
   selectedPost: SelectedPost;
 }
 
@@ -32,6 +33,15 @@ const apiUrl = 'http://localhost:3000/';
 
 export const fetchGetPosts = createAsyncThunk('post/getPosts', async () => {
   const res = await axios.get(`${apiUrl}post`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+    },
+  });
+  return res.data;
+});
+
+export const fetchGetMyPosts = createAsyncThunk('post/getMyPosts', async () => {
+  const res = await axios.get(`${apiUrl}post/myposts`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
     },
@@ -67,6 +77,19 @@ export const postSlice = createSlice({
         },
       },
     ],
+    myposts: [
+      {
+        id: 0,
+        content: '',
+        postFromId: 0,
+        postFrom: {
+          id: 0,
+          displayName: '',
+          avatar: '',
+          about: '',
+        },
+      },
+    ],
     selectedPost: {
       id: 0,
       content: '',
@@ -82,8 +105,15 @@ export const postSlice = createSlice({
     builder.addCase(fetchGetPosts.fulfilled, (state, action) => {
       return { ...state, posts: action.payload };
     });
+    builder.addCase(fetchGetMyPosts.fulfilled, (state, action) => {
+      return { ...state, myposts: action.payload };
+    });
     builder.addCase(fetchCreatePost.fulfilled, (state, action) => {
-      return { ...state, posts: [...state.posts, action.payload] };
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+        myposts: [...state.myposts, action.payload],
+      };
     });
   },
 });
@@ -91,6 +121,7 @@ export const postSlice = createSlice({
 export const { setSelectedPost } = postSlice.actions;
 
 export const selectPosts = (state: RootState) => state.post.posts;
+export const selectMyPosts = (state: RootState) => state.post.myposts;
 export const selectSelectedPost = (state: RootState) => state.post.selectedPost;
 
 export default postSlice.reducer;

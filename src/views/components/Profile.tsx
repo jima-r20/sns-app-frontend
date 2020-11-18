@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Button, Grid, Paper } from '@material-ui/core';
+import { Avatar, Button, Chip, Grid, Paper } from '@material-ui/core';
 import { ProfileStyles } from '../../styles/Profile.style';
 
 interface PROPS_PROFILE {
@@ -19,20 +19,20 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
 
   return (
     <React.Fragment>
-      <Paper className={classes.root}>
+      <Paper className={classes.paper}>
         <Grid container spacing={1}>
           <Grid item container xs={3}>
             <Grid item xs={12}>
               <Avatar className={classes.profAvatar}>{avatarIcon}</Avatar>
             </Grid>
             <Grid item xs={12}>
-              <Button
-                variant="contained"
+              <Chip
+                clickable
                 color="primary"
+                label="Edit"
+                component="button"
                 className={classes.editButton}
-              >
-                Edit
-              </Button>
+              />
             </Grid>
           </Grid>
           <Grid item container xs={9}>

@@ -2,8 +2,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
 export const ProfileStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
+    paper: {
+      marginBottom: '2%',
+      paddingRight: '2%',
+      paddingLeft: '2%',
     },
     profAvatar: {
       width: theme.spacing(10),
@@ -16,6 +18,8 @@ export const ProfileStyles = makeStyles((theme: Theme) =>
       margin: '0 auto',
       marginTop: '10%',
       marginBottom: '10%',
+      paddingRight: '10%',
+      paddingLeft: '10%',
     },
     name: {
       display: 'flex',
