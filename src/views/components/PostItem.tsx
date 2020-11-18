@@ -54,17 +54,34 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
   const isPostSelected = useSelector(selectIsPostSelected);
   const myprofile = useSelector(selectMyProfile);
   const users = useSelector(selectUsers);
-
-  const user = users.find((u) => u.id === postFromId);
-  console.log(user);
-
   const match = useRouteMatch();
 
+  const user = users.find((u) => u.id === postFromId);
+
+  const onAvatarClick = () => {
+    dispatch(
+      setSelectedUser({
+        id: user?.id,
+        displayName: user?.displayName,
+        avatar: user?.avatar,
+        about: user?.about,
+      })
+    );
+  };
+
+  const onContentClick = () => {
+    dispatch(
+      setSelectedPost({
+        id,
+        postFromId,
+        content,
+        displayName,
+      })
+    );
+    dispatch(setPostSelected());
+  };
+
   return (
-    /* 
-      @TODO: 詳細ページに遷移した後にクリックできないようにする必要あり 
-      解決策：<Link />と<CardActionArea />が効かないようにする
-    */
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <Grid item xs={12}>
@@ -83,16 +100,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           : `/top/profile/${postFromId}`
                       }
                       style={{ textDecoration: 'none', color: 'inherit' }}
-                      onClick={() => {
-                        dispatch(
-                          setSelectedUser({
-                            id: user?.id,
-                            displayName: user?.displayName,
-                            avatar: user?.avatar,
-                            about: user?.about,
-                          })
-                        );
-                      }}
+                      onClick={onAvatarClick}
                     >
                       <Avatar>{avatarIcon}</Avatar>
                     </Link>
@@ -104,17 +112,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   <Link
                     to={`${match.url}/post/${id}`}
                     style={{ textDecoration: 'none', color: 'inherit' }}
-                    onClick={() => {
-                      dispatch(
-                        setSelectedPost({
-                          id,
-                          postFromId,
-                          content,
-                          displayName,
-                        })
-                      );
-                      dispatch(setPostSelected());
-                    }}
+                    onClick={onContentClick}
                   >
                     <CardContent>
                       <Typography variant="body2" component="p">
@@ -138,6 +136,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           : `/top/profile/${postFromId}`
                       }
                       style={{ textDecoration: 'none', color: 'inherit' }}
+                      onClick={onAvatarClick}
                     >
                       <Avatar>{avatarIcon}</Avatar>
                     </Link>

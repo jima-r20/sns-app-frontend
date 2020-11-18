@@ -22,8 +22,6 @@ const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
   const myposts = useSelector(selectMyPosts);
   const userPosts = useSelector(selectUserPosts);
 
-  console.log(`postList: ${postFromId}`);
-
   let renderPosts;
   if (mypost) {
     // マイプロフィールページでのリスト表示

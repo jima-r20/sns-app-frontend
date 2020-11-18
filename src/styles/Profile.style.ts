@@ -12,6 +12,7 @@ export const ProfileStyles = makeStyles((theme: Theme) =>
       height: theme.spacing(10),
       margin: '0 auto',
       marginTop: '5%',
+      marginBottom: '5%',
     },
     editButton: {
       display: 'block',
