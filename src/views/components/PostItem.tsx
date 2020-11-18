@@ -17,7 +17,6 @@ import { AppDispatch } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedPost } from '../../stores/slices/post.slice';
 import {
-  resetPostSelected,
   selectIsPostSelected,
   setPostSelected,
 } from '../../stores/slices/page.slice';
@@ -65,34 +64,50 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
               /* ============================
                 投稿詳細ページではない場合 
             ============================ */
-              <CardActionArea>
-                <Link
-                  to={`${match.url}/post/${id}`}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                  onClick={() => {
-                    dispatch(setSelectedPost({ id, content, displayName }));
-                    dispatch(setPostSelected());
-                  }}
-                >
-                  <CardHeader
-                    avatar={<Avatar>{avatarIcon}</Avatar>}
-                    title={displayName}
-                  />
-                  <Divider />
-                  <CardContent>
-                    <Typography variant="body2" component="p">
-                      {content}
-                    </Typography>
-                  </CardContent>
-                </Link>
-              </CardActionArea>
+              <React.Fragment>
+                <CardHeader
+                  avatar={
+                    <Link
+                      to={`/top/myprofile`}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <Avatar>{avatarIcon}</Avatar>
+                    </Link>
+                  }
+                  title={displayName}
+                />
+                <Divider />
+                <CardActionArea>
+                  <Link
+                    to={`${match.url}/post/${id}`}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    onClick={() => {
+                      dispatch(setSelectedPost({ id, content, displayName }));
+                      dispatch(setPostSelected());
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="body2" component="p">
+                        {content}
+                      </Typography>
+                    </CardContent>
+                  </Link>
+                </CardActionArea>
+              </React.Fragment>
             ) : (
               /* ============================
                   投稿詳細ページの場合 
             ============================ */
               <React.Fragment>
                 <CardHeader
-                  avatar={<Avatar>{avatarIcon}</Avatar>}
+                  avatar={
+                    <Link
+                      to={`/top/myprofile`}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <Avatar>{avatarIcon}</Avatar>
+                    </Link>
+                  }
                   title={displayName}
                 />
                 <Divider />
