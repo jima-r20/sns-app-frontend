@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Button, Chip, Grid, Paper } from '@material-ui/core';
+import { Avatar, Chip, Grid, Paper } from '@material-ui/core';
 import { ProfileStyles } from '../../styles/Profile.style';
 
 interface PROPS_PROFILE {

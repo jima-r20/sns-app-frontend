@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import {
-  AppBar,
   Box,
   Container,
   CssBaseline,
-  Divider,
-  Grid,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -18,12 +15,13 @@ import { TopPageStyles } from '../../styles/TopPage.styles';
 import CreatePost from '../components/CreatePost';
 import { AppDispatch } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchGetMyPosts, fetchGetPosts } from '../../stores/slices/post.slice';
 import {
-  fetchGetMyPosts,
-  fetchGetPosts,
-  selectPosts,
-} from '../../stores/slices/post.slice';
-import { fetchGetUser, selectMyProfile } from '../../stores/slices/user.slice';
+  fetchGetUser,
+  fetchGetUsers,
+  selectMyProfile,
+  selectSelectedUser,
+} from '../../stores/slices/user.slice';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostItem from '../components/PostItem';
 import { selectSelectedPost } from '../../stores/slices/post.slice';
@@ -37,6 +35,7 @@ const TopPage: React.FC = () => {
 
   const selectedPost = useSelector(selectSelectedPost);
   const myProfile = useSelector(selectMyProfile);
+  const selectedUser = useSelector(selectSelectedUser);
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -47,6 +46,7 @@ const TopPage: React.FC = () => {
         }
         await dispatch(fetchGetPosts());
         await dispatch(fetchGetMyPosts());
+        await dispatch(fetchGetUsers());
       }
     };
     fetchBootLoader();
@@ -84,6 +84,7 @@ const TopPage: React.FC = () => {
             <Route path={`${match.url}/post/:id`} exact>
               <PostItem
                 id={selectedPost.id}
+                postFromId={selectedPost.postFromId}
                 displayName={selectedPost.displayName}
                 content={selectedPost.content}
               />
@@ -96,11 +97,33 @@ const TopPage: React.FC = () => {
               <PostList mypost />
             </Route>
             {/* ================================
-                        自身の投稿詳細表示
+                マイプロフィールページから投稿詳細表示
               ================================= */}
             <Route path={`${match.url}/myprofile/post/:id`} exact>
               <PostItem
                 id={selectedPost.id}
+                postFromId={selectedPost.postFromId}
+                displayName={selectedPost.displayName}
+                content={selectedPost.content}
+              />
+            </Route>
+            {/* ================================
+                  自分以外のユーザのプロフィール表示
+              ================================= */}
+            <Route path={`${match.url}/profile/:id`} exact>
+              <Profile profile={selectedUser} />
+              <PostList postFromId={selectedUser.id} />
+            </Route>
+            {/* ================================
+              自分以外のユーザのプロフィールページから投稿詳細表示
+              ================================= */}
+            <Route path={`${match.url}/profile/:id/post/:id`} exact>
+              {/* 
+                TODO: 遷移後のBackボタンを押すとトップページに戻る問題あり
+              */}
+              <PostItem
+                id={selectedPost.id}
+                postFromId={selectedPost.postFromId}
                 displayName={selectedPost.displayName}
                 content={selectedPost.content}
               />

@@ -3,7 +3,7 @@ import { RootState } from '../store';
 import axios from 'axios';
 import { PROPS_SIGNIN, PROPS_SIGNUP } from '../../types';
 
-interface MyProfile {
+interface Profile {
   id: number;
   displayName: string;
   avatar: string;
@@ -11,7 +11,9 @@ interface MyProfile {
 }
 
 interface InitialState {
-  myprofile: MyProfile;
+  myprofile: Profile;
+  users: Profile[];
+  selectedUser: Profile;
 }
 
 // const apiUrl = process.env.REACT_APP_DEV_API_URL;
@@ -33,13 +35,21 @@ export const fetchSignIn = createAsyncThunk(
   }
 );
 
+export const fetchGetUsers = createAsyncThunk('user/getUsers', async () => {
+  const res = await axios.get(`${apiUrl}user/profiles`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+    },
+  });
+  return res.data;
+});
+
 export const fetchGetUser = createAsyncThunk('user/getUser', async () => {
   const res = await axios.get(`${apiUrl}user/myprofile`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
     },
   });
-  console.log(res.data);
   return res.data;
 });
 
@@ -52,18 +62,43 @@ export const userSlice = createSlice({
       avatar: '',
       about: '',
     },
+    users: [
+      {
+        id: 0,
+        displayName: '',
+        avatar: '',
+        about: '',
+      },
+    ],
+    selectedUser: {
+      id: 0,
+      displayName: '',
+      avatar: '',
+      about: '',
+    },
   } as InitialState,
-  reducers: {},
+  reducers: {
+    setSelectedUser(state, action) {
+      state.selectedUser = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       localStorage.setItem('localJwtToken', action.payload.accessToken);
     });
+    builder.addCase(fetchGetUsers.fulfilled, (state, action) => {
+      return { ...state, users: action.payload };
+    });
     builder.addCase(fetchGetUser.fulfilled, (state, action) => {
-      state.myprofile = action.payload;
+      return { ...state, myprofile: action.payload };
     });
   },
 });
 
+export const { setSelectedUser } = userSlice.actions;
+
 export const selectMyProfile = (state: RootState) => state.user.myprofile;
+export const selectUsers = (state: RootState) => state.user.users;
+export const selectSelectedUser = (state: RootState) => state.user.selectedUser;
 
 export default userSlice.reducer;

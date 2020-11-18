@@ -19,6 +19,7 @@ interface Post {
 
 interface SelectedPost {
   id: number;
+  postFromId: number;
   content: string;
   displayName: string;
 }
@@ -26,6 +27,7 @@ interface SelectedPost {
 interface InitialState {
   posts: Post[];
   myposts: Post[];
+  userPosts: Post[];
   selectedPost: SelectedPost;
 }
 
@@ -48,6 +50,18 @@ export const fetchGetMyPosts = createAsyncThunk('post/getMyPosts', async () => {
   });
   return res.data;
 });
+
+export const fetchGetUserPosts = createAsyncThunk(
+  'post/getUserPosts',
+  async (id: number) => {
+    const res = await axios.get(`${apiUrl}post/friend-posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    return res.data;
+  }
+);
 
 export const fetchCreatePost = createAsyncThunk(
   'post/createPost',
@@ -90,8 +104,22 @@ export const postSlice = createSlice({
         },
       },
     ],
+    userPosts: [
+      {
+        id: 0,
+        content: '',
+        postFromId: 0,
+        postFrom: {
+          id: 0,
+          displayName: '',
+          avatar: '',
+          about: '',
+        },
+      },
+    ],
     selectedPost: {
       id: 0,
+      postFromId: 0,
       content: '',
       displayName: '',
     },
@@ -108,6 +136,9 @@ export const postSlice = createSlice({
     builder.addCase(fetchGetMyPosts.fulfilled, (state, action) => {
       return { ...state, myposts: action.payload };
     });
+    builder.addCase(fetchGetUserPosts.fulfilled, (state, action) => {
+      return { ...state, userPosts: action.payload };
+    });
     builder.addCase(fetchCreatePost.fulfilled, (state, action) => {
       return {
         ...state,
@@ -122,6 +153,7 @@ export const { setSelectedPost } = postSlice.actions;
 
 export const selectPosts = (state: RootState) => state.post.posts;
 export const selectMyPosts = (state: RootState) => state.post.myposts;
+export const selectUserPosts = (state: RootState) => state.post.userPosts;
 export const selectSelectedPost = (state: RootState) => state.post.selectedPost;
 
 export default postSlice.reducer;

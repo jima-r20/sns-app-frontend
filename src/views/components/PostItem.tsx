@@ -21,7 +21,11 @@ import {
   setPostSelected,
 } from '../../stores/slices/page.slice';
 import { lightBlue, red } from '@material-ui/core/colors';
-import { selectMyProfile } from '../../stores/slices/user.slice';
+import {
+  setSelectedUser,
+  selectMyProfile,
+  selectUsers,
+} from '../../stores/slices/user.slice';
 
 const theme = createMuiTheme({
   palette: {
@@ -38,16 +42,21 @@ const theme = createMuiTheme({
 
 interface PROPS_POST {
   id: number;
+  postFromId: number;
   displayName: string;
   content: string;
 }
 
 const PostItem: React.FC<PROPS_POST> = (props) => {
-  const { id, displayName, content } = props;
+  const { id, postFromId, displayName, content } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
   const dispatch: AppDispatch = useDispatch();
   const isPostSelected = useSelector(selectIsPostSelected);
   const myprofile = useSelector(selectMyProfile);
+  const users = useSelector(selectUsers);
+
+  const user = users.find((u) => u.id === postFromId);
+  console.log(user);
 
   const match = useRouteMatch();
 
@@ -68,8 +77,22 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 <CardHeader
                   avatar={
                     <Link
-                      to={`/top/myprofile`}
+                      to={
+                        displayName === myprofile.displayName
+                          ? '/top/myprofile'
+                          : `/top/profile/${postFromId}`
+                      }
                       style={{ textDecoration: 'none', color: 'inherit' }}
+                      onClick={() => {
+                        dispatch(
+                          setSelectedUser({
+                            id: user?.id,
+                            displayName: user?.displayName,
+                            avatar: user?.avatar,
+                            about: user?.about,
+                          })
+                        );
+                      }}
                     >
                       <Avatar>{avatarIcon}</Avatar>
                     </Link>
@@ -82,7 +105,14 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                     to={`${match.url}/post/${id}`}
                     style={{ textDecoration: 'none', color: 'inherit' }}
                     onClick={() => {
-                      dispatch(setSelectedPost({ id, content, displayName }));
+                      dispatch(
+                        setSelectedPost({
+                          id,
+                          postFromId,
+                          content,
+                          displayName,
+                        })
+                      );
                       dispatch(setPostSelected());
                     }}
                   >
@@ -102,7 +132,11 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 <CardHeader
                   avatar={
                     <Link
-                      to={`/top/myprofile`}
+                      to={
+                        displayName === myprofile.displayName
+                          ? '/top/myprofile'
+                          : `/top/profile/${postFromId}`
+                      }
                       style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                       <Avatar>{avatarIcon}</Avatar>
