@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Grid,
   Card,
@@ -25,6 +25,7 @@ import {
   setSelectedUser,
   selectMyProfile,
   selectUsers,
+  fetchGetUsers,
 } from '../../stores/slices/user.slice';
 
 const theme = createMuiTheme({
@@ -52,7 +53,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
   const avatarIcon = displayName.charAt(0).toUpperCase();
   const dispatch: AppDispatch = useDispatch();
   const isPostSelected = useSelector(selectIsPostSelected);
-  const myprofile = useSelector(selectMyProfile);
+  const myProfile = useSelector(selectMyProfile);
   const users = useSelector(selectUsers);
   const match = useRouteMatch();
 
@@ -81,6 +82,10 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
     dispatch(setPostSelected());
   };
 
+  useEffect(() => {
+    dispatch(fetchGetUsers());
+  }, [dispatch]);
+
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
@@ -95,7 +100,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   avatar={
                     <Link
                       to={
-                        displayName === myprofile.displayName
+                        displayName === myProfile.displayName
                           ? '/top/myprofile'
                           : `/top/profile/${postFromId}`
                       }
@@ -131,7 +136,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   avatar={
                     <Link
                       to={
-                        displayName === myprofile.displayName
+                        displayName === myProfile.displayName
                           ? '/top/myprofile'
                           : `/top/profile/${postFromId}`
                       }
@@ -154,7 +159,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   {/* 
                     自分の投稿の場合、Edit, Deleteボタンを表示 
                   */}
-                  {displayName === myprofile.displayName ? (
+                  {displayName === myProfile.displayName ? (
                     <React.Fragment>
                       <Grid item container xs={2} justify="center">
                         <Button

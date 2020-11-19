@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Backdrop,
@@ -13,10 +13,17 @@ import {
   TextField,
 } from '@material-ui/core';
 import { ProfileStyles } from '../../styles/Profile.style';
-import { useSelector } from 'react-redux';
-import { selectMyProfile } from '../../stores/slices/user.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchGetUsers,
+  fetchUpdateUser,
+  selectMyProfile,
+} from '../../stores/slices/user.slice';
 import ProfileEditModal from '../modals/ProfileEdit.modal';
 import { Close } from '@material-ui/icons';
+import { useForm } from 'react-hook-form';
+import { PROPS_UPDATE_USER } from '../../types';
+import { AppDispatch } from '../../stores/store';
 
 interface PROPS_PROFILE {
   profile: {
@@ -27,14 +34,34 @@ interface PROPS_PROFILE {
   };
 }
 
+interface FormData {
+  displayName: string;
+  // avatar: string;
+  about: string;
+}
+
 const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   const classes = ProfileStyles();
+  const { register, errors, handleSubmit } = useForm<FormData>();
+  const dispatch: AppDispatch = useDispatch();
   const { id, displayName, avatar, about } = profile;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const avatarIcon =
     avatar === '' || null ? displayName.charAt(0).toUpperCase() : avatar;
 
   const myProfile = useSelector(selectMyProfile);
+
+  const handleUpdateProfile = handleSubmit(async (formData: FormData) => {
+    const data = { ...formData, id, avatar };
+    const result = await dispatch(fetchUpdateUser(data));
+    if (fetchUpdateUser.fulfilled.match(result)) {
+      setIsModalOpen(false);
+    }
+  });
+
+  // useEffect(() => {
+  //   dispatch(fetchGetUsers());
+  // }, [myProfile]);
 
   return (
     <React.Fragment>
@@ -54,10 +81,13 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                   className={classes.editButton}
                   onClick={() => {
                     setIsModalOpen(true);
-                    console.log('open');
                   }}
                 />
                 {/* <ProfileEditModal open={isModalOpen} /> */}
+
+                {/* ===================================
+                      Editボタンを押したときのモーダル
+                ==================================== */}
                 <Modal
                   aria-labelledby="profile-edit-modal-title"
                   aria-describedby="profile-edit-modal-description"
@@ -65,7 +95,6 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                   open={isModalOpen}
                   onClose={() => {
                     setIsModalOpen(false);
-                    console.log('close');
                   }}
                   closeAfterTransition
                   BackdropComponent={Backdrop}
@@ -90,7 +119,7 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                       <Avatar className={classes.profAvatar}>
                         {avatarIcon}
                       </Avatar>
-                      <form>
+                      <form noValidate onSubmit={handleUpdateProfile}>
                         <TextField
                           variant="outlined"
                           margin="normal"
@@ -99,11 +128,11 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                           label="Display Name"
                           name="displayName"
                           defaultValue={displayName}
-                          // inputRef={register({
-                          //   required: true,
-                          //   minLength: 1,
-                          //   maxLength: 20,
-                          // })}
+                          inputRef={register({
+                            required: true,
+                            minLength: 1,
+                            maxLength: 20,
+                          })}
                         />
                         <TextField
                           variant="outlined"
@@ -114,9 +143,17 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                           label="About Yourself"
                           name="about"
                           defaultValue={about}
-                          // inputRef={register({
-                          //   maxLength: 256,
-                          // })}
+                          inputRef={register({
+                            maxLength: 256,
+                          })}
+                        />
+                        <Chip
+                          clickable
+                          color="primary"
+                          label="Save"
+                          component="button"
+                          className={classes.editButton}
+                          type="submit"
                         />
                       </form>
                     </div>

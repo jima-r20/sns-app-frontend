@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import axios from 'axios';
-import { PROPS_SIGNIN, PROPS_SIGNUP } from '../../types';
+import { PROPS_SIGNIN, PROPS_SIGNUP, PROPS_UPDATE_USER } from '../../types';
 
 interface Profile {
   id: number;
@@ -53,6 +53,23 @@ export const fetchGetUser = createAsyncThunk('user/getUser', async () => {
   return res.data;
 });
 
+export const fetchUpdateUser = createAsyncThunk(
+  'user/updateUser',
+  async (updateUser: PROPS_UPDATE_USER) => {
+    const { id, displayName, avatar, about } = updateUser;
+    const res = await axios.patch(
+      `${apiUrl}user/profiles/${id}`,
+      { displayName, avatar, about },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -91,6 +108,13 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchGetUser.fulfilled, (state, action) => {
       return { ...state, myprofile: action.payload };
+    });
+    builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
+      return {
+        ...state,
+        myprofile: action.payload,
+        users: [...state.users, action.payload],
+      };
     });
   },
 });

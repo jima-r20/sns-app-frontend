@@ -52,8 +52,6 @@ const TopPage: React.FC = () => {
     fetchBootLoader();
   }, [dispatch]);
 
-  console.log(`This page parent URL: ${match.url}`);
-
   return (
     <div className={classes.root}>
       <CssBaseline />

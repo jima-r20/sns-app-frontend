@@ -3,6 +3,8 @@ import { Grid } from '@material-ui/core';
 import PostItem from './PostItem';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  fetchGetMyPosts,
+  fetchGetPosts,
   fetchGetUserPosts,
   selectMyPosts,
   selectPosts,
@@ -35,6 +37,7 @@ const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
   }
 
   useEffect(() => {
+    console.log('post list render');
     dispatch(resetPostSelected());
     if (postFromId !== (0 || undefined)) {
       dispatch(fetchGetUserPosts(postFromId));

@@ -12,6 +12,13 @@ export interface PROPS_SIGNIN {
   password: string;
 }
 
+export interface PROPS_UPDATE_USER {
+  id: number;
+  displayName: string;
+  avatar: string;
+  about: string;
+}
+
 export interface PROPS_CREATE_POST {
   content: string;
 }
