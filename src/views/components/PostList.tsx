@@ -12,6 +12,7 @@ import {
 } from '../../stores/slices/post.slice';
 import { resetPostSelected } from '../../stores/slices/page.slice';
 import { AppDispatch } from '../../stores/store';
+import { selectMyProfile } from '../../stores/slices/user.slice';
 
 interface PROPS_POSTLIST {
   mypost?: boolean;
@@ -23,6 +24,7 @@ const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
   const posts = useSelector(selectPosts);
   const myposts = useSelector(selectMyPosts);
   const userPosts = useSelector(selectUserPosts);
+  const myProfile = useSelector(selectMyProfile);
 
   let renderPosts;
   if (mypost) {
@@ -42,7 +44,11 @@ const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
     if (postFromId !== (0 || undefined)) {
       dispatch(fetchGetUserPosts(postFromId));
     }
-  }, [dispatch, postFromId]);
+    /* プロフィール更新時、PostLListのdisplayNameを
+       再レンダリングするために以下の呼び出しが必要 */
+    dispatch(fetchGetPosts());
+    dispatch(fetchGetMyPosts());
+  }, [dispatch, postFromId, myProfile]);
 
   return (
     <React.Fragment>
