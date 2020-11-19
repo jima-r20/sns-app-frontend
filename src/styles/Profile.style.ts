@@ -27,5 +27,16 @@ export const ProfileStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       fontWeight: 'bold',
     },
+
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    modalPaper: {
+      backgroundColor: theme.palette.background.paper,
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
   })
 );
