@@ -39,7 +39,6 @@ const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
   }
 
   useEffect(() => {
-    console.log('post list render');
     dispatch(resetPostSelected());
     if (postFromId !== (0 || undefined)) {
       dispatch(fetchGetUserPosts(postFromId));

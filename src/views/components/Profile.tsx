@@ -71,6 +71,10 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
             <Grid item xs={12}>
               <Avatar className={classes.profAvatar}>{avatarIcon}</Avatar>
             </Grid>
+
+            {/* ===================================
+                マイプロフィールの場合Editボタン表示
+            ==================================== */}
             {id === myProfile.id ? (
               <Grid item xs={12}>
                 <Chip

@@ -17,7 +17,9 @@ import { Link, useRouteMatch } from 'react-router-dom';
 const MainListItems: React.FC = () => {
   let match = useRouteMatch();
 
-  console.log(`Left side match.url: ${match.url}`);
+  const handleSignOut = () => {
+    localStorage.removeItem('localJwtToken');
+  };
 
   return (
     <React.Fragment>
@@ -53,12 +55,18 @@ const MainListItems: React.FC = () => {
         <ListItemText primary="Friends" />
       </ListItem>
       <Divider />
-      <ListItem button>
-        <ListItemIcon>
-          <ExitToApp />
-        </ListItemIcon>
-        <ListItemText primary="Sign Out" />
-      </ListItem>
+      <Link
+        to="signin"
+        style={{ textDecoration: 'none', color: 'inherit' }}
+        onClick={handleSignOut}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <ExitToApp />
+          </ListItemIcon>
+          <ListItemText primary="Sign Out" />
+        </ListItem>
+      </Link>
     </React.Fragment>
   );
 };

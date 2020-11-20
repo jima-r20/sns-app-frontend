@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Card,
@@ -11,6 +11,12 @@ import {
   Button,
   createMuiTheme,
   ThemeProvider,
+  Chip,
+  Modal,
+  Backdrop,
+  Fade,
+  IconButton,
+  TextField,
 } from '@material-ui/core';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { AppDispatch } from '../../stores/store';
@@ -27,6 +33,8 @@ import {
   selectUsers,
   fetchGetUsers,
 } from '../../stores/slices/user.slice';
+import { PostItemStyle } from '../../styles/PostItem.style';
+import { Close } from '@material-ui/icons';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,9 +57,11 @@ interface PROPS_POST {
 }
 
 const PostItem: React.FC<PROPS_POST> = (props) => {
+  const classes = PostItemStyle();
   const { id, postFromId, displayName, content } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
   const dispatch: AppDispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isPostSelected = useSelector(selectIsPostSelected);
   const myProfile = useSelector(selectMyProfile);
   const users = useSelector(selectUsers);
@@ -104,7 +114,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           ? '/top/myprofile'
                           : `/top/profile/${postFromId}`
                       }
-                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      className={classes.link}
                       onClick={onAvatarClick}
                     >
                       <Avatar>{avatarIcon}</Avatar>
@@ -116,7 +126,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 <CardActionArea>
                   <Link
                     to={`${match.url}/post/${id}`}
-                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    className={classes.link}
                     onClick={onContentClick}
                   >
                     <CardContent>
@@ -140,7 +150,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           ? '/top/myprofile'
                           : `/top/profile/${postFromId}`
                       }
-                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      className={classes.link}
                       onClick={onAvatarClick}
                     >
                       <Avatar>{avatarIcon}</Avatar>
@@ -162,22 +172,84 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   {displayName === myProfile.displayName ? (
                     <React.Fragment>
                       <Grid item container xs={2} justify="center">
-                        <Button
-                          variant="contained"
+                        <Chip
+                          clickable
                           color="primary"
-                          style={{ marginBottom: '5%' }}
+                          label="Edit"
+                          component="button"
+                          className={classes.button}
+                          onClick={() => {
+                            setIsModalOpen(true);
+                          }}
+                        />
+                        <Modal
+                          aria-labelledby="post-edit-modal-title"
+                          aria-describedby="post-edit-modal-description"
+                          className={classes.modal}
+                          open={isModalOpen}
+                          onClose={() => {
+                            setIsModalOpen(false);
+                          }}
+                          closeAfterTransition
+                          BackdropComponent={Backdrop}
+                          BackdropProps={{
+                            timeout: 500,
+                          }}
                         >
-                          Edit
-                        </Button>
+                          <Fade in={isModalOpen}>
+                            <div className={classes.modalPaper}>
+                              <Grid container spacing={1}>
+                                <Grid item xs={10}>
+                                  <h2 id="post-edit-modal-title">Edit Post</h2>
+                                </Grid>
+                                <Grid item xs={2}>
+                                  <IconButton
+                                    onClick={() => setIsModalOpen(false)}
+                                  >
+                                    <Close />
+                                  </IconButton>
+                                </Grid>
+                              </Grid>
+
+                              <Divider />
+                              <form
+                                noValidate /*onSubmit={handleUpdateProfile}*/
+                              >
+                                <TextField
+                                  variant="outlined"
+                                  margin="normal"
+                                  fullWidth
+                                  multiline
+                                  id="content"
+                                  label="Content"
+                                  name="content"
+                                  defaultValue={content}
+                                  // inputRef={register({
+                                  //   maxLength: 256,
+                                  // })}
+                                />
+                                <Chip
+                                  clickable
+                                  color="primary"
+                                  label="Save"
+                                  component="button"
+                                  className={classes.saveButton}
+                                  type="submit"
+                                />
+                              </form>
+                            </div>
+                          </Fade>
+                        </Modal>
                       </Grid>
+
                       <Grid item container xs={2} justify="center">
-                        <Button
-                          variant="contained"
+                        <Chip
+                          clickable
                           color="secondary"
-                          style={{ marginBottom: '5%' }}
-                        >
-                          Delete
-                        </Button>
+                          label="Delete"
+                          component="button"
+                          className={classes.button}
+                        />
                       </Grid>
                     </React.Fragment>
                   ) : (
@@ -185,18 +257,8 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   )}
 
                   <Grid item xs={4}>
-                    <Button
-                      variant="outlined"
-                      style={{
-                        margin: '2%',
-                        display: 'block',
-                        marginLeft: 'auto',
-                      }}
-                    >
-                      <Link
-                        to="/top"
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                      >
+                    <Button className={classes.backButton}>
+                      <Link to="/top" className={classes.link}>
                         Back
                       </Link>
                     </Button>
