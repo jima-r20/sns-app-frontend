@@ -79,11 +79,15 @@ export const fetchEditPost = createAsyncThunk(
   'post/editPost',
   async (data: PROPS_EDIT_POST) => {
     const { id, content } = data;
-    const res = await axios.patch(`${apiUrl}post/${id}`, content, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
-      },
-    });
+    const res = await axios.patch(
+      `${apiUrl}post/${id}`,
+      { content },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+        },
+      }
+    );
     return res.data;
   }
 );
@@ -159,6 +163,7 @@ export const postSlice = createSlice({
         myposts: [...state.myposts, action.payload],
       };
     });
+    /* TODO: 投稿の編集後、編集した物がリストの一番上に表示される問題あり */
     builder.addCase(fetchEditPost.fulfilled, (state, action) => {
       return {
         ...state,

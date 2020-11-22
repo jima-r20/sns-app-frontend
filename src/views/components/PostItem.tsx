@@ -21,7 +21,7 @@ import {
 import { Link, useRouteMatch } from 'react-router-dom';
 import { AppDispatch } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedPost } from '../../stores/slices/post.slice';
+import { fetchEditPost, setSelectedPost } from '../../stores/slices/post.slice';
 import {
   selectIsPostSelected,
   setPostSelected,
@@ -35,6 +35,7 @@ import {
 } from '../../stores/slices/user.slice';
 import { PostItemStyle } from '../../styles/PostItem.style';
 import { Close } from '@material-ui/icons';
+import { useForm } from 'react-hook-form';
 
 const theme = createMuiTheme({
   palette: {
@@ -56,18 +57,30 @@ interface PROPS_POST {
   content: string;
 }
 
+interface FormData {
+  content: string;
+}
+
 const PostItem: React.FC<PROPS_POST> = (props) => {
   const classes = PostItemStyle();
+  const dispatch: AppDispatch = useDispatch();
   const { id, postFromId, displayName, content } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
-  const dispatch: AppDispatch = useDispatch();
+
+  const { register, errors, handleSubmit } = useForm<FormData>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [view, setView] = useState<string>(content);
+
   const isPostSelected = useSelector(selectIsPostSelected);
   const myProfile = useSelector(selectMyProfile);
   const users = useSelector(selectUsers);
   const match = useRouteMatch();
 
   const user = users.find((u) => u.id === postFromId);
+
+  // useEffect(() => {
+  //   dispatch(fetchGetUsers());
+  // }, [dispatch]);
 
   const onAvatarClick = () => {
     dispatch(
@@ -92,9 +105,15 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
     dispatch(setPostSelected());
   };
 
-  useEffect(() => {
-    dispatch(fetchGetUsers());
-  }, [dispatch]);
+  const handleEditPost = handleSubmit(async (formData: FormData) => {
+    const data = { ...formData, id };
+    const result = await dispatch(fetchEditPost(data));
+    console.log(result);
+    if (fetchEditPost.fulfilled.match(result)) {
+      setIsModalOpen(false);
+      setView(result.payload.content);
+    }
+  });
 
   return (
     <React.Fragment>
@@ -161,7 +180,8 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 <Divider />
                 <CardContent>
                   <Typography variant="body2" component="p">
-                    {content}
+                    {/* {content} */}
+                    {view}
                   </Typography>
                 </CardContent>
                 <Grid container spacing={1}>
@@ -212,9 +232,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                               </Grid>
 
                               <Divider />
-                              <form
-                                noValidate /*onSubmit={handleUpdateProfile}*/
-                              >
+                              <form noValidate onSubmit={handleEditPost}>
                                 <TextField
                                   variant="outlined"
                                   margin="normal"
@@ -224,9 +242,10 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                                   label="Content"
                                   name="content"
                                   defaultValue={content}
-                                  // inputRef={register({
-                                  //   maxLength: 256,
-                                  // })}
+                                  inputRef={register({
+                                    required: true,
+                                    maxLength: 256,
+                                  })}
                                 />
                                 <Chip
                                   clickable

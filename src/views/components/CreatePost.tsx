@@ -38,10 +38,10 @@ const CreatePost: React.FC = () => {
     setContent(''); // 投稿後、入力フォームを空にする
   });
 
+  // いらないかも
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
-  console.log(content);
 
   return (
     <React.Fragment>
@@ -83,6 +83,7 @@ const CreatePost: React.FC = () => {
                 className={classes.textField}
                 inputRef={register({
                   required: true,
+                  maxLength: 256,
                 })}
                 onChange={handleChange}
                 value={content}
