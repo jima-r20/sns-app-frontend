@@ -18,10 +18,14 @@ import {
   IconButton,
   TextField,
 } from '@material-ui/core';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { AppDispatch } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEditPost, setSelectedPost } from '../../stores/slices/post.slice';
+import {
+  fetchDeletePost,
+  fetchEditPost,
+  setSelectedPost,
+} from '../../stores/slices/post.slice';
 import {
   selectIsPostSelected,
   setPostSelected,
@@ -31,7 +35,6 @@ import {
   setSelectedUser,
   selectMyProfile,
   selectUsers,
-  fetchGetUsers,
 } from '../../stores/slices/user.slice';
 import { PostItemStyle } from '../../styles/PostItem.style';
 import { Close } from '@material-ui/icons';
@@ -64,12 +67,14 @@ interface FormData {
 const PostItem: React.FC<PROPS_POST> = (props) => {
   const classes = PostItemStyle();
   const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
   const { id, postFromId, displayName, content } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
 
   const { register, errors, handleSubmit } = useForm<FormData>();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [view, setView] = useState<string>(content);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [view, setView] = useState<string>(content); // 投稿編集後にページに反映させるために必要
 
   const isPostSelected = useSelector(selectIsPostSelected);
   const myProfile = useSelector(selectMyProfile);
@@ -108,12 +113,19 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
   const handleEditPost = handleSubmit(async (formData: FormData) => {
     const data = { ...formData, id };
     const result = await dispatch(fetchEditPost(data));
-    console.log(result);
     if (fetchEditPost.fulfilled.match(result)) {
-      setIsModalOpen(false);
+      setIsEditModalOpen(false);
       setView(result.payload.content);
     }
   });
+
+  const handleDeletePost = async (id: number) => {
+    const result = await dispatch(fetchDeletePost(id));
+    if (fetchDeletePost.fulfilled.match(result)) {
+      setIsDeleteModalOpen(false);
+      history.push('/top');
+    }
+  };
 
   return (
     <React.Fragment>
@@ -199,16 +211,16 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           component="button"
                           className={classes.button}
                           onClick={() => {
-                            setIsModalOpen(true);
+                            setIsEditModalOpen(true);
                           }}
                         />
                         <Modal
                           aria-labelledby="post-edit-modal-title"
                           aria-describedby="post-edit-modal-description"
                           className={classes.modal}
-                          open={isModalOpen}
+                          open={isEditModalOpen}
                           onClose={() => {
-                            setIsModalOpen(false);
+                            setIsEditModalOpen(false);
                           }}
                           closeAfterTransition
                           BackdropComponent={Backdrop}
@@ -216,7 +228,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                             timeout: 500,
                           }}
                         >
-                          <Fade in={isModalOpen}>
+                          <Fade in={isEditModalOpen}>
                             <div className={classes.modalPaper}>
                               <Grid container spacing={1}>
                                 <Grid item xs={10}>
@@ -224,7 +236,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                                 </Grid>
                                 <Grid item xs={2}>
                                   <IconButton
-                                    onClick={() => setIsModalOpen(false)}
+                                    onClick={() => setIsEditModalOpen(false)}
                                   >
                                     <Close />
                                   </IconButton>
@@ -268,7 +280,61 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           label="Delete"
                           component="button"
                           className={classes.button}
+                          onClick={() => {
+                            setIsDeleteModalOpen(true);
+                          }}
                         />
+                        <Modal
+                          aria-labelledby="post-delete-modal-title"
+                          aria-describedby="post-delete-modal-description"
+                          className={classes.modal}
+                          open={isDeleteModalOpen}
+                          onClose={() => {
+                            setIsDeleteModalOpen(false);
+                          }}
+                          closeAfterTransition
+                          BackdropComponent={Backdrop}
+                          BackdropProps={{
+                            timeout: 500,
+                          }}
+                        >
+                          <Fade in={isDeleteModalOpen}>
+                            <div className={classes.modalPaper}>
+                              <Typography
+                                variant="h6"
+                                align="center"
+                                gutterBottom
+                              >
+                                Are you sure ?
+                              </Typography>
+                              <Card variant="outlined">
+                                <CardActionArea
+                                  onClick={() => handleDeletePost(id)}
+                                >
+                                  <CardContent>
+                                    <Typography
+                                      variant="body1"
+                                      align="center"
+                                      color="secondary"
+                                    >
+                                      DELETE
+                                    </Typography>
+                                  </CardContent>
+                                </CardActionArea>
+                                <Divider />
+                                <CardActionArea
+                                  onClick={() => setIsDeleteModalOpen(false)}
+                                >
+                                  <CardContent>
+                                    <Typography variant="body1" align="center">
+                                      Cancel
+                                    </Typography>
+                                  </CardContent>
+                                </CardActionArea>
+                              </Card>
+                            </div>
+                          </Fade>
+                        </Modal>
                       </Grid>
                     </React.Fragment>
                   ) : (

@@ -33,6 +33,9 @@ interface InitialState {
 
 const apiUrl = 'http://localhost:3000/';
 
+/* ============================
+        投稿の全取得
+============================ */
 export const fetchGetPosts = createAsyncThunk('post/getPosts', async () => {
   const res = await axios.get(`${apiUrl}post`, {
     headers: {
@@ -42,6 +45,9 @@ export const fetchGetPosts = createAsyncThunk('post/getPosts', async () => {
   return res.data;
 });
 
+/* ============================
+        自分の投稿の全取得
+============================ */
 export const fetchGetMyPosts = createAsyncThunk('post/getMyPosts', async () => {
   const res = await axios.get(`${apiUrl}post/myposts`, {
     headers: {
@@ -51,6 +57,9 @@ export const fetchGetMyPosts = createAsyncThunk('post/getMyPosts', async () => {
   return res.data;
 });
 
+/* ============================
+      任意ユーザの投稿の全取得
+============================ */
 export const fetchGetUserPosts = createAsyncThunk(
   'post/getUserPosts',
   async (id: number) => {
@@ -63,6 +72,9 @@ export const fetchGetUserPosts = createAsyncThunk(
   }
 );
 
+/* ============================
+            新規投稿
+============================ */
 export const fetchCreatePost = createAsyncThunk(
   'post/createPost',
   async (data: PROPS_CREATE_POST) => {
@@ -75,6 +87,9 @@ export const fetchCreatePost = createAsyncThunk(
   }
 );
 
+/* ============================
+          投稿の編集
+============================ */
 export const fetchEditPost = createAsyncThunk(
   'post/editPost',
   async (data: PROPS_EDIT_POST) => {
@@ -92,6 +107,24 @@ export const fetchEditPost = createAsyncThunk(
   }
 );
 
+/* ============================
+          投稿の削除
+============================ */
+export const fetchDeletePost = createAsyncThunk(
+  'post/deletePost',
+  async (id: number) => {
+    const res = await axios.delete(`${apiUrl}post/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    return res.data;
+  }
+);
+
+/* ============================
+        ここからSlice
+============================ */
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
@@ -167,8 +200,21 @@ export const postSlice = createSlice({
     builder.addCase(fetchEditPost.fulfilled, (state, action) => {
       return {
         ...state,
-        posts: [...state.posts, action.payload],
-        myposts: [...state.myposts, action.payload],
+        posts: state.posts.map((post) =>
+          post.id === action.payload.id ? action.payload : post
+        ),
+        myposts: state.myposts.map((mypost) =>
+          mypost.id === action.payload.id ? action.payload : mypost
+        ),
+      };
+    });
+    builder.addCase(fetchDeletePost.fulfilled, (state, action) => {
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.payload.id),
+        myposts: state.myposts.filter(
+          (mypost) => mypost.id !== action.payload.id
+        ),
       };
     });
   },
