@@ -19,7 +19,7 @@ import {
   fetchUpdateUser,
   selectMyProfile,
 } from '../../stores/slices/user.slice';
-import ProfileEditModal from '../modals/ProfileEdit.modal';
+// import ProfileEditModal from '../modals/ProfileEdit.modal';
 import { Close } from '@material-ui/icons';
 import { useForm } from 'react-hook-form';
 import { PROPS_UPDATE_USER } from '../../types';

@@ -12,13 +12,15 @@ import {
   People,
   Person,
 } from '@material-ui/icons';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
 const MainListItems: React.FC = () => {
   let match = useRouteMatch();
+  const history = useHistory();
 
   const handleSignOut = () => {
     localStorage.removeItem('localJwtToken');
+    history.push('/signin'); // サインアウトはhistory使わないとできなかった
   };
 
   return (
@@ -55,18 +57,18 @@ const MainListItems: React.FC = () => {
         <ListItemText primary="Friends" />
       </ListItem>
       <Divider />
-      <Link
-        to="signin"
+      {/* <Link
+        to='/signin'
         style={{ textDecoration: 'none', color: 'inherit' }}
         onClick={handleSignOut}
-      >
-        <ListItem button>
-          <ListItemIcon>
-            <ExitToApp />
-          </ListItemIcon>
-          <ListItemText primary="Sign Out" />
-        </ListItem>
-      </Link>
+      > */}
+      <ListItem button onClick={handleSignOut}>
+        <ListItemIcon>
+          <ExitToApp />
+        </ListItemIcon>
+        <ListItemText primary="Sign Out" />
+      </ListItem>
+      {/* </Link> */}
     </React.Fragment>
   );
 };
