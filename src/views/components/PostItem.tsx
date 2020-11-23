@@ -153,7 +153,6 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   }
                   title={displayName}
                 />
-                <Divider />
                 <CardActionArea>
                   <Link
                     to={`${match.url}/post/${id}`}
@@ -189,7 +188,6 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                   }
                   title={displayName}
                 />
-                <Divider />
                 <CardContent>
                   <Typography variant="body2" component="p">
                     {/* {content} */}
