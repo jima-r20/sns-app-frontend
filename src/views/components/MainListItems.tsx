@@ -33,6 +33,7 @@ const MainListItems: React.FC = () => {
           <ListItemText primary="HOME" />
         </ListItem>
       </Link>
+
       <Link
         to={`${match.url}/myprofile`}
         style={{ textDecoration: 'none', color: 'inherit' }}
@@ -44,18 +45,30 @@ const MainListItems: React.FC = () => {
           <ListItemText primary="Profile" />
         </ListItem>
       </Link>
-      <ListItem button>
-        <ListItemIcon>
-          <ChatBubble />
-        </ListItemIcon>
-        <ListItemText primary="DM" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <People />
-        </ListItemIcon>
-        <ListItemText primary="Friends" />
-      </ListItem>
+
+      <Link
+        to={`${match.url}/dm`}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <ChatBubble />
+          </ListItemIcon>
+          <ListItemText primary="DM" />
+        </ListItem>
+      </Link>
+
+      <Link
+        to={`${match.url}/friends`}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <People />
+          </ListItemIcon>
+          <ListItemText primary="Friends" />
+        </ListItem>
+      </Link>
       <Divider />
       {/* <Link
         to='/signin'

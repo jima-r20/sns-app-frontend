@@ -10,7 +10,7 @@ export const TopPageStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       height: '100vh',
       overflow: 'auto',
-      backgroundColor: '#ccc',
+      backgroundColor: '#ddd',
     },
     container: {
       paddingTop: theme.spacing(10),

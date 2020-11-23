@@ -7,15 +7,15 @@ import {
   CardActionArea,
   Card,
 } from '@material-ui/core';
-import { DMItemStyle } from '../../styles/DMItem.style';
+import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
 
 interface PROPS_DM {
   displayName: string;
   message: string;
 }
 
-const DMItem: React.FC<PROPS_DM> = (props) => {
-  const classes = DMItemStyle();
+const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
+  const classes = RightSideBarDMItemStyle();
   const { displayName, message } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
 
@@ -48,4 +48,4 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   );
 };
 
-export default DMItem;
+export default RightSideBarDMItem;

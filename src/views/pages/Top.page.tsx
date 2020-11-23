@@ -26,6 +26,8 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PostItem from '../components/PostItem';
 import { selectSelectedPost } from '../../stores/slices/post.slice';
 import Profile from '../components/Profile';
+import DMList from '../components/DMList';
+import FriendList from '../components/FriendList';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -118,6 +120,7 @@ const TopPage: React.FC = () => {
             <Route path={`${match.url}/profile/:id/post/:id`} exact>
               {/* 
                 TODO: 遷移後のBackボタンを押すとトップページに戻る問題あり
+                  -> Backボタン押下時のルーティング変更する必要あり
               */}
               <PostItem
                 id={selectedPost.id}
@@ -125,6 +128,22 @@ const TopPage: React.FC = () => {
                 displayName={selectedPost.displayName}
                 content={selectedPost.content}
               />
+            </Route>
+            {/* ================================
+                          DM一覧表示
+              ================================= */}
+            <Route path={`${match.url}/dm`} exact>
+              <DMList />
+            </Route>
+            {/* ================================
+                        DM詳細表示(個別取得)
+              ================================= */}
+
+            {/* ================================
+                        フレンドリスト表示
+              ================================= */}
+            <Route path={`${match.url}/friends`} exact>
+              <FriendList />
             </Route>
           </Switch>
 

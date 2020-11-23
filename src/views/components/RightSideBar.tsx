@@ -10,7 +10,7 @@ import {
   Container,
 } from '@material-ui/core';
 import { ChatBubble, PersonAdd } from '@material-ui/icons';
-import DMItem from './DMItem';
+import RightSideBarDMItem from './RightSideBarDMItem';
 import FriendRequestItem from './FriendRequestItem';
 import { RightSideBarStyle } from '../../styles/RightSideBar.style';
 
@@ -39,15 +39,15 @@ const RightSideBar: React.FC = () => {
             <ListItemText primary="DM" />
           </ListItem>
           <Container className={classes.DMContainer}>
-            <DMItem
+            <RightSideBarDMItem
               displayName="Ariel"
               message="This is a direct message from Ariel."
             />
-            <DMItem
+            <RightSideBarDMItem
               displayName="Michel"
               message="Hi, how are you? Long time no see..."
             />
-            <DMItem
+            <RightSideBarDMItem
               displayName="Jack"
               message="Good evening! Do you know where my wallet...?"
             />

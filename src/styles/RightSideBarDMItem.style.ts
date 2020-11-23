@@ -1,6 +1,6 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
-export const DMItemStyle = makeStyles((theme: Theme) =>
+export const RightSideBarDMItemStyle = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       width: '100%',
