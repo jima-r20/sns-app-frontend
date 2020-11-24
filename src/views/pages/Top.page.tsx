@@ -28,6 +28,7 @@ import { selectSelectedPost } from '../../stores/slices/post.slice';
 import Profile from '../components/Profile';
 import DMList from '../components/DMList';
 import FriendList from '../components/FriendList';
+import { fetchGetDmInbox } from '../../stores/slices/dm.slice';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -49,6 +50,7 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetPosts());
         await dispatch(fetchGetMyPosts());
         await dispatch(fetchGetUsers());
+        await dispatch(fetchGetDmInbox());
       }
     };
     fetchBootLoader();
