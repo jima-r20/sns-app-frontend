@@ -50,7 +50,7 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetPosts());
         await dispatch(fetchGetMyPosts());
         await dispatch(fetchGetUsers());
-        await dispatch(fetchGetDmInbox());
+        await dispatch(fetchGetDmInbox(myProfile.id));
       }
     };
     fetchBootLoader();

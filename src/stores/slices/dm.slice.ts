@@ -9,15 +9,27 @@ import { RootState } from '../store';
 //   about: string;
 // }
 
-interface DmInbox {
+interface GetDmResponse {
   id: number;
   sender: number;
   receiver: number;
   message: string;
 }
 
+interface DMItem {
+  targetUser: number;
+  messages: [
+    {
+      id: number;
+      sender: number;
+      receiver: number;
+      message: string;
+    }
+  ];
+}
+
 interface InitialState {
-  dmInbox: DmInbox[];
+  dmInbox: DMItem[];
 }
 
 const apiUrl = 'http://localhost:3000/';
@@ -25,25 +37,81 @@ const apiUrl = 'http://localhost:3000/';
 /* ============================
       自身へ送信されたDM全取得
 ============================ */
-export const fetchGetDmInbox = createAsyncThunk('dm/getDmInbox', async () => {
-  const res = await axios.get(`${apiUrl}dm/inbox`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
-    },
-  });
-  console.log(res.data);
-  return res.data;
-});
+export const fetchGetDmInbox = createAsyncThunk(
+  'dm/getDmInbox',
+  async (userId: number) => {
+    const res = await axios.get(`${apiUrl}dm/inbox`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
 
+    /* 
+     以下でレスポンスを整形
+      [{ id: 1, sender: 4, receiver: 7, message: 'aaa' }, ...]
+        ↓　の形式に変換
+      [ {targetUser: 4, messages: [{ id: 10, sender: 4, receiver: 7, message: 'aaa'}] }, ...] 
+      → 配列の順番はメッセージを送ってきたユーザ順、
+        messagesは最近のメッセージが配列のはじめにくるようにしている
+    */
+    const data: GetDmResponse[] = res.data;
+    let dmInbox: Array<DMItem> = [];
+    data
+      .slice(0)
+      .reverse()
+      .map((dm) => {
+        let dmItem: DMItem = {
+          targetUser: 0,
+          messages: [{ id: 0, sender: 0, receiver: 0, message: '' }],
+        };
+        if (dm.receiver === userId) {
+          const found = dmInbox.find((item) => item.targetUser === dm.sender);
+          if (found === undefined) {
+            dmItem.targetUser = dm.sender;
+            dmItem.messages[0].id = dm.id;
+            dmItem.messages[0].sender = dm.sender;
+            dmItem.messages[0].receiver = dm.receiver;
+            dmItem.messages[0].message = dm.message;
+            dmInbox.push(dmItem);
+          } else {
+            found?.messages.push(dm);
+          }
+        } else if (dm.sender === userId) {
+          const found = dmInbox.find((item) => item.targetUser === dm.receiver);
+          if (found === undefined) {
+            dmItem.targetUser = dm.receiver;
+            dmItem.messages[0].id = dm.id;
+            dmItem.messages[0].sender = dm.sender;
+            dmItem.messages[0].receiver = dm.receiver;
+            dmItem.messages[0].message = dm.message;
+            dmInbox.push(dmItem);
+          } else {
+            found?.messages.unshift(dm);
+          }
+        }
+      });
+    console.log(dmInbox);
+    return dmInbox;
+  }
+);
+
+/* ============================
+        ここからSlice
+============================ */
 export const dmSlice = createSlice({
   name: 'dm',
   initialState: {
     dmInbox: [
       {
-        id: 0,
-        sender: 0,
-        receiver: 0,
-        message: '',
+        targetUser: 0,
+        messages: [
+          {
+            id: 0,
+            sender: 0,
+            receiver: 0,
+            message: '',
+          },
+        ],
       },
     ],
   } as InitialState,
