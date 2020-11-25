@@ -28,7 +28,11 @@ import { selectSelectedPost } from '../../stores/slices/post.slice';
 import Profile from '../components/Profile';
 import DMList from '../components/DMList';
 import FriendList from '../components/FriendList';
-import { fetchGetDmInbox } from '../../stores/slices/dm.slice';
+import {
+  fetchGetDmInbox,
+  selectSelectedDM,
+} from '../../stores/slices/dm.slice';
+import DMItem from '../components/DMItem';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -39,6 +43,7 @@ const TopPage: React.FC = () => {
   const selectedPost = useSelector(selectSelectedPost);
   const myProfile = useSelector(selectMyProfile);
   const selectedUser = useSelector(selectSelectedUser);
+  const selectedDM = useSelector(selectSelectedDM);
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -142,7 +147,12 @@ const TopPage: React.FC = () => {
             {/* ================================
                         DM詳細表示(個別取得)
               ================================= */}
-
+            <Route path={`${match.url}/dm/:id`} exact>
+              <DMItem
+                targetUser={selectedDM.targetUser}
+                messages={selectedDM.messages}
+              />
+            </Route>
             {/* ================================
                         フレンドリスト表示
               ================================= */}

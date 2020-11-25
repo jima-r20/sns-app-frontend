@@ -30,6 +30,7 @@ interface DM {
 
 interface InitialState {
   dmInbox: DM[];
+  selectedDM: DM;
 }
 
 const apiUrl = 'http://localhost:3000/';
@@ -114,8 +115,23 @@ export const dmSlice = createSlice({
         ],
       },
     ],
+    selectedDM: {
+      targetUser: 0,
+      messages: [
+        {
+          id: 0,
+          sender: 0,
+          receiver: 0,
+          message: '',
+        },
+      ],
+    },
   } as InitialState,
-  reducers: {},
+  reducers: {
+    setSelectedDM(state, action) {
+      state.selectedDM = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchGetDmInbox.fulfilled, (state, action) => {
       return { ...state, dmInbox: action.payload };
@@ -123,6 +139,9 @@ export const dmSlice = createSlice({
   },
 });
 
+export const { setSelectedDM } = dmSlice.actions;
+
 export const selectDmInbox = (state: RootState) => state.dm.dmInbox;
+export const selectSelectedDM = (state: RootState) => state.dm.selectedDM;
 
 export default dmSlice.reducer;

@@ -68,6 +68,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
   const classes = PostItemStyle();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
+  const match = useRouteMatch();
   const { id, postFromId, displayName, content } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
 
@@ -79,7 +80,6 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
   const isPostSelected = useSelector(selectIsPostSelected);
   const myProfile = useSelector(selectMyProfile);
   const users = useSelector(selectUsers);
-  const match = useRouteMatch();
 
   const user = users.find((u) => u.id === postFromId);
 
@@ -135,7 +135,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
             {!isPostSelected ? (
               /* ============================
                 投稿詳細ページではない場合 
-            ============================ */
+              ============================ */
               <React.Fragment>
                 <CardHeader
                   avatar={

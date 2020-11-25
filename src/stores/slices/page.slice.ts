@@ -4,6 +4,7 @@ import { RootState } from '../store';
 interface PageSliceState {
   isOpenSideBar: boolean;
   isPostSelected: boolean;
+  isDMSelected: boolean;
 }
 
 export const pageSlice = createSlice({
@@ -11,6 +12,7 @@ export const pageSlice = createSlice({
   initialState: {
     isOpenSideBar: true,
     isPostSelected: false,
+    isDMSelected: false,
   } as PageSliceState,
   reducers: {
     openSideBar(state) {
@@ -25,6 +27,12 @@ export const pageSlice = createSlice({
     resetPostSelected(state) {
       state.isPostSelected = false;
     },
+    setDMSelected(state) {
+      state.isDMSelected = true;
+    },
+    resetDMSelected(state) {
+      state.isDMSelected = false;
+    },
   },
 });
 
@@ -33,11 +41,14 @@ export const {
   closeSideBar,
   setPostSelected,
   resetPostSelected,
+  setDMSelected,
+  resetDMSelected,
 } = pageSlice.actions;
 
 export const selectIsOpenSideBar = (state: RootState) =>
   state.page.isOpenSideBar;
 export const selectIsPostSelected = (state: RootState) =>
   state.page.isPostSelected;
+export const selectIsDMSelected = (state: RootState) => state.page.isDMSelected;
 
 export default pageSlice.reducer;
