@@ -4,10 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../stores/store';
 import { selectDmInbox } from '../../stores/slices/dm.slice';
 import DMItem from './DMItem';
+import { resetDMSelected } from '../../stores/slices/page.slice';
 
 const DMList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const dmInbox = useSelector(selectDmInbox);
+
+  useEffect(() => {
+    dispatch(resetDMSelected());
+  }, [dispatch]);
 
   return (
     <React.Fragment>

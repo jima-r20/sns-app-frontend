@@ -18,6 +18,7 @@ import {
 import { AppDispatch } from '../../stores/store';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { DMItemStyle } from '../../styles/DMItem.style';
+import { setSelectedDM } from '../../stores/slices/dm.slice';
 
 interface PROPS_DM {
   targetUser: number;
@@ -53,6 +54,12 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   };
 
   const onMessageClick = () => {
+    dispatch(
+      setSelectedDM({
+        targetUser,
+        messages,
+      })
+    );
     dispatch(setDMSelected());
   };
 
@@ -88,7 +95,44 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
             </CardActionArea>
           </Card>
         ) : (
-          <Paper className={classes.paper}>aaa</Paper>
+          <Paper className={classes.paper}>
+            <Grid container spacing={1}>
+              <Grid item xs={1}>
+                <Link
+                  to={`/top/profile/${targetUser}`}
+                  className={classes.link}
+                  onClick={onAvatarClick}
+                >
+                  <Avatar>{avatarIcon}</Avatar>
+                </Link>
+              </Grid>
+              <Grid item xs={11}>
+                <Typography variant="body1">{user?.displayName}</Typography>
+              </Grid>
+              {messages
+                .slice(0)
+                .reverse()
+                .map((m) =>
+                  m.sender === user?.id ? (
+                    <React.Fragment>
+                      <Grid item xs={1} />
+                      <Grid item xs={4}>
+                        <Paper className={classes.message}>{m.message}</Paper>
+                      </Grid>
+                      <Grid item xs={7} />
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <Grid item xs={7} />
+                      <Grid item xs={4}>
+                        <Paper className={classes.message}>{m.message}</Paper>
+                      </Grid>
+                      <Grid item xs={1} />
+                    </React.Fragment>
+                  )
+                )}
+            </Grid>
+          </Paper>
         )}
       </Grid>
     </React.Fragment>

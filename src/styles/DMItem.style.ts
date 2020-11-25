@@ -11,5 +11,12 @@ export const DMItemStyle = makeStyles((theme: Theme) =>
       paddingRight: '2%',
       paddingLeft: '2%',
     },
+    message: {
+      marginBottom: '2%',
+      paddingRight: '2%',
+      paddingLeft: '2%',
+      paddingTop: '5%',
+      paddingBottom: '5%',
+    },
   })
 );
