@@ -5,8 +5,10 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
+  Chip,
   Grid,
   Paper,
+  TextField,
   Typography,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
@@ -106,31 +108,73 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
                   <Avatar>{avatarIcon}</Avatar>
                 </Link>
               </Grid>
-              <Grid item xs={11}>
+              <Grid item xs={11} className={classes.name}>
                 <Typography variant="body1">{user?.displayName}</Typography>
               </Grid>
-              {messages
-                .slice(0)
-                .reverse()
-                .map((m) =>
-                  m.sender === user?.id ? (
-                    <React.Fragment>
-                      <Grid item xs={1} />
-                      <Grid item xs={4}>
-                        <Paper className={classes.message}>{m.message}</Paper>
-                      </Grid>
-                      <Grid item xs={7} />
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      <Grid item xs={7} />
-                      <Grid item xs={4}>
-                        <Paper className={classes.message}>{m.message}</Paper>
-                      </Grid>
-                      <Grid item xs={1} />
-                    </React.Fragment>
-                  )
-                )}
+
+              <Grid item xs={12}>
+                <Paper variant="outlined" className={classes.messageArea}>
+                  {messages
+                    .slice(0)
+                    .reverse()
+                    .map((m) =>
+                      m.sender === user?.id ? (
+                        // 相手のDM表示
+                        <React.Fragment>
+                          <Grid container spacing={1}>
+                            <Grid item xs={1} />
+                            <Grid item xs={4}>
+                              <Paper
+                                className={classes.message}
+                                key={m.message}
+                              >
+                                {m.message}
+                              </Paper>
+                            </Grid>
+                            <Grid item xs={7} />
+                          </Grid>
+                        </React.Fragment>
+                      ) : (
+                        // 自身のDM表示
+                        <React.Fragment>
+                          <Grid container spacing={1}>
+                            <Grid item xs={7} />
+                            <Grid item xs={4}>
+                              <Paper
+                                className={classes.message}
+                                key={m.message}
+                              >
+                                {m.message}
+                              </Paper>
+                            </Grid>
+                            <Grid item xs={1} />
+                          </Grid>
+                        </React.Fragment>
+                      )
+                    )}
+                </Paper>
+              </Grid>
+
+              <Grid item xs={11}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  multiline
+                  id="message"
+                  label="Message"
+                  name="message"
+                />
+              </Grid>
+              <Grid item xs={1} className={classes.sendButton}>
+                <Chip
+                  clickable
+                  color="primary"
+                  label="Send"
+                  component="button"
+                  // type='submit'
+                />
+              </Grid>
             </Grid>
           </Paper>
         )}
