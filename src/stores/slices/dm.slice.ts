@@ -16,7 +16,7 @@ interface GetDmResponse {
   message: string;
 }
 
-interface DMItem {
+interface DM {
   targetUser: number;
   messages: [
     {
@@ -29,7 +29,7 @@ interface DMItem {
 }
 
 interface InitialState {
-  dmInbox: DMItem[];
+  dmInbox: DM[];
 }
 
 const apiUrl = 'http://localhost:3000/';
@@ -55,12 +55,12 @@ export const fetchGetDmInbox = createAsyncThunk(
         messagesは最近のメッセージが配列のはじめにくるようにしている
     */
     const data: GetDmResponse[] = res.data;
-    let dmInbox: Array<DMItem> = [];
+    let dmInbox: Array<DM> = [];
     data
       .slice(0)
       .reverse()
       .map((dm) => {
-        let dmItem: DMItem = {
+        let dmItem: DM = {
           targetUser: 0,
           messages: [{ id: 0, sender: 0, receiver: 0, message: '' }],
         };

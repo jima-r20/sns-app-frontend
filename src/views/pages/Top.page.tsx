@@ -50,11 +50,13 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetPosts());
         await dispatch(fetchGetMyPosts());
         await dispatch(fetchGetUsers());
-        await dispatch(fetchGetDmInbox(myProfile.id));
       }
     };
     fetchBootLoader();
   }, [dispatch]);
+
+  console.log(myProfile.id);
+  dispatch(fetchGetDmInbox(myProfile.id));
 
   return (
     <div className={classes.root}>
