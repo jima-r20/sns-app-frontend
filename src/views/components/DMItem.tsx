@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Avatar,
   Card,
@@ -53,6 +53,7 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   const history = useHistory();
   const match = useRouteMatch();
   const { register, errors, handleSubmit } = useForm();
+  const [inputMessage, setInputMessage] = useState<string>('');
   const { targetUser, messages } = props;
   const user = useSelector(selectUsers).find((u) => u.id === targetUser);
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
@@ -71,7 +72,6 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   };
 
   const onMessageClick = () => {
-    console.log('send DM');
     dispatch(
       setSelectedDM({
         targetUser,
@@ -85,7 +85,12 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
     const data = { ...formData, receiver: targetUser };
     await dispatch(fetchCreateDm(data));
     await dispatch(fetchGetDmInbox(myProfile.id));
+    setInputMessage(''); // 返信後、入力フォームを空にする
   });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputMessage(e.target.value);
+  };
 
   return (
     <React.Fragment>
@@ -187,20 +192,27 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
                       multiline
                       id="message"
                       label="Message"
+                      // placeholder="Message"
                       name="message"
                       inputRef={register({
                         required: true,
                       })}
+                      onChange={handleChange}
+                      value={inputMessage}
                     />
                   </Grid>
                   <Grid item xs={1} className={classes.sendButton}>
-                    <Chip
-                      clickable
-                      color="primary"
-                      label="Send"
-                      component="button"
-                      type="submit"
-                    />
+                    {inputMessage.length !== 0 ? (
+                      <Chip
+                        clickable
+                        color="primary"
+                        label="Send"
+                        component="button"
+                        type="submit"
+                      />
+                    ) : (
+                      <Chip label="Send" />
+                    )}
                   </Grid>
                 </Grid>
               </Grid>

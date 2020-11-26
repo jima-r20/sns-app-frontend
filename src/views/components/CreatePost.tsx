@@ -38,7 +38,7 @@ const CreatePost: React.FC = () => {
     setContent(''); // 投稿後、入力フォームを空にする
   });
 
-  // いらないかも
+  // Postボタンの活性化に利用
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
