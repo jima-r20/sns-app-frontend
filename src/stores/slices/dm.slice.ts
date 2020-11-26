@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { PROPS_CREATE_DM } from '../../types';
 import { RootState } from '../store';
 
 // interface User {
@@ -9,7 +10,7 @@ import { RootState } from '../store';
 //   about: string;
 // }
 
-interface GetDmResponse {
+interface DMFormat {
   id: number;
   sender: number;
   receiver: number;
@@ -47,54 +48,73 @@ export const fetchGetDmInbox = createAsyncThunk(
       },
     });
 
-    /* 
-     以下でレスポンスを整形
-      [{ id: 1, sender: 4, receiver: 7, message: 'aaa' }, ...]
-        ↓　の形式に変換
-      [ {targetUser: 4, messages: [{ id: 10, sender: 4, receiver: 7, message: 'aaa'}] }, ...] 
-      → 配列の順番はメッセージを送ってきたユーザ順、
-        messagesは最近のメッセージが配列のはじめにくるようにしている
-    */
-    const data: GetDmResponse[] = res.data;
-    let dmInbox: Array<DM> = [];
-    data
-      .slice(0)
-      .reverse()
-      .map((dm) => {
-        let dmItem: DM = {
-          targetUser: 0,
-          messages: [{ id: 0, sender: 0, receiver: 0, message: '' }],
-        };
-        if (dm.receiver === userId) {
-          const found = dmInbox.find((item) => item.targetUser === dm.sender);
-          if (found === undefined) {
-            dmItem.targetUser = dm.sender;
-            dmItem.messages[0].id = dm.id;
-            dmItem.messages[0].sender = dm.sender;
-            dmItem.messages[0].receiver = dm.receiver;
-            dmItem.messages[0].message = dm.message;
-            dmInbox.push(dmItem);
-          } else {
-            found?.messages.push(dm);
-          }
-        } else if (dm.sender === userId) {
-          const found = dmInbox.find((item) => item.targetUser === dm.receiver);
-          if (found === undefined) {
-            dmItem.targetUser = dm.receiver;
-            dmItem.messages[0].id = dm.id;
-            dmItem.messages[0].sender = dm.sender;
-            dmItem.messages[0].receiver = dm.receiver;
-            dmItem.messages[0].message = dm.message;
-            dmInbox.push(dmItem);
-          } else {
-            found?.messages.unshift(dm);
-          }
-        }
-      });
-    console.log(dmInbox);
+    const dmInbox = formatDM(res.data, userId);
     return dmInbox;
   }
 );
+
+/* ============================
+            DM作成
+============================ */
+export const fetchCreateDm = createAsyncThunk(
+  'post/createDm',
+  async (data: PROPS_CREATE_DM) => {
+    const res = await axios.post(`${apiUrl}dm/message`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    console.log(res.data);
+    return res.data;
+  }
+);
+
+/* 
+  以下でレスポンスを整形
+  [{ id: 1, sender: 4, receiver: 7, message: 'aaa' }, ...]
+    ↓　の形式に変換
+  [ {targetUser: 4, messages: [{ id: 10, sender: 4, receiver: 7, message: 'aaa'}] }, ...] 
+  → 配列の順番はメッセージを送ってきたユーザ順、
+    messagesは最近のメッセージが配列のはじめにくるようにしている
+*/
+const formatDM = (data: DMFormat[], userId: number) => {
+  let dmInbox: Array<DM> = [];
+  data
+    .slice(0)
+    .reverse()
+    .map((dm) => {
+      let dmItem: DM = {
+        targetUser: 0,
+        messages: [{ id: 0, sender: 0, receiver: 0, message: '' }],
+      };
+      if (dm.receiver === userId) {
+        const found = dmInbox.find((item) => item.targetUser === dm.sender);
+        if (found === undefined) {
+          dmItem.targetUser = dm.sender;
+          dmItem.messages[0].id = dm.id;
+          dmItem.messages[0].sender = dm.sender;
+          dmItem.messages[0].receiver = dm.receiver;
+          dmItem.messages[0].message = dm.message;
+          dmInbox.push(dmItem);
+        } else {
+          found?.messages.push(dm);
+        }
+      } else if (dm.sender === userId) {
+        const found = dmInbox.find((item) => item.targetUser === dm.receiver);
+        if (found === undefined) {
+          dmItem.targetUser = dm.receiver;
+          dmItem.messages[0].id = dm.id;
+          dmItem.messages[0].sender = dm.sender;
+          dmItem.messages[0].receiver = dm.receiver;
+          dmItem.messages[0].message = dm.message;
+          dmInbox.push(dmItem);
+        } else {
+          found?.messages.push(dm);
+        }
+      }
+    });
+  return dmInbox;
+};
 
 /* ============================
         ここからSlice
@@ -135,6 +155,16 @@ export const dmSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchGetDmInbox.fulfilled, (state, action) => {
       return { ...state, dmInbox: action.payload };
+    });
+    builder.addCase(fetchCreateDm.fulfilled, (state, action) => {
+      return {
+        ...state,
+        dmInbox: state.dmInbox.map((dm) =>
+          dm.targetUser === action.payload.receiver
+            ? { ...dm, messages: action.payload }
+            : dm
+        ),
+      };
     });
   },
 });

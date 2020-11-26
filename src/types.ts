@@ -27,3 +27,8 @@ export interface PROPS_EDIT_POST {
   id: number;
   content: string;
 }
+
+export interface PROPS_CREATE_DM {
+  receiver: number;
+  message: string;
+}

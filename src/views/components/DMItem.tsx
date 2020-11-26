@@ -12,7 +12,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUsers, setSelectedUser } from '../../stores/slices/user.slice';
+import {
+  selectMyProfile,
+  selectUsers,
+  setSelectedUser,
+} from '../../stores/slices/user.slice';
 import {
   selectIsDMSelected,
   setDMSelected,
@@ -20,7 +24,12 @@ import {
 import { AppDispatch } from '../../stores/store';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { DMItemStyle } from '../../styles/DMItem.style';
-import { setSelectedDM } from '../../stores/slices/dm.slice';
+import {
+  fetchCreateDm,
+  fetchGetDmInbox,
+  setSelectedDM,
+} from '../../stores/slices/dm.slice';
+import { useForm } from 'react-hook-form';
 
 interface PROPS_DM {
   targetUser: number;
@@ -34,15 +43,21 @@ interface PROPS_DM {
   ];
 }
 
+interface FormData {
+  message: string;
+}
+
 const DMItem: React.FC<PROPS_DM> = (props) => {
   const classes = DMItemStyle();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
   const match = useRouteMatch();
+  const { register, errors, handleSubmit } = useForm();
   const { targetUser, messages } = props;
   const user = useSelector(selectUsers).find((u) => u.id === targetUser);
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
   const isDMSelected = useSelector(selectIsDMSelected);
+  const myProfile = useSelector(selectMyProfile);
 
   const onAvatarClick = () => {
     dispatch(
@@ -56,6 +71,7 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   };
 
   const onMessageClick = () => {
+    console.log('send DM');
     dispatch(
       setSelectedDM({
         targetUser,
@@ -64,6 +80,12 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
     );
     dispatch(setDMSelected());
   };
+
+  const handlePostDM = handleSubmit(async (formData: FormData) => {
+    const data = { ...formData, receiver: targetUser };
+    await dispatch(fetchCreateDm(data));
+    await dispatch(fetchGetDmInbox(myProfile.id));
+  });
 
   return (
     <React.Fragment>
@@ -98,84 +120,91 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
           </Card>
         ) : (
           <Paper className={classes.paper}>
-            <Grid container spacing={1}>
-              <Grid item xs={1}>
-                <Link
-                  to={`/top/profile/${targetUser}`}
-                  className={classes.link}
-                  onClick={onAvatarClick}
-                >
-                  <Avatar>{avatarIcon}</Avatar>
-                </Link>
-              </Grid>
-              <Grid item xs={11} className={classes.name}>
-                <Typography variant="body1">{user?.displayName}</Typography>
-              </Grid>
+            <form noValidate onSubmit={handlePostDM}>
+              <Grid container spacing={1}>
+                <Grid item xs={1}>
+                  <Link
+                    to={`/top/profile/${targetUser}`}
+                    className={classes.link}
+                    onClick={onAvatarClick}
+                  >
+                    <Avatar>{avatarIcon}</Avatar>
+                  </Link>
+                </Grid>
+                <Grid item xs={11} className={classes.name}>
+                  <Typography variant="body1">{user?.displayName}</Typography>
+                </Grid>
 
-              <Grid item xs={12}>
-                <Paper variant="outlined" className={classes.messageArea}>
-                  {messages
-                    .slice(0)
-                    .reverse()
-                    .map((m) =>
-                      m.sender === user?.id ? (
-                        // 相手のDM表示
-                        <React.Fragment>
-                          <Grid container spacing={1}>
-                            <Grid item xs={1} />
-                            <Grid item xs={4}>
-                              <Paper
-                                className={classes.message}
-                                key={m.message}
-                              >
-                                {m.message}
-                              </Paper>
+                <Grid item xs={12}>
+                  <Paper variant="outlined" className={classes.messageArea}>
+                    {messages
+                      .slice(0)
+                      .reverse()
+                      .map((m) =>
+                        m.sender === user?.id ? (
+                          // 相手のDM表示
+                          <React.Fragment>
+                            <Grid container spacing={1}>
+                              <Grid item xs={1} />
+                              <Grid item xs={4}>
+                                <Paper
+                                  className={classes.message}
+                                  key={m.message}
+                                >
+                                  {m.message}
+                                </Paper>
+                              </Grid>
+                              <Grid item xs={7} />
                             </Grid>
-                            <Grid item xs={7} />
-                          </Grid>
-                        </React.Fragment>
-                      ) : (
-                        // 自身のDM表示
-                        <React.Fragment>
-                          <Grid container spacing={1}>
-                            <Grid item xs={7} />
-                            <Grid item xs={4}>
-                              <Paper
-                                className={classes.message}
-                                key={m.message}
-                              >
-                                {m.message}
-                              </Paper>
+                          </React.Fragment>
+                        ) : (
+                          // 自身のDM表示
+                          <React.Fragment>
+                            <Grid container spacing={1}>
+                              <Grid item xs={7} />
+                              <Grid item xs={4}>
+                                <Paper
+                                  className={classes.message}
+                                  key={m.message}
+                                >
+                                  {m.message}
+                                </Paper>
+                              </Grid>
+                              <Grid item xs={1} />
                             </Grid>
-                            <Grid item xs={1} />
-                          </Grid>
-                        </React.Fragment>
-                      )
-                    )}
-                </Paper>
-              </Grid>
+                          </React.Fragment>
+                        )
+                      )}
+                  </Paper>
+                </Grid>
 
-              <Grid item xs={11}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  multiline
-                  id="message"
-                  label="Message"
-                  name="message"
-                />
+                <Grid item container xs={12} spacing={1}>
+                  <Grid item xs={11}>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      fullWidth
+                      multiline
+                      id="message"
+                      label="Message"
+                      name="message"
+                      inputRef={register({
+                        required: true,
+                      })}
+                    />
+                  </Grid>
+                  <Grid item xs={1} className={classes.sendButton}>
+                    <Chip
+                      clickable
+                      color="primary"
+                      label="Send"
+                      component="button"
+                      type="submit"
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item xs={1} className={classes.sendButton}>
-                <Chip
-                  clickable
-                  color="primary"
-                  label="Send"
-                  component="button"
-                  // type='submit'
-                />
-              </Grid>
-            </Grid>
+            </form>
           </Paper>
         )}
       </Grid>
