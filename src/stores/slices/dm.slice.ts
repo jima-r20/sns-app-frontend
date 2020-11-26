@@ -65,7 +65,7 @@ export const fetchCreateDm = createAsyncThunk(
       },
     });
     console.log(res.data);
-    return res.data;
+    // return res.data;
   }
 );
 
@@ -156,16 +156,16 @@ export const dmSlice = createSlice({
     builder.addCase(fetchGetDmInbox.fulfilled, (state, action) => {
       return { ...state, dmInbox: action.payload };
     });
-    builder.addCase(fetchCreateDm.fulfilled, (state, action) => {
-      return {
-        ...state,
-        dmInbox: state.dmInbox.map((dm) =>
-          dm.targetUser === action.payload.receiver
-            ? { ...dm, messages: action.payload }
-            : dm
-        ),
-      };
-    });
+    // builder.addCase(fetchCreateDm.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     dmInbox: state.dmInbox.map((dm) =>
+    //       dm.targetUser === action.payload.receiver
+    //         ? { ...dm, messages: action.payload }
+    //         : dm
+    //     ),
+    //   };
+    // });
   },
 });
 

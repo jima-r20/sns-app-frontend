@@ -27,6 +27,7 @@ import { DMItemStyle } from '../../styles/DMItem.style';
 import {
   fetchCreateDm,
   fetchGetDmInbox,
+  selectDmInbox,
   setSelectedDM,
 } from '../../stores/slices/dm.slice';
 import { useForm } from 'react-hook-form';
@@ -56,6 +57,9 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   const [inputMessage, setInputMessage] = useState<string>('');
   const { targetUser, messages } = props;
   const user = useSelector(selectUsers).find((u) => u.id === targetUser);
+  const DMInboxByTargetUser = useSelector(selectDmInbox).find(
+    (u) => u.targetUser === targetUser
+  );
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
   const isDMSelected = useSelector(selectIsDMSelected);
   const myProfile = useSelector(selectMyProfile);
@@ -96,6 +100,9 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
     <React.Fragment>
       <Grid item xs={12}>
         {!isDMSelected ? (
+          /* ============================
+                DM詳細ページではない場合 
+          ============================ */
           <Card>
             <CardHeader
               avatar={
@@ -124,6 +131,9 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
             </CardActionArea>
           </Card>
         ) : (
+          /* ============================
+                DM詳細ページの場合 
+          ============================ */
           <Paper className={classes.paper}>
             <form noValidate onSubmit={handlePostDM}>
               <Grid container spacing={1}>
@@ -142,7 +152,7 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
 
                 <Grid item xs={12}>
                   <Paper variant="outlined" className={classes.messageArea}>
-                    {messages
+                    {DMInboxByTargetUser?.messages
                       .slice(0)
                       .reverse()
                       .map((m) =>

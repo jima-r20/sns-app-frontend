@@ -60,7 +60,6 @@ const TopPage: React.FC = () => {
     fetchBootLoader();
   }, [dispatch]);
 
-  console.log(myProfile.id);
   dispatch(fetchGetDmInbox(myProfile.id));
 
   return (
