@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Card,
@@ -63,6 +63,15 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
   const isDMSelected = useSelector(selectIsDMSelected);
   const myProfile = useSelector(selectMyProfile);
+
+  useEffect(() => {
+    // チャット部分のスクロールが一番下にくるように調整
+    const dmDtail = document.getElementById('dm-detail');
+    if (dmDtail) {
+      dmDtail.scrollTop = dmDtail.scrollHeight;
+    }
+    console.log('scrolled end');
+  });
 
   const onAvatarClick = () => {
     dispatch(
@@ -151,7 +160,11 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper variant="outlined" className={classes.messageArea}>
+                  <Paper
+                    id="dm-detail"
+                    variant="outlined"
+                    className={classes.messageArea}
+                  >
                     {DMInboxByTargetUser?.messages
                       .slice(0)
                       .reverse()
