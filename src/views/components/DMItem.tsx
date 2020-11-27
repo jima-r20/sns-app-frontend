@@ -70,7 +70,6 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
     if (dmDtail) {
       dmDtail.scrollTop = dmDtail.scrollHeight;
     }
-    console.log('scrolled end');
   });
 
   const onAvatarClick = () => {

@@ -8,40 +8,72 @@ import {
   Card,
 } from '@material-ui/core';
 import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUsers } from '../../stores/slices/user.slice';
+import { Link, useRouteMatch } from 'react-router-dom';
+import { AppDispatch } from '../../stores/store';
+import { setSelectedDM } from '../../stores/slices/dm.slice';
+import { setDMSelected } from '../../stores/slices/page.slice';
 
 interface PROPS_DM {
-  displayName: string;
-  message: string;
+  targetUser: number;
+  messages: [
+    {
+      id: number;
+      sender: number;
+      receiver: number;
+      message: string;
+    }
+  ];
 }
 
 const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
   const classes = RightSideBarDMItemStyle();
-  const { displayName, message } = props;
-  const avatarIcon = displayName.charAt(0).toUpperCase();
+  const dispatch: AppDispatch = useDispatch();
+  const match = useRouteMatch();
+  const { targetUser, messages } = props;
+  const user = useSelector(selectUsers).find((u) => u.id === targetUser);
+  const avatarIcon = user?.displayName.charAt(0).toUpperCase();
+
+  const onMessageClick = () => {
+    dispatch(
+      setSelectedDM({
+        targetUser,
+        messages,
+      })
+    );
+    dispatch(setDMSelected());
+  };
 
   return (
     <React.Fragment>
       <Card variant="outlined" className={classes.card}>
         <CardActionArea>
-          <Grid container spacing={1} className={classes.container}>
-            <Grid item xs={2}>
-              <Avatar className={classes.avatar}>{avatarIcon}</Avatar>
+          <Link
+            to={`/top/dm/${targetUser}`}
+            className={classes.link}
+            onClick={onMessageClick}
+          >
+            <Grid container spacing={1} className={classes.container}>
+              <Grid item xs={2}>
+                <Avatar className={classes.avatar}>{avatarIcon}</Avatar>
+              </Grid>
+              <Grid item xs={10}>
+                <Typography variant="body2" component="p">
+                  {user?.displayName}
+                </Typography>
+              </Grid>
+              <Divider />
+              <Grid item xs={12}>
+                {/* <Paper variant="outlined" className={classes.DMTextPaper}> */}
+                {/* <Typography variant="body2" component="p"> */}
+                <Typography variant="caption" className={classes.message}>
+                  {messages[0].message}
+                </Typography>
+                {/* </Paper> */}
+              </Grid>
             </Grid>
-            <Grid item xs={10}>
-              <Typography variant="body2" component="p">
-                {displayName}
-              </Typography>
-            </Grid>
-            <Divider />
-            <Grid item xs={12}>
-              {/* <Paper variant="outlined" className={classes.DMTextPaper}> */}
-              {/* <Typography variant="body2" component="p"> */}
-              <Typography variant="caption" className={classes.message}>
-                {message}
-              </Typography>
-              {/* </Paper> */}
-            </Grid>
-          </Grid>
+          </Link>
         </CardActionArea>
       </Card>
     </React.Fragment>

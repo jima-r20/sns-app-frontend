@@ -23,5 +23,9 @@ export const RightSideBarDMItemStyle = makeStyles((theme: Theme) =>
       paddingRight: '5%',
       paddingLeft: '15%',
     },
+    link: {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
   })
 );

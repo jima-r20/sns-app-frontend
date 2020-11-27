@@ -13,9 +13,12 @@ import { ChatBubble, PersonAdd } from '@material-ui/icons';
 import RightSideBarDMItem from './RightSideBarDMItem';
 import FriendRequestItem from './FriendRequestItem';
 import { RightSideBarStyle } from '../../styles/RightSideBar.style';
+import { useSelector } from 'react-redux';
+import { selectDmInbox } from '../../stores/slices/dm.slice';
 
 const RightSideBar: React.FC = () => {
   const classes = RightSideBarStyle();
+  const dmInbox = useSelector(selectDmInbox);
 
   return (
     <React.Fragment>
@@ -39,7 +42,14 @@ const RightSideBar: React.FC = () => {
             <ListItemText primary="DM" />
           </ListItem>
           <Container className={classes.DMContainer}>
-            <RightSideBarDMItem
+            {dmInbox.map((dm) => (
+              <RightSideBarDMItem
+                key={dm.targetUser}
+                targetUser={dm.targetUser}
+                messages={dm.messages}
+              />
+            ))}
+            {/* <RightSideBarDMItem
               displayName="Ariel"
               message="This is a direct message from Ariel."
             />
@@ -50,7 +60,7 @@ const RightSideBar: React.FC = () => {
             <RightSideBarDMItem
               displayName="Jack"
               message="Good evening! Do you know where my wallet...?"
-            />
+            /> */}
           </Container>
         </List>
         <Divider />
