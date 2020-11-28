@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
 import {
   Avatar,
   Card,
@@ -11,7 +15,8 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { AppDispatch } from '../../stores/store';
 import {
   selectMyProfile,
   selectUsers,
@@ -21,16 +26,14 @@ import {
   selectIsDMSelected,
   setDMSelected,
 } from '../../stores/slices/page.slice';
-import { AppDispatch } from '../../stores/store';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
-import { DMItemStyle } from '../../styles/DMItem.style';
 import {
   fetchCreateDm,
   fetchGetDmInbox,
   selectDmInbox,
   setSelectedDM,
 } from '../../stores/slices/dm.slice';
-import { useForm } from 'react-hook-form';
+
+import { DMItemStyle } from '../../styles/DMItem.style';
 
 interface PROPS_DM {
   targetUser: number;

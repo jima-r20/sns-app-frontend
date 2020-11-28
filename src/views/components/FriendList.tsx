@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Grid, Tab, Tabs, Typography } from '@material-ui/core';
-import Friend from './Friend';
 import { useSelector } from 'react-redux';
+import { Box, Grid, Tab, Tabs } from '@material-ui/core';
+import Friend from './Friend';
 import {
   selectFollowers,
   selectFollows,
@@ -110,12 +110,6 @@ const FriendList: React.FC = () => {
               ))}
           </TabPanel>
         </Grid>
-        {/* {friends
-          .slice(0)
-          .reverse()
-          .map((friend) => (
-            <Friend askFrom={friend.askFrom} askTo={friend.askTo} />
-          ))} */}
       </Grid>
     </React.Fragment>
   );

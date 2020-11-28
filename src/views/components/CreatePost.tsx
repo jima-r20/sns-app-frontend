@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+
 import {
   Avatar,
   Chip,
@@ -8,11 +10,12 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { CreatePostStyle } from '../../styles/CreatePost.style';
+
 import { AppDispatch } from '../../stores/store';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchCreatePost } from '../../stores/slices/post.slice';
 import { selectMyProfile } from '../../stores/slices/user.slice';
+
+import { CreatePostStyle } from '../../styles/CreatePost.style';
 
 interface FormData {
   content: string;

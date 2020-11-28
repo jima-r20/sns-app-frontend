@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { Grid } from '@material-ui/core';
+import DMItem from './DMItem';
 import { AppDispatch } from '../../stores/store';
 import { selectDmInbox } from '../../stores/slices/dm.slice';
-import DMItem from './DMItem';
 import { resetDMSelected } from '../../stores/slices/page.slice';
 
 const DMList: React.FC = () => {

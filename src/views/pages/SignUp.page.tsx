@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link as RRLink } from 'react-router-dom';
+import { Link as RRLink, RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../stores/store';
+
 import {
   Avatar,
   Box,
@@ -21,11 +21,13 @@ import {
 import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
 
 import Copyright from '../components/Copyright';
-import { authDefaultStyles } from '../../styles/Auth.styles';
 
-import * as H from 'history';
-import { RouteComponentProps } from 'react-router-dom';
+import { AppDispatch } from '../../stores/store';
 import { fetchSignUp } from '../../stores/slices/user.slice';
+
+import { authDefaultStyles } from '../../styles/Auth.styles';
+import * as H from 'history';
+
 interface Props extends RouteComponentProps<{}> {
   history: H.History;
 }

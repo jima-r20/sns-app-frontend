@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import {
   Divider,
   ListItem,
@@ -12,7 +13,6 @@ import {
   People,
   Person,
 } from '@material-ui/icons';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
 const MainListItems: React.FC = () => {
   let match = useRouteMatch();
@@ -70,18 +70,13 @@ const MainListItems: React.FC = () => {
         </ListItem>
       </Link>
       <Divider />
-      {/* <Link
-        to='/signin'
-        style={{ textDecoration: 'none', color: 'inherit' }}
-        onClick={handleSignOut}
-      > */}
+
       <ListItem button onClick={handleSignOut}>
         <ListItemIcon>
           <ExitToApp />
         </ListItemIcon>
         <ListItemText primary="Sign Out" />
       </ListItem>
-      {/* </Link> */}
     </React.Fragment>
   );
 };

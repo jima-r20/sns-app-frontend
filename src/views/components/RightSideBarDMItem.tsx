@@ -1,4 +1,7 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import {
   Grid,
   Avatar,
@@ -7,13 +10,13 @@ import {
   CardActionArea,
   Card,
 } from '@material-ui/core';
-import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUsers } from '../../stores/slices/user.slice';
-import { Link } from 'react-router-dom';
+
 import { AppDispatch } from '../../stores/store';
+import { selectUsers } from '../../stores/slices/user.slice';
 import { setSelectedDM } from '../../stores/slices/dm.slice';
 import { setDMSelected } from '../../stores/slices/page.slice';
+
+import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
 
 interface PROPS_DM {
   targetUser: number;

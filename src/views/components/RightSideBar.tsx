@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import {
   Drawer,
   Toolbar,
@@ -10,12 +12,14 @@ import {
   Container,
 } from '@material-ui/core';
 import { ChatBubble, PersonAdd } from '@material-ui/icons';
+
 import RightSideBarDMItem from './RightSideBarDMItem';
 import FriendRequestItem from './FriendRequestItem';
-import { RightSideBarStyle } from '../../styles/RightSideBar.style';
-import { useSelector } from 'react-redux';
+
 import { selectDmInbox } from '../../stores/slices/dm.slice';
 import { selectFollowers } from '../../stores/slices/follow.slice';
+
+import { RightSideBarStyle } from '../../styles/RightSideBar.style';
 
 const RightSideBar: React.FC = () => {
   const classes = RightSideBarStyle();

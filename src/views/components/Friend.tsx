@@ -1,17 +1,8 @@
 import React from 'react';
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  Chip,
-  Grid,
-  Paper,
-  Typography,
-} from '@material-ui/core';
-import { FriendStyles } from '../../styles/Friend.style';
 import { useSelector } from 'react-redux';
+import { Avatar, Chip, Grid, Paper, Typography } from '@material-ui/core';
 import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
+import { FriendStyles } from '../../styles/Friend.style';
 
 interface PROPS_FRIEND {
   askFrom: number;

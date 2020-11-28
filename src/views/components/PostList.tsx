@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import PostItem from './PostItem';
-import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../stores/store';
 import {
   fetchGetMyPosts,
   fetchGetPosts,
@@ -11,7 +12,6 @@ import {
   selectUserPosts,
 } from '../../stores/slices/post.slice';
 import { resetPostSelected } from '../../stores/slices/page.slice';
-import { AppDispatch } from '../../stores/store';
 import { selectMyProfile } from '../../stores/slices/user.slice';
 
 interface PROPS_POSTLIST {

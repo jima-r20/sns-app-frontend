@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+
 import {
   Box,
   Container,
@@ -8,39 +11,43 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
+import { lightBlue, red } from '@material-ui/core/colors';
+
 import Copyright from '../components/Copyright';
 import HeaderBar from '../components/HeaderBar';
 import LeftSideBar from '../components/LeftSideBar';
-import PostList from '../components/PostList';
 import RightSideBar from '../components/RightSideBar';
-import { TopPageStyles } from '../../styles/TopPage.styles';
+import PostList from '../components/PostList';
+import PostItem from '../components/PostItem';
 import CreatePost from '../components/CreatePost';
+import Profile from '../components/Profile';
+import DMList from '../components/DMList';
+import DMItem from '../components/DMItem';
+import FriendList from '../components/FriendList';
+
 import { AppDispatch } from '../../stores/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGetMyPosts, fetchGetPosts } from '../../stores/slices/post.slice';
+import {
+  fetchGetMyPosts,
+  fetchGetPosts,
+  selectSelectedPost,
+} from '../../stores/slices/post.slice';
 import {
   fetchGetUser,
   fetchGetUsers,
   selectMyProfile,
   selectSelectedUser,
 } from '../../stores/slices/user.slice';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import PostItem from '../components/PostItem';
-import { selectSelectedPost } from '../../stores/slices/post.slice';
-import Profile from '../components/Profile';
-import DMList from '../components/DMList';
-import FriendList from '../components/FriendList';
 import {
   fetchGetDmInbox,
   selectSelectedDM,
 } from '../../stores/slices/dm.slice';
-import DMItem from '../components/DMItem';
 import {
   fetchGetFollowerList,
   fetchGetFollowList,
   fetchGetFriendsList,
 } from '../../stores/slices/follow.slice';
-import { lightBlue, red } from '@material-ui/core/colors';
+
+import { TopPageStyles } from '../../styles/TopPage.styles';
 
 const theme = createMuiTheme({
   palette: {

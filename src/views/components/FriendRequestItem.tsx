@@ -1,17 +1,8 @@
 import React from 'react';
-import {
-  Grid,
-  Avatar,
-  Typography,
-  Card,
-  Chip,
-  createMuiTheme,
-  ThemeProvider,
-} from '@material-ui/core';
-import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
-import { blue, lightBlue, red } from '@material-ui/core/colors';
 import { useSelector } from 'react-redux';
+import { Grid, Avatar, Typography, Card, Chip } from '@material-ui/core';
 import { selectUsers } from '../../stores/slices/user.slice';
+import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
 
 interface PROPS_FRIEND_REQUEST {
   askFrom: number;

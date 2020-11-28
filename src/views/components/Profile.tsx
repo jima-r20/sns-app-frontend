@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useForm } from 'react-hook-form';
 import {
   Avatar,
   Backdrop,
-  Button,
   Chip,
   Divider,
   Fade,
@@ -12,18 +14,17 @@ import {
   Paper,
   TextField,
 } from '@material-ui/core';
-import { ProfileStyles } from '../../styles/Profile.style';
-import { useDispatch, useSelector } from 'react-redux';
+import { Close } from '@material-ui/icons';
+
+// import ProfileEditModal from '../modals/ProfileEdit.modal';
+
+import { AppDispatch } from '../../stores/store';
 import {
-  fetchGetUsers,
   fetchUpdateUser,
   selectMyProfile,
 } from '../../stores/slices/user.slice';
-// import ProfileEditModal from '../modals/ProfileEdit.modal';
-import { Close } from '@material-ui/icons';
-import { useForm } from 'react-hook-form';
-import { PROPS_UPDATE_USER } from '../../types';
-import { AppDispatch } from '../../stores/store';
+
+import { ProfileStyles } from '../../styles/Profile.style';
 
 interface PROPS_PROFILE {
   profile: {
@@ -58,10 +59,6 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
       setIsModalOpen(false);
     }
   });
-
-  // useEffect(() => {
-  //   dispatch(fetchGetUsers());
-  // }, [myProfile]);
 
   return (
     <React.Fragment>
