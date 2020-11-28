@@ -60,7 +60,7 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   const [inputMessage, setInputMessage] = useState<string>('');
   const { targetUser, messages } = props;
   const user = useSelector(selectUsers).find((u) => u.id === targetUser);
-  const DMInboxByTargetUser = useSelector(selectDmInbox).find(
+  const dmInboxByTargetUser = useSelector(selectDmInbox).find(
     (u) => u.targetUser === targetUser
   );
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
@@ -167,20 +167,17 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
                     variant="outlined"
                     className={classes.messageArea}
                   >
-                    {DMInboxByTargetUser?.messages
+                    {dmInboxByTargetUser?.messages
                       .slice(0)
                       .reverse()
                       .map((m) =>
                         m.sender === user?.id ? (
                           // 相手のDM表示
-                          <React.Fragment>
+                          <React.Fragment key={m.id}>
                             <Grid container spacing={1}>
                               <Grid item xs={1} />
                               <Grid item xs={4}>
-                                <Paper
-                                  className={classes.message}
-                                  key={m.message}
-                                >
+                                <Paper className={classes.message}>
                                   {m.message}
                                 </Paper>
                               </Grid>
@@ -189,14 +186,11 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
                           </React.Fragment>
                         ) : (
                           // 自身のDM表示
-                          <React.Fragment>
+                          <React.Fragment key={m.id}>
                             <Grid container spacing={1}>
                               <Grid item xs={7} />
                               <Grid item xs={4}>
-                                <Paper
-                                  className={classes.message}
-                                  key={m.message}
-                                >
+                                <Paper className={classes.message}>
                                   {m.message}
                                 </Paper>
                               </Grid>

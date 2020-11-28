@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import {
   Chip,
@@ -13,9 +13,19 @@ import {
 import { selectFriends } from '../../stores/slices/follow.slice';
 import { CreateDMStyle } from '../../styles/CreateDM.style';
 import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
+import {
+  fetchCreateDm,
+  selectDmInbox,
+  setSelectedDM,
+} from '../../stores/slices/dm.slice';
+import { AppDispatch } from '../../stores/store';
+import { useHistory } from 'react-router-dom';
+import { setDMSelected } from '../../stores/slices/page.slice';
 
 const CreateDM: React.FC = () => {
   const classes = CreateDMStyle();
+  const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
   const [receiver, setReceiver] = useState<number | unknown>(undefined);
   const [isMessage, setIsMessage] = useState<boolean>(false);
@@ -23,10 +33,26 @@ const CreateDM: React.FC = () => {
   const myProfile = useSelector(selectMyProfile);
   const friends = useSelector(selectFriends);
   const users = useSelector(selectUsers);
+  const dmInbox = useSelector(selectDmInbox);
 
-  const handleSendDM = handleSubmit((data: any) => {
-    const d = { ...data, receiver };
-    console.log(d);
+  const handleSendDM = handleSubmit(async (formData: { message: string }) => {
+    if (typeof receiver === 'number') {
+      const data = { ...formData, receiver };
+      await dispatch(fetchCreateDm(data));
+
+      //  投稿後、該当ユーザとのDM詳細ページに遷移するための処理
+      const dmInboxByTargetUser = dmInbox.find(
+        (u) => u.targetUser === receiver
+      );
+      await dispatch(
+        setSelectedDM({
+          targetUser: receiver,
+          messages: dmInboxByTargetUser?.messages,
+        })
+      );
+      await dispatch(setDMSelected());
+      history.push(`/top/dm/${receiver}`);
+    }
   });
 
   const handleChangeReceiver = (
