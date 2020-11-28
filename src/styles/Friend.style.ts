@@ -3,9 +3,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 export const FriendStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
-      marginBottom: '2%',
-      paddingRight: '2%',
-      paddingLeft: '2%',
+      marginBottom: '1%',
+      padding: '2%',
     },
     avatar: {
       width: theme.spacing(5),
@@ -22,6 +21,10 @@ export const FriendStyles = makeStyles((theme: Theme) =>
     button: {
       display: 'block',
       marginLeft: 'auto',
+    },
+    link: {
+      textDecoration: 'none',
+      color: 'inherit',
     },
 
     // modal: {

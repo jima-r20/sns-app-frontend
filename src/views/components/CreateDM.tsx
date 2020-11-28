@@ -20,20 +20,27 @@ import {
 } from '../../stores/slices/dm.slice';
 import { AppDispatch } from '../../stores/store';
 import { useHistory } from 'react-router-dom';
-import { setDMSelected } from '../../stores/slices/page.slice';
+import {
+  resetSendToReceiver,
+  selectSendToReceiver,
+  setDMSelected,
+} from '../../stores/slices/page.slice';
 
 const CreateDM: React.FC = () => {
   const classes = CreateDMStyle();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
-  const [receiver, setReceiver] = useState<number | unknown>(undefined);
-  const [isMessage, setIsMessage] = useState<boolean>(false);
 
   const myProfile = useSelector(selectMyProfile);
   const friends = useSelector(selectFriends);
   const users = useSelector(selectUsers);
   const dmInbox = useSelector(selectDmInbox);
+  const sendToReceiver = useSelector(selectSendToReceiver);
+  const [receiver, setReceiver] = useState<number | unknown>(
+    sendToReceiver ? sendToReceiver : undefined
+  );
+  const [isMessage, setIsMessage] = useState<boolean>(false);
 
   const handleSendDM = handleSubmit(async (formData: { message: string }) => {
     if (typeof receiver === 'number') {
@@ -52,6 +59,7 @@ const CreateDM: React.FC = () => {
       );
       await dispatch(setDMSelected());
       history.push(`/top/dm/${receiver}`);
+      dispatch(resetSendToReceiver());
     }
   });
 

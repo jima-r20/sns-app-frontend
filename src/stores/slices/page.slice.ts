@@ -5,6 +5,7 @@ interface PageSliceState {
   isOpenSideBar: boolean;
   isPostSelected: boolean;
   isDMSelected: boolean;
+  sendToReceiver: number | null;
 }
 
 export const pageSlice = createSlice({
@@ -13,6 +14,7 @@ export const pageSlice = createSlice({
     isOpenSideBar: true,
     isPostSelected: false,
     isDMSelected: false,
+    sendToReceiver: null,
   } as PageSliceState,
   reducers: {
     openSideBar(state) {
@@ -33,6 +35,12 @@ export const pageSlice = createSlice({
     resetDMSelected(state) {
       state.isDMSelected = false;
     },
+    setSendToReceiver(state, action) {
+      state.sendToReceiver = action.payload;
+    },
+    resetSendToReceiver(state) {
+      state.sendToReceiver = null;
+    },
   },
 });
 
@@ -43,6 +51,8 @@ export const {
   resetPostSelected,
   setDMSelected,
   resetDMSelected,
+  setSendToReceiver,
+  resetSendToReceiver,
 } = pageSlice.actions;
 
 export const selectIsOpenSideBar = (state: RootState) =>
@@ -50,5 +60,7 @@ export const selectIsOpenSideBar = (state: RootState) =>
 export const selectIsPostSelected = (state: RootState) =>
   state.page.isPostSelected;
 export const selectIsDMSelected = (state: RootState) => state.page.isDMSelected;
+export const selectSendToReceiver = (state: RootState) =>
+  state.page.sendToReceiver;
 
 export default pageSlice.reducer;
