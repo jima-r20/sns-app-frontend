@@ -15,10 +15,12 @@ import FriendRequestItem from './FriendRequestItem';
 import { RightSideBarStyle } from '../../styles/RightSideBar.style';
 import { useSelector } from 'react-redux';
 import { selectDmInbox } from '../../stores/slices/dm.slice';
+import { selectFollowers } from '../../stores/slices/follow.slice';
 
 const RightSideBar: React.FC = () => {
   const classes = RightSideBarStyle();
   const dmInbox = useSelector(selectDmInbox);
+  const followes = useSelector(selectFollowers);
 
   return (
     <React.Fragment>
@@ -64,12 +66,17 @@ const RightSideBar: React.FC = () => {
             <ListItemText primary="Friends Request" />
           </ListItem>
           <Container className={classes.friReqContainer}>
-            <FriendRequestItem displayName="Ariel" />
-            <FriendRequestItem displayName="Steve" />
-            <FriendRequestItem displayName="Paul" />
-            <FriendRequestItem displayName="Bass" />
-            <FriendRequestItem displayName="Trump" />
-            <FriendRequestItem displayName="Jiny" />
+            {followes
+              .slice(0)
+              .reverse()
+              .map((follower) =>
+                !follower.approved ? (
+                  <FriendRequestItem
+                    key={follower.id}
+                    askFrom={follower.askFrom}
+                  />
+                ) : null
+              )}
           </Container>
         </List>
       </Drawer>

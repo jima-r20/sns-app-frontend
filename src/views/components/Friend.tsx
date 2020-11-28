@@ -16,11 +16,12 @@ import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
 interface PROPS_FRIEND {
   askFrom: number;
   askTo: number;
+  approved: boolean;
 }
 
 const Friend: React.FC<PROPS_FRIEND> = (props) => {
   const classes = FriendStyles();
-  const { askFrom, askTo } = props;
+  const { askFrom, askTo, approved } = props;
   const myProfile = useSelector(selectMyProfile);
   const user = useSelector(selectUsers).find(
     (u) => u.id === (myProfile.id === askFrom ? askTo : askFrom)
@@ -45,15 +46,17 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
                 <Typography variant="body2">{user?.about}</Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Chip
-                clickable
-                color="primary"
-                label="Send DM"
-                component="button"
-                className={classes.button}
-              />
-            </Grid>
+            {approved ? (
+              <Grid item xs={12}>
+                <Chip
+                  clickable
+                  color="primary"
+                  label="Send DM"
+                  component="button"
+                  className={classes.button}
+                />
+              </Grid>
+            ) : null}
           </Grid>
         </Paper>
       </Grid>

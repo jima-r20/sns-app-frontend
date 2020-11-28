@@ -10,28 +10,18 @@ import {
 } from '@material-ui/core';
 import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
 import { blue, lightBlue, red } from '@material-ui/core/colors';
+import { useSelector } from 'react-redux';
+import { selectUsers } from '../../stores/slices/user.slice';
 
 interface PROPS_FRIEND_REQUEST {
-  displayName: string;
+  askFrom: number;
 }
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: lightBlue[600],
-      // contrastText: blue[900],
-    },
-    secondary: {
-      main: red[400],
-      // contrastText: red[900],
-    },
-  },
-});
 
 const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
   const classes = FriendRequestItmStyle();
-  const { displayName } = props;
-  const avatarIcon = displayName.charAt(0).toUpperCase();
+  const { askFrom } = props;
+  const user = useSelector(selectUsers).find((u) => u.id === askFrom);
+  const avatarIcon = user?.displayName.charAt(0).toUpperCase();
 
   return (
     <React.Fragment>
@@ -42,14 +32,12 @@ const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
           </Grid>
           <Grid item xs={3}>
             <Typography variant="body2" component="p">
-              {displayName}
+              {user?.displayName}
             </Typography>
           </Grid>
           <Grid item xs={7} className={classes.buttons}>
-            <ThemeProvider theme={theme}>
-              <Chip clickable color="primary" size="small" label="Approve" />
-              <Chip clickable color="secondary" size="small" label="Reject" />
-            </ThemeProvider>
+            <Chip clickable color="primary" size="small" label="Approve" />
+            <Chip clickable color="secondary" size="small" label="Reject" />
           </Grid>
         </Grid>
       </Card>

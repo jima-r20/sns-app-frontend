@@ -65,6 +65,7 @@ const FriendList: React.FC = () => {
             <Tab label="Followers" {...a11yProps(2)} />
           </Tabs>
 
+          {/* フレンドリストの表示 */}
           <TabPanel value={value} index={0}>
             {friends
               .slice(0)
@@ -74,9 +75,12 @@ const FriendList: React.FC = () => {
                   key={friend.id}
                   askFrom={friend.askFrom}
                   askTo={friend.askTo}
+                  approved={friend.approved}
                 />
               ))}
           </TabPanel>
+
+          {/* フォローユーザの表示 */}
           <TabPanel value={value} index={1}>
             {follows
               .slice(0)
@@ -86,9 +90,12 @@ const FriendList: React.FC = () => {
                   key={follow.id}
                   askFrom={follow.askFrom}
                   askTo={follow.askTo}
+                  approved={follow.approved}
                 />
               ))}
           </TabPanel>
+
+          {/* フォロワーユーザの表示 */}
           <TabPanel value={value} index={2}>
             {followers
               .slice(0)
@@ -98,6 +105,7 @@ const FriendList: React.FC = () => {
                   key={follower.id}
                   askFrom={follower.askFrom}
                   askTo={follower.askTo}
+                  approved={follower.approved}
                 />
               ))}
           </TabPanel>

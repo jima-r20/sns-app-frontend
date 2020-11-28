@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import {
   Box,
   Container,
+  createMuiTheme,
   CssBaseline,
+  ThemeProvider,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -38,6 +40,20 @@ import {
   fetchGetFollowList,
   fetchGetFriendsList,
 } from '../../stores/slices/follow.slice';
+import { lightBlue, red } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: lightBlue[600],
+      // contrastText: blue[900],
+    },
+    secondary: {
+      main: red[400],
+      // contrastText: red[900],
+    },
+  },
+});
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -72,109 +88,111 @@ const TopPage: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <HeaderBar />
-      <LeftSideBar />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HeaderBar />
+        <LeftSideBar />
 
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        {/* <Switch> */}
-        <Toolbar className={classes.subHeader}>
-          <Typography variant="h5" className={classes.pageTitle}>
-            HOME
-          </Typography>
-        </Toolbar>
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          {/* <Switch> */}
+          <Toolbar className={classes.subHeader}>
+            <Typography variant="h5" className={classes.pageTitle}>
+              HOME
+            </Typography>
+          </Toolbar>
 
-        <Container maxWidth="lg" className={classes.container}>
-          <Switch>
-            {/* ================================
+          <Container maxWidth="lg" className={classes.container}>
+            <Switch>
+              {/* ================================
                           投稿一覧表示
               ================================= */}
-            <Route path={match.url} exact>
-              <CreatePost />
-              <PostList />
-            </Route>
-            {/* ================================
+              <Route path={match.url} exact>
+                <CreatePost />
+                <PostList />
+              </Route>
+              {/* ================================
                           投稿詳細表示
               ================================= */}
-            <Route path={`${match.url}/post/:id`} exact>
-              <PostItem
-                id={selectedPost.id}
-                postFromId={selectedPost.postFromId}
-                displayName={selectedPost.displayName}
-                content={selectedPost.content}
-              />
-            </Route>
-            {/* ================================
+              <Route path={`${match.url}/post/:id`} exact>
+                <PostItem
+                  id={selectedPost.id}
+                  postFromId={selectedPost.postFromId}
+                  displayName={selectedPost.displayName}
+                  content={selectedPost.content}
+                />
+              </Route>
+              {/* ================================
                         マイプロフィール表示
               ================================= */}
-            <Route path={`${match.url}/myprofile`} exact>
-              <Profile profile={myProfile} />
-              <PostList mypost />
-            </Route>
-            {/* ================================
+              <Route path={`${match.url}/myprofile`} exact>
+                <Profile profile={myProfile} />
+                <PostList mypost />
+              </Route>
+              {/* ================================
                 マイプロフィールページから投稿詳細表示
               ================================= */}
-            <Route path={`${match.url}/myprofile/post/:id`} exact>
-              <PostItem
-                id={selectedPost.id}
-                postFromId={selectedPost.postFromId}
-                displayName={selectedPost.displayName}
-                content={selectedPost.content}
-              />
-            </Route>
-            {/* ================================
+              <Route path={`${match.url}/myprofile/post/:id`} exact>
+                <PostItem
+                  id={selectedPost.id}
+                  postFromId={selectedPost.postFromId}
+                  displayName={selectedPost.displayName}
+                  content={selectedPost.content}
+                />
+              </Route>
+              {/* ================================
                   自分以外のユーザのプロフィール表示
               ================================= */}
-            <Route path={`${match.url}/profile/:id`} exact>
-              <Profile profile={selectedUser} />
-              <PostList postFromId={selectedUser.id} />
-            </Route>
-            {/* ================================
+              <Route path={`${match.url}/profile/:id`} exact>
+                <Profile profile={selectedUser} />
+                <PostList postFromId={selectedUser.id} />
+              </Route>
+              {/* ================================
               自分以外のユーザのプロフィールページから投稿詳細表示
               ================================= */}
-            <Route path={`${match.url}/profile/:id/post/:id`} exact>
-              {/* 
+              <Route path={`${match.url}/profile/:id/post/:id`} exact>
+                {/* 
                 TODO: 遷移後のBackボタンを押すとトップページに戻る問題あり
                   -> Backボタン押下時のルーティング変更する必要あり
               */}
-              <PostItem
-                id={selectedPost.id}
-                postFromId={selectedPost.postFromId}
-                displayName={selectedPost.displayName}
-                content={selectedPost.content}
-              />
-            </Route>
-            {/* ================================
+                <PostItem
+                  id={selectedPost.id}
+                  postFromId={selectedPost.postFromId}
+                  displayName={selectedPost.displayName}
+                  content={selectedPost.content}
+                />
+              </Route>
+              {/* ================================
                           DM一覧表示
               ================================= */}
-            <Route path={`${match.url}/dm`} exact>
-              <DMList />
-            </Route>
-            {/* ================================
+              <Route path={`${match.url}/dm`} exact>
+                <DMList />
+              </Route>
+              {/* ================================
                         DM詳細表示(個別取得)
               ================================= */}
-            <Route path={`${match.url}/dm/:id`} exact>
-              <DMItem
-                targetUser={selectedDM.targetUser}
-                messages={selectedDM.messages}
-              />
-            </Route>
-            {/* ================================
+              <Route path={`${match.url}/dm/:id`} exact>
+                <DMItem
+                  targetUser={selectedDM.targetUser}
+                  messages={selectedDM.messages}
+                />
+              </Route>
+              {/* ================================
                         フレンドリスト表示
               ================================= */}
-            <Route path={`${match.url}/friends`} exact>
-              <FriendList />
-            </Route>
-          </Switch>
+              <Route path={`${match.url}/friends`} exact>
+                <FriendList />
+              </Route>
+            </Switch>
 
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </Container>
+        </main>
 
-      <RightSideBar />
+        <RightSideBar />
+      </ThemeProvider>
     </div>
   );
 };
