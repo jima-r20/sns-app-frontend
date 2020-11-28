@@ -18,9 +18,13 @@ export const FriendStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       fontWeight: 'bold',
     },
+    buttons: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
     button: {
-      display: 'block',
-      marginLeft: 'auto',
+      margin: '0 1%',
     },
     link: {
       textDecoration: 'none',

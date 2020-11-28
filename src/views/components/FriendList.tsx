@@ -85,14 +85,16 @@ const FriendList: React.FC = () => {
             {follows
               .slice(0)
               .reverse()
-              .map((follow) => (
-                <Friend
-                  key={follow.id}
-                  askFrom={follow.askFrom}
-                  askTo={follow.askTo}
-                  approved={follow.approved}
-                />
-              ))}
+              .map((follow) =>
+                !follow.approved ? (
+                  <Friend
+                    key={follow.id}
+                    askFrom={follow.askFrom}
+                    askTo={follow.askTo}
+                    approved={follow.approved}
+                  />
+                ) : null
+              )}
           </TabPanel>
 
           {/* フォロワーユーザの表示 */}
@@ -100,14 +102,16 @@ const FriendList: React.FC = () => {
             {followers
               .slice(0)
               .reverse()
-              .map((follower) => (
-                <Friend
-                  key={follower.id}
-                  askFrom={follower.askFrom}
-                  askTo={follower.askTo}
-                  approved={follower.approved}
-                />
-              ))}
+              .map((follower) =>
+                !follower.approved ? (
+                  <Friend
+                    key={follower.id}
+                    askFrom={follower.askFrom}
+                    askTo={follower.askTo}
+                    approved={follower.approved}
+                  />
+                ) : null
+              )}
           </TabPanel>
         </Grid>
       </Grid>

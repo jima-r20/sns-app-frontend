@@ -37,7 +37,7 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
             <Grid item xs={1}>
               <Avatar className={classes.avatar}>{avatarIcon}</Avatar>
             </Grid>
-            <Grid item container xs={11}>
+            <Grid item container xs={8}>
               <Grid item xs={12}>
                 <Typography variant="body1" className={classes.displayName}>
                   {user?.displayName}
@@ -48,7 +48,7 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
               </Grid>
             </Grid>
             {approved ? (
-              <Grid item xs={12}>
+              <Grid item xs={3} className={classes.buttons}>
                 <Chip
                   clickable
                   color="primary"
@@ -56,6 +56,35 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
                   component="button"
                   className={classes.button}
                   onClick={onClickSendDM}
+                />
+                <Chip
+                  clickable
+                  color="secondary"
+                  variant="outlined"
+                  label="Unfollow"
+                  component="button"
+                  className={classes.button}
+                  // onClick={onClickUnfollow}
+                />
+              </Grid>
+            ) : askTo === myProfile.id ? (
+              <Grid item xs={3} className={classes.buttons}>
+                <Chip
+                  clickable
+                  color="primary"
+                  label="Approve"
+                  component="button"
+                  className={classes.button}
+                  // onClick={onClickApproveRequest}
+                />
+                <Chip
+                  clickable
+                  color="secondary"
+                  variant="outlined"
+                  label="Reject"
+                  component="button"
+                  className={classes.button}
+                  // onClick={onClickRejectRequest}
                 />
               </Grid>
             ) : null}
