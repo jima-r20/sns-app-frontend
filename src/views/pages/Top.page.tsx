@@ -48,6 +48,7 @@ import {
 } from '../../stores/slices/follow.slice';
 
 import { TopPageStyles } from '../../styles/TopPage.styles';
+import CreateDM from '../components/CreateDM';
 
 const theme = createMuiTheme({
   palette: {
@@ -174,6 +175,12 @@ const TopPage: React.FC = () => {
               ================================= */}
               <Route path={`${match.url}/dm`} exact>
                 <DMList />
+              </Route>
+              {/* ================================
+                            DM新規作成
+              ================================= */}
+              <Route path={`${match.url}/dm/create`} exact>
+                <CreateDM />
               </Route>
               {/* ================================
                         DM詳細表示(個別取得)
