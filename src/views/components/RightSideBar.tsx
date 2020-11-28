@@ -49,18 +49,6 @@ const RightSideBar: React.FC = () => {
                 messages={dm.messages}
               />
             ))}
-            {/* <RightSideBarDMItem
-              displayName="Ariel"
-              message="This is a direct message from Ariel."
-            />
-            <RightSideBarDMItem
-              displayName="Michel"
-              message="Hi, how are you? Long time no see..."
-            />
-            <RightSideBarDMItem
-              displayName="Jack"
-              message="Good evening! Do you know where my wallet...?"
-            /> */}
           </Container>
         </List>
         <Divider />

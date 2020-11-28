@@ -33,6 +33,11 @@ import {
   selectSelectedDM,
 } from '../../stores/slices/dm.slice';
 import DMItem from '../components/DMItem';
+import {
+  fetchGetFollowerList,
+  fetchGetFollowList,
+  fetchGetFriendsList,
+} from '../../stores/slices/follow.slice';
 
 const TopPage: React.FC = () => {
   const classes = TopPageStyles();
@@ -55,6 +60,9 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetPosts());
         await dispatch(fetchGetMyPosts());
         await dispatch(fetchGetUsers());
+        await dispatch(fetchGetFollowList());
+        await dispatch(fetchGetFollowerList());
+        await dispatch(fetchGetFriendsList());
       }
     };
     fetchBootLoader();

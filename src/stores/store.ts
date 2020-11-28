@@ -3,6 +3,7 @@ import userReducer from './slices/user.slice';
 import postReducer from './slices/post.slice';
 import pageReducer from './slices/page.slice';
 import dmReducer from './slices/dm.slice';
+import followReducer from './slices/follow.slice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userReducer,
     post: postReducer,
     dm: dmReducer,
+    follow: followReducer,
   },
 });
 

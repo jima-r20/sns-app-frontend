@@ -10,7 +10,7 @@ import {
 import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUsers } from '../../stores/slices/user.slice';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppDispatch } from '../../stores/store';
 import { setSelectedDM } from '../../stores/slices/dm.slice';
 import { setDMSelected } from '../../stores/slices/page.slice';
@@ -30,7 +30,6 @@ interface PROPS_DM {
 const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
   const classes = RightSideBarDMItemStyle();
   const dispatch: AppDispatch = useDispatch();
-  const match = useRouteMatch();
   const { targetUser, messages } = props;
   const user = useSelector(selectUsers).find((u) => u.id === targetUser);
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
