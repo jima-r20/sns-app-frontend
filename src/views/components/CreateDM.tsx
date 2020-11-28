@@ -17,7 +17,7 @@ import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
 const CreateDM: React.FC = () => {
   const classes = CreateDMStyle();
   const { register, errors, handleSubmit } = useForm();
-  const [askTo, setAskTo] = useState<number | unknown>(undefined);
+  const [receiver, setReceiver] = useState<number | unknown>(undefined);
   const [isMessage, setIsMessage] = useState<boolean>(false);
 
   const myProfile = useSelector(selectMyProfile);
@@ -25,14 +25,14 @@ const CreateDM: React.FC = () => {
   const users = useSelector(selectUsers);
 
   const handleSendDM = handleSubmit((data: any) => {
-    const d = { ...data, askTo };
+    const d = { ...data, receiver };
     console.log(d);
   });
 
-  const handleChangeAskTo = (
+  const handleChangeReceiver = (
     e: React.ChangeEvent<{ value: number | unknown }>
   ) => {
-    setAskTo(e.target.value);
+    setReceiver(e.target.value);
   };
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ const CreateDM: React.FC = () => {
     }
   };
 
-  console.log(askTo);
+  console.log(receiver);
 
   return (
     <React.Fragment>
@@ -54,8 +54,8 @@ const CreateDM: React.FC = () => {
             <Select
               labelId="askTo-label"
               id="askTo"
-              value={askTo ? askTo : ''}
-              onChange={handleChangeAskTo}
+              value={receiver ? receiver : ''}
+              onChange={handleChangeReceiver}
               label="Send To"
             >
               <MenuItem value={undefined}>
@@ -98,7 +98,7 @@ const CreateDM: React.FC = () => {
               required: true,
             })}
           />
-          {typeof askTo === 'number' && isMessage ? (
+          {typeof receiver === 'number' && isMessage ? (
             <Chip
               clickable
               color="primary"
