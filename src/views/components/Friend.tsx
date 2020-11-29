@@ -6,6 +6,7 @@ import { FriendStyles } from '../../styles/Friend.style';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { AppDispatch } from '../../stores/store';
 import { setSendToReceiver } from '../../stores/slices/page.slice';
+import { fetchApproveRequest } from '../../stores/slices/follow.slice';
 
 interface PROPS_FRIEND {
   askFrom: number;
@@ -27,6 +28,11 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
   const onClickSendDM = async () => {
     await dispatch(setSendToReceiver(user?.id));
     history.push('/top/dm/create');
+  };
+
+  const onClickApproveRequest = async () => {
+    // リクエストbodyにはboolean型ではなくstring型でtrueと渡す必要あり
+    await dispatch(fetchApproveRequest({ askFrom, approved: 'true' }));
   };
 
   return (
@@ -75,7 +81,7 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
                   label="Approve"
                   component="button"
                   className={classes.button}
-                  // onClick={onClickApproveRequest}
+                  onClick={onClickApproveRequest}
                 />
                 <Chip
                   clickable

@@ -32,3 +32,8 @@ export interface PROPS_CREATE_DM {
   receiver: number;
   message: string;
 }
+
+export interface PROPS_APPROVE_REQUEST {
+  askFrom: number;
+  approved: string;
+}

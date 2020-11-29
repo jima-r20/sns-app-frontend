@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { PROPS_APPROVE_REQUEST } from '../../types';
 import { RootState } from '../store';
 
 interface Follow {
@@ -63,6 +64,25 @@ export const fetchGetFriendsList = createAsyncThunk(
 );
 
 /* ============================
+      フォローリクエストの承認
+============================ */
+export const fetchApproveRequest = createAsyncThunk(
+  'patch/approveRequest',
+  async (data: PROPS_APPROVE_REQUEST) => {
+    const res = await axios.patch(`${apiUrl}follow/request`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    return res.data;
+  }
+);
+
+/* ============================
+      フォローリクエストの拒否
+============================ */
+
+/* ============================
           ここからSlice
 ============================ */
 export const followSlice = createSlice({
@@ -103,6 +123,15 @@ export const followSlice = createSlice({
     });
     builder.addCase(fetchGetFriendsList.fulfilled, (state, action) => {
       return { ...state, friends: action.payload };
+    });
+    builder.addCase(fetchApproveRequest.fulfilled, (state, action) => {
+      return {
+        ...state,
+        friends: [...state.friends, action.payload],
+        followers: state.followers.filter(
+          (follower) => follower.id !== action.payload.id
+        ),
+      };
     });
   },
 });
