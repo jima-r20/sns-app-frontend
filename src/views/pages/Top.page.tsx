@@ -46,6 +46,7 @@ import {
   fetchGetFollowList,
   fetchGetFriendsList,
 } from '../../stores/slices/follow.slice';
+import { selectIsApproveOrUnfollowButtomClicked } from '../../stores/slices/page.slice';
 
 import { TopPageStyles } from '../../styles/TopPage.styles';
 import CreateDM from '../components/CreateDM';
@@ -73,6 +74,9 @@ const TopPage: React.FC = () => {
   const myProfile = useSelector(selectMyProfile);
   const selectedUser = useSelector(selectSelectedUser);
   const selectedDM = useSelector(selectSelectedDM);
+  const isApproveOrUnfollowButtomClicked = useSelector(
+    selectIsApproveOrUnfollowButtomClicked
+  );
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -90,7 +94,7 @@ const TopPage: React.FC = () => {
       }
     };
     fetchBootLoader();
-  }, [dispatch]);
+  }, [dispatch, isApproveOrUnfollowButtomClicked]);
 
   dispatch(fetchGetDmInbox(myProfile.id));
 

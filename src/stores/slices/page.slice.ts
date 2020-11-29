@@ -5,6 +5,7 @@ interface PageSliceState {
   isOpenSideBar: boolean;
   isPostSelected: boolean;
   isDMSelected: boolean;
+  isApproveOrUnfollowButtomClicked: boolean;
   sendToReceiver: number | null;
 }
 
@@ -14,6 +15,7 @@ export const pageSlice = createSlice({
     isOpenSideBar: true,
     isPostSelected: false,
     isDMSelected: false,
+    isApproveOrUnfollowButtomClicked: false,
     sendToReceiver: null,
   } as PageSliceState,
   reducers: {
@@ -35,6 +37,12 @@ export const pageSlice = createSlice({
     resetDMSelected(state) {
       state.isDMSelected = false;
     },
+    setApproveOrUnfollowButtomClicked(state) {
+      state.isApproveOrUnfollowButtomClicked = true;
+    },
+    resetApproveOrUnfollowButtomClicked(state) {
+      state.isApproveOrUnfollowButtomClicked = false;
+    },
     setSendToReceiver(state, action) {
       state.sendToReceiver = action.payload;
     },
@@ -51,6 +59,8 @@ export const {
   resetPostSelected,
   setDMSelected,
   resetDMSelected,
+  setApproveOrUnfollowButtomClicked,
+  resetApproveOrUnfollowButtomClicked,
   setSendToReceiver,
   resetSendToReceiver,
 } = pageSlice.actions;
@@ -60,6 +70,8 @@ export const selectIsOpenSideBar = (state: RootState) =>
 export const selectIsPostSelected = (state: RootState) =>
   state.page.isPostSelected;
 export const selectIsDMSelected = (state: RootState) => state.page.isDMSelected;
+export const selectIsApproveOrUnfollowButtomClicked = (state: RootState) =>
+  state.page.isApproveOrUnfollowButtomClicked;
 export const selectSendToReceiver = (state: RootState) =>
   state.page.sendToReceiver;
 

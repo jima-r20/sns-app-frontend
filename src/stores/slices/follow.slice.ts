@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { PROPS_APPROVE_REQUEST } from '../../types';
+import { PROPS_APPROVE_REQUEST, PROPS_CREATE_REQUEST } from '../../types';
 import { RootState } from '../store';
 
 interface Follow {
@@ -64,6 +64,22 @@ export const fetchGetFriendsList = createAsyncThunk(
 );
 
 /* ============================
+          新規フォロー
+============================ */
+export const fetchCreateFollow = createAsyncThunk(
+  'post/createFollow',
+  async (data: PROPS_CREATE_REQUEST) => {
+    console.log(`createFollow data: ${data}`);
+    const res = await axios.post(`${apiUrl}follow/request`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    return res.data;
+  }
+);
+
+/* ============================
       フォローリクエストの承認
 ============================ */
 export const fetchApproveRequest = createAsyncThunk(
@@ -79,8 +95,19 @@ export const fetchApproveRequest = createAsyncThunk(
 );
 
 /* ============================
-      フォローリクエストの拒否
+          フォローの解除
 ============================ */
+export const fetchDeleteFollow = createAsyncThunk(
+  'delete/deleteFollow',
+  async (id: number) => {
+    const res = await axios.delete(`${apiUrl}follow/request/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
+      },
+    });
+    return res.data;
+  }
+);
 
 /* ============================
           ここからSlice
@@ -124,12 +151,31 @@ export const followSlice = createSlice({
     builder.addCase(fetchGetFriendsList.fulfilled, (state, action) => {
       return { ...state, friends: action.payload };
     });
+    builder.addCase(fetchCreateFollow.fulfilled, (state, action) => {
+      return { ...state, follows: [...state.follows, action.payload] };
+    });
     builder.addCase(fetchApproveRequest.fulfilled, (state, action) => {
+      const { approved } = action.payload;
+      if (approved) {
+        return {
+          ...state,
+          friends: [...state.friends, action.payload],
+        };
+      }
+      if (!approved) {
+        return {
+          ...state,
+          friends: state.friends.filter(
+            (friend) => friend.id !== action.payload.id
+          ),
+        };
+      }
+    });
+    builder.addCase(fetchDeleteFollow.fulfilled, (state, action) => {
       return {
         ...state,
-        friends: [...state.friends, action.payload],
-        followers: state.followers.filter(
-          (follower) => follower.id !== action.payload.id
+        follows: state.follows.filter(
+          (follow) => follow.id !== action.payload.id
         ),
       };
     });

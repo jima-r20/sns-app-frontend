@@ -3,10 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Chip, Grid, Paper, Typography } from '@material-ui/core';
 import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
 import { FriendStyles } from '../../styles/Friend.style';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { AppDispatch } from '../../stores/store';
-import { setSendToReceiver } from '../../stores/slices/page.slice';
-import { fetchApproveRequest } from '../../stores/slices/follow.slice';
+import {
+  resetApproveOrUnfollowButtomClicked,
+  setApproveOrUnfollowButtomClicked,
+  setSendToReceiver,
+} from '../../stores/slices/page.slice';
+import {
+  fetchApproveRequest,
+  fetchCreateFollow,
+  fetchDeleteFollow,
+  selectFollowers,
+  selectFollows,
+} from '../../stores/slices/follow.slice';
 
 interface PROPS_FRIEND {
   askFrom: number;
@@ -19,6 +29,8 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
   const { askFrom, askTo, approved } = props;
+  const follows = useSelector(selectFollows);
+  const followers = useSelector(selectFollowers);
   const myProfile = useSelector(selectMyProfile);
   const user = useSelector(selectUsers).find(
     (u) => u.id === (myProfile.id === askFrom ? askTo : askFrom)
@@ -31,8 +43,38 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
   };
 
   const onClickApproveRequest = async () => {
+    dispatch(setApproveOrUnfollowButtomClicked());
     // リクエストbodyにはboolean型ではなくstring型でtrueと渡す必要あり
     await dispatch(fetchApproveRequest({ askFrom, approved: 'true' }));
+    const found = follows.find((f) => f.askTo === askFrom);
+    console.log(`found: ${found}`);
+    if (found) {
+      // リクエストを承認したユーザをフォローしていた場合、
+      // 自身のフォローリクエストのapprovedをtrueにする
+      await dispatch(fetchApproveRequest({ askTo: askFrom, approved: 'true' }));
+    }
+    if (!found) {
+      // リクエストを承認したユーザをフォローしていなかった場合には、
+      // approvedをtrueとしてフォローする
+      await dispatch(fetchCreateFollow({ askTo: askFrom, approved: 'true' }));
+    }
+    dispatch(resetApproveOrUnfollowButtomClicked());
+  };
+
+  const onClickUnfollow = async () => {
+    dispatch(setApproveOrUnfollowButtomClicked());
+    const foundFromFollows = follows.find((f) => f.askTo === askFrom);
+    const foundFromFollowers = followers.find((f) => f.askFrom === askFrom);
+    if (foundFromFollows && foundFromFollowers) {
+      await dispatch(fetchDeleteFollow(foundFromFollows?.id));
+      await dispatch(
+        fetchApproveRequest({
+          askFrom: foundFromFollowers.askFrom,
+          approved: 'false',
+        })
+      );
+    }
+    dispatch(resetApproveOrUnfollowButtomClicked());
   };
 
   return (
@@ -70,7 +112,7 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
                   label="Unfollow"
                   component="button"
                   className={classes.button}
-                  // onClick={onClickUnfollow}
+                  onClick={onClickUnfollow}
                 />
               </Grid>
             ) : askTo === myProfile.id ? (
@@ -82,15 +124,6 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
                   component="button"
                   className={classes.button}
                   onClick={onClickApproveRequest}
-                />
-                <Chip
-                  clickable
-                  color="secondary"
-                  variant="outlined"
-                  label="Reject"
-                  component="button"
-                  className={classes.button}
-                  // onClick={onClickRejectRequest}
                 />
               </Grid>
             ) : null}

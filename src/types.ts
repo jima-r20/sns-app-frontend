@@ -34,6 +34,12 @@ export interface PROPS_CREATE_DM {
 }
 
 export interface PROPS_APPROVE_REQUEST {
-  askFrom: number;
+  askFrom?: number;
+  askTo?: number;
+  approved: string;
+}
+
+export interface PROPS_CREATE_REQUEST {
+  askTo: number;
   approved: string;
 }
