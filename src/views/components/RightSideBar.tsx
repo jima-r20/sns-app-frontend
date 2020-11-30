@@ -67,7 +67,7 @@ const RightSideBar: React.FC = () => {
             <ListItemIcon>
               <PersonAdd />
             </ListItemIcon>
-            <ListItemText primary="Friends Request" />
+            <ListItemText primary="Friend Requests" />
           </ListItem>
           <Container className={classes.friReqContainer}>
             {followes

@@ -25,6 +25,10 @@ import {
 } from '../../stores/slices/user.slice';
 
 import { ProfileStyles } from '../../styles/Profile.style';
+import {
+  fetchCreateFollow,
+  selectFollows,
+} from '../../stores/slices/follow.slice';
 
 interface PROPS_PROFILE {
   profile: {
@@ -43,14 +47,23 @@ interface FormData {
 
 const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   const classes = ProfileStyles();
-  const { register, errors, handleSubmit } = useForm<FormData>();
   const dispatch: AppDispatch = useDispatch();
+  const { register, errors, handleSubmit } = useForm<FormData>();
   const { id, displayName, avatar, about } = profile;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const avatarIcon =
     avatar === '' || null ? displayName.charAt(0).toUpperCase() : avatar;
 
   const myProfile = useSelector(selectMyProfile);
+  const request = useSelector(selectFollows).find((f) => f.askTo === id);
+  const isRequested: boolean = request !== undefined; // フレンド申請をしているかどうか(フォローしているかどうか)
+
+  // if (isRequested) {
+  //   const isApproved = request?.approved; // 既にフォロー済みの場合、承認されているかどうか
+  // }
+
+  console.log(request);
+  console.log(isRequested);
 
   const handleUpdateProfile = handleSubmit(async (formData: FormData) => {
     const data = { ...formData, id, avatar };
@@ -59,6 +72,18 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
       setIsModalOpen(false);
     }
   });
+
+  const handleSendRequest = async () => {
+    await dispatch(fetchCreateFollow({ askTo: id, approved: 'false' }));
+  };
+
+  const handleRemoveRequest = async () => {
+    console.log('remove request');
+  };
+
+  const handleUnfollow = async () => {
+    console.log('unfollow');
+  };
 
   return (
     <React.Fragment>
@@ -161,7 +186,54 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                   </Fade>
                 </Modal>
               </Grid>
-            ) : null}
+            ) : (
+              /* 
+                プロフィールページが自分ではない場合フォローボタンを追加する
+                [Send Friend Request]、[Waiting for request approval]、[Following]
+                のいずれか
+              */
+              <Grid item xs={12}>
+                {!isRequested ? (
+                  // フレンド申請をしていない場合
+                  <Chip
+                    clickable
+                    color="primary"
+                    label="Send Friend Request"
+                    component="button"
+                    className={classes.requestButton}
+                    onClick={handleSendRequest}
+                  />
+                ) : !request?.approved ? (
+                  // フレンド申請をしていて、承認されていない場合
+                  <React.Fragment>
+                    <Chip
+                      label="Waiting for request approval"
+                      component="button"
+                      className={classes.requestButton}
+                      disabled
+                    />
+                    <Chip
+                      color="secondary"
+                      variant="outlined"
+                      label="Remove Request?"
+                      component="button"
+                      className={classes.requestButton}
+                      onClick={handleRemoveRequest}
+                    />
+                  </React.Fragment>
+                ) : (
+                  // フレンド申請をしていて、承認されている場合
+                  <Chip
+                    clickable
+                    color="primary"
+                    label="Following"
+                    component="button"
+                    className={classes.requestButton}
+                    onClick={handleUnfollow}
+                  />
+                )}
+              </Grid>
+            )}
           </Grid>
           <Grid item container xs={9}>
             <Grid item xs={12} className={classes.name}>

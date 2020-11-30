@@ -22,6 +22,14 @@ export const ProfileStyles = makeStyles((theme: Theme) =>
       paddingRight: '10%',
       paddingLeft: '10%',
     },
+    requestButton: {
+      display: 'block',
+      margin: '0 auto',
+      marginTop: '10%',
+      marginBottom: '10%',
+      // paddingRight: '10%',
+      // paddingLeft: '10%',
+    },
     name: {
       display: 'flex',
       alignItems: 'center',
