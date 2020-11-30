@@ -235,7 +235,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                                 id="content"
                                 label="Content"
                                 name="content"
-                                defaultValue={content}
+                                defaultValue={view}
                                 inputRef={register({
                                   required: true,
                                   maxLength: 256,
