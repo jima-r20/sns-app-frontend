@@ -47,7 +47,6 @@ const Friend: React.FC<PROPS_FRIEND> = (props) => {
     // リクエストbodyにはboolean型ではなくstring型でtrueと渡す必要あり
     await dispatch(fetchApproveRequest({ askFrom, approved: 'true' }));
     const found = follows.find((f) => f.askTo === askFrom);
-    console.log(`found: ${found}`);
     if (found) {
       // リクエストを承認したユーザをフォローしていた場合、
       // 自身のフォローリクエストのapprovedをtrueにする

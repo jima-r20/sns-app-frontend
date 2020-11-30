@@ -28,10 +28,16 @@ import {
   selectMyProfile,
 } from '../../stores/slices/user.slice';
 import {
+  fetchApproveRequest,
   fetchCreateFollow,
   fetchDeleteFollow,
+  selectFollowers,
   selectFollows,
 } from '../../stores/slices/follow.slice';
+import {
+  resetApproveOrUnfollowButtomClicked,
+  setApproveOrUnfollowButtomClicked,
+} from '../../stores/slices/page.slice';
 
 import { ProfileStyles } from '../../styles/Profile.style';
 
@@ -62,6 +68,9 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   const myProfile = useSelector(selectMyProfile);
   const request = useSelector(selectFollows).find((f) => f.askTo === id);
   const isRequested: boolean = request !== undefined; // フレンド申請をしているかどうか(フォローしているかどうか)
+  const foundByFollowes = useSelector(selectFollowers).find(
+    (f) => f.askFrom === id
+  );
 
   const handleUpdateProfile = handleSubmit(async (formData: FormData) => {
     const data = { ...formData, id, avatar };
@@ -72,19 +81,45 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   });
 
   const handleSendRequest = async () => {
-    await dispatch(fetchCreateFollow({ askTo: id, approved: 'false' }));
+    if (foundByFollowes) {
+      // フレンド申請を送ったユーザから既に自分へフレンド申請が届いていた場合、
+      // その申請を承認し、フレンドとして登録する
+      dispatch(setApproveOrUnfollowButtomClicked());
+      await dispatch(
+        fetchApproveRequest({
+          askFrom: foundByFollowes.askFrom,
+          approved: 'true',
+        })
+      );
+      await dispatch(fetchCreateFollow({ askTo: id, approved: 'true' }));
+      dispatch(resetApproveOrUnfollowButtomClicked());
+    } else {
+      // 対象ユーザからフレンド申請が届いていない場合、申請のみを行う
+      // 対象ユーザ側で承認された時にフレンドとして登録される
+      await dispatch(fetchCreateFollow({ askTo: id, approved: 'false' }));
+    }
   };
 
   const handleRemoveRequest = async () => {
     if (request) {
-      console.log(request.id);
       await dispatch(fetchDeleteFollow(request.id));
     }
     setIsModalOpen(false);
   };
 
   const handleUnfollow = async () => {
-    console.log('unfollow');
+    dispatch(setApproveOrUnfollowButtomClicked());
+    if (request) {
+      await dispatch(fetchDeleteFollow(request.id));
+      await dispatch(
+        fetchApproveRequest({
+          askFrom: request.askTo,
+          approved: 'false',
+        })
+      );
+    }
+    setIsModalOpen(false);
+    dispatch(resetApproveOrUnfollowButtomClicked());
   };
 
   return (
