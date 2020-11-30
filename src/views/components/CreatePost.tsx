@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
@@ -16,6 +16,7 @@ import { fetchCreatePost } from '../../stores/slices/post.slice';
 import { selectMyProfile } from '../../stores/slices/user.slice';
 
 import { CreatePostStyle } from '../../styles/CreatePost.style';
+import { setSubHeaderTitle } from '../../stores/slices/page.slice';
 
 interface FormData {
   content: string;
@@ -27,6 +28,10 @@ const CreatePost: React.FC = () => {
   const [content, setContent] = useState<string>('');
   const dispatch: AppDispatch = useDispatch();
   const myprofile = useSelector(selectMyProfile);
+
+  useEffect(() => {
+    dispatch(setSubHeaderTitle('HOME'));
+  }, []);
 
   const handleCreatePost = handleSubmit(async (data: FormData) => {
     /* 

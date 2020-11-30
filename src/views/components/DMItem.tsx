@@ -25,6 +25,7 @@ import {
 import {
   selectIsDMSelected,
   setDMSelected,
+  setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 import {
   fetchCreateDm,
@@ -94,6 +95,7 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
       })
     );
     dispatch(setDMSelected());
+    dispatch(setSubHeaderTitle('DM Detail'));
   };
 
   const handlePostDM = handleSubmit(async (formData: FormData) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import {
@@ -24,6 +24,7 @@ import {
   resetSendToReceiver,
   selectSendToReceiver,
   setDMSelected,
+  setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 
 const CreateDM: React.FC = () => {
@@ -41,6 +42,10 @@ const CreateDM: React.FC = () => {
     sendToReceiver ? sendToReceiver : undefined
   );
   const [isMessage, setIsMessage] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(setSubHeaderTitle('Create DM'));
+  }, []);
 
   const handleSendDM = handleSubmit(async (formData: { message: string }) => {
     if (typeof receiver === 'number') {
@@ -76,8 +81,6 @@ const CreateDM: React.FC = () => {
       setIsMessage(true);
     }
   };
-
-  console.log(receiver);
 
   return (
     <React.Fragment>

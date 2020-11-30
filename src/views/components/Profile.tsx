@@ -37,6 +37,7 @@ import {
 import {
   resetApproveOrUnfollowButtomClicked,
   setApproveOrUnfollowButtomClicked,
+  setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 
 import { ProfileStyles } from '../../styles/Profile.style';
@@ -71,6 +72,10 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   const foundByFollowes = useSelector(selectFollowers).find(
     (f) => f.askFrom === id
   );
+
+  useEffect(() => {
+    dispatch(setSubHeaderTitle('Profile'));
+  }, []);
 
   const handleUpdateProfile = handleSubmit(async (formData: FormData) => {
     const data = { ...formData, id, avatar };

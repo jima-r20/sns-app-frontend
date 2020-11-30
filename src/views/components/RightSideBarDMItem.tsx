@@ -14,7 +14,10 @@ import {
 import { AppDispatch } from '../../stores/store';
 import { selectUsers } from '../../stores/slices/user.slice';
 import { setSelectedDM } from '../../stores/slices/dm.slice';
-import { setDMSelected } from '../../stores/slices/page.slice';
+import {
+  setDMSelected,
+  setSubHeaderTitle,
+} from '../../stores/slices/page.slice';
 
 import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
 
@@ -45,6 +48,7 @@ const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
       })
     );
     dispatch(setDMSelected());
+    dispatch(setSubHeaderTitle('DM Detail'));
   };
 
   return (

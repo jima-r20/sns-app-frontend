@@ -4,13 +4,17 @@ import { Grid } from '@material-ui/core';
 import DMItem from './DMItem';
 import { AppDispatch } from '../../stores/store';
 import { selectDmInbox } from '../../stores/slices/dm.slice';
-import { resetDMSelected } from '../../stores/slices/page.slice';
+import {
+  resetDMSelected,
+  setSubHeaderTitle,
+} from '../../stores/slices/page.slice';
 
 const DMList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const dmInbox = useSelector(selectDmInbox);
 
   useEffect(() => {
+    dispatch(setSubHeaderTitle('DM'));
     dispatch(resetDMSelected());
   }, [dispatch]);
 

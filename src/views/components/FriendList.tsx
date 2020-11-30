@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Tab, Tabs } from '@material-ui/core';
 import Friend from './Friend';
+import { AppDispatch } from '../../stores/store';
 import {
   selectFollowers,
   selectFollows,
   selectFriends,
 } from '../../stores/slices/follow.slice';
+import { setSubHeaderTitle } from '../../stores/slices/page.slice';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -38,10 +40,15 @@ const a11yProps = (index: any) => {
 };
 
 const FriendList: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
   const [value, setValue] = useState<number>(0);
   const friends = useSelector(selectFriends);
   const follows = useSelector(selectFollows);
   const followers = useSelector(selectFollowers);
+
+  useEffect(() => {
+    dispatch(setSubHeaderTitle('Friends'));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);

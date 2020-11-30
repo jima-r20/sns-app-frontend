@@ -31,6 +31,7 @@ import {
 import {
   selectIsPostSelected,
   setPostSelected,
+  setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 import {
   setSelectedUser,
@@ -91,6 +92,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
       })
     );
     dispatch(setPostSelected());
+    dispatch(setSubHeaderTitle('Post Detail'));
   };
 
   const handleEditPost = handleSubmit(async (formData: FormData) => {

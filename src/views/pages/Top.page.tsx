@@ -46,7 +46,10 @@ import {
   fetchGetFollowList,
   fetchGetFriendsList,
 } from '../../stores/slices/follow.slice';
-import { selectIsApproveOrUnfollowButtomClicked } from '../../stores/slices/page.slice';
+import {
+  selectIsApproveOrUnfollowButtomClicked,
+  selectSubHeaderTitle,
+} from '../../stores/slices/page.slice';
 
 import { TopPageStyles } from '../../styles/TopPage.styles';
 import CreateDM from '../components/CreateDM';
@@ -70,6 +73,7 @@ const TopPage: React.FC = () => {
 
   let match = useRouteMatch();
 
+  const subHeaderTitle = useSelector(selectSubHeaderTitle);
   const selectedPost = useSelector(selectSelectedPost);
   const myProfile = useSelector(selectMyProfile);
   const selectedUser = useSelector(selectSelectedUser);
@@ -110,7 +114,7 @@ const TopPage: React.FC = () => {
           {/* <Switch> */}
           <Toolbar className={classes.subHeader}>
             <Typography variant="h5" className={classes.pageTitle}>
-              HOME
+              {subHeaderTitle}
             </Typography>
           </Toolbar>
 

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 interface PageSliceState {
+  subHeaderTitle: string;
   isOpenSideBar: boolean;
   isPostSelected: boolean;
   isDMSelected: boolean;
@@ -12,6 +13,7 @@ interface PageSliceState {
 export const pageSlice = createSlice({
   name: 'page',
   initialState: {
+    subHeaderTitle: '',
     isOpenSideBar: true,
     isPostSelected: false,
     isDMSelected: false,
@@ -19,6 +21,9 @@ export const pageSlice = createSlice({
     sendToReceiver: null,
   } as PageSliceState,
   reducers: {
+    setSubHeaderTitle(state, action) {
+      state.subHeaderTitle = action.payload;
+    },
     openSideBar(state) {
       state.isOpenSideBar = true;
     },
@@ -53,6 +58,7 @@ export const pageSlice = createSlice({
 });
 
 export const {
+  setSubHeaderTitle,
   openSideBar,
   closeSideBar,
   setPostSelected,
@@ -65,6 +71,8 @@ export const {
   resetSendToReceiver,
 } = pageSlice.actions;
 
+export const selectSubHeaderTitle = (state: RootState) =>
+  state.page.subHeaderTitle;
 export const selectIsOpenSideBar = (state: RootState) =>
   state.page.isOpenSideBar;
 export const selectIsPostSelected = (state: RootState) =>

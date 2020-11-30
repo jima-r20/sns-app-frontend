@@ -11,7 +11,10 @@ import {
   selectPosts,
   selectUserPosts,
 } from '../../stores/slices/post.slice';
-import { resetPostSelected } from '../../stores/slices/page.slice';
+import {
+  resetPostSelected,
+  setSubHeaderTitle,
+} from '../../stores/slices/page.slice';
 import { selectMyProfile } from '../../stores/slices/user.slice';
 
 interface PROPS_POSTLIST {
@@ -43,7 +46,7 @@ const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
     if (postFromId !== (0 || undefined)) {
       dispatch(fetchGetUserPosts(postFromId));
     }
-    /* プロフィール更新時、PostLListのdisplayNameを
+    /* プロフィール更新時、PostListのdisplayNameを
        再レンダリングするために以下の呼び出しが必要 */
     dispatch(fetchGetPosts());
     dispatch(fetchGetMyPosts());
