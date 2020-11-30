@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useForm } from 'react-hook-form';
 import {
   Avatar,
   Backdrop,
+  Card,
+  CardActionArea,
+  CardContent,
   Chip,
   Divider,
   Fade,
@@ -13,6 +16,7 @@ import {
   Modal,
   Paper,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
@@ -23,12 +27,13 @@ import {
   fetchUpdateUser,
   selectMyProfile,
 } from '../../stores/slices/user.slice';
-
-import { ProfileStyles } from '../../styles/Profile.style';
 import {
   fetchCreateFollow,
+  fetchDeleteFollow,
   selectFollows,
 } from '../../stores/slices/follow.slice';
+
+import { ProfileStyles } from '../../styles/Profile.style';
 
 interface PROPS_PROFILE {
   profile: {
@@ -58,13 +63,6 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   const request = useSelector(selectFollows).find((f) => f.askTo === id);
   const isRequested: boolean = request !== undefined; // フレンド申請をしているかどうか(フォローしているかどうか)
 
-  // if (isRequested) {
-  //   const isApproved = request?.approved; // 既にフォロー済みの場合、承認されているかどうか
-  // }
-
-  console.log(request);
-  console.log(isRequested);
-
   const handleUpdateProfile = handleSubmit(async (formData: FormData) => {
     const data = { ...formData, id, avatar };
     const result = await dispatch(fetchUpdateUser(data));
@@ -78,7 +76,11 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   };
 
   const handleRemoveRequest = async () => {
-    console.log('remove request');
+    if (request) {
+      console.log(request.id);
+      await dispatch(fetchDeleteFollow(request.id));
+    }
+    setIsModalOpen(false);
   };
 
   const handleUnfollow = async () => {
@@ -187,14 +189,13 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                 </Modal>
               </Grid>
             ) : (
-              /* 
-                プロフィールページが自分ではない場合フォローボタンを追加する
-                [Send Friend Request]、[Waiting for request approval]、[Following]
-                のいずれか
-              */
+              // マイプロフィールの場合の要素ここまで
+              /* ===================================
+                    マイプロフィールではない場合
+              ==================================== */
               <Grid item xs={12}>
                 {!isRequested ? (
-                  // フレンド申請をしていない場合
+                  // パターン①：フレンド申請をしていない場合
                   <Chip
                     clickable
                     color="primary"
@@ -204,35 +205,133 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                     onClick={handleSendRequest}
                   />
                 ) : !request?.approved ? (
-                  // フレンド申請をしていて、承認されていない場合
+                  // パターン②：フレンド申請をしていて、承認されていない場合
                   <React.Fragment>
                     <Chip
+                      clickable
+                      color="primary"
+                      variant="outlined"
                       label="Waiting for request approval"
                       component="button"
                       className={classes.requestButton}
-                      disabled
+                      onClick={() => {
+                        setIsModalOpen(true);
+                      }}
                     />
-                    <Chip
-                      color="secondary"
-                      variant="outlined"
-                      label="Remove Request?"
-                      component="button"
-                      className={classes.requestButton}
-                      onClick={handleRemoveRequest}
-                    />
+                    {/* ===================================
+                    Waiting for request approvalボタンを押したときのモーダル
+                    ==================================== */}
+                    <Modal
+                      aria-labelledby="remove-request-modal-title"
+                      aria-describedby="remove-request-modal-description"
+                      className={classes.modal}
+                      open={isModalOpen}
+                      onClose={() => {
+                        setIsModalOpen(false);
+                      }}
+                      closeAfterTransition
+                      BackdropComponent={Backdrop}
+                      BackdropProps={{
+                        timeout: 500,
+                      }}
+                    >
+                      <Fade in={isModalOpen}>
+                        <div className={classes.modalPaper}>
+                          <Typography variant="h6" align="center" gutterBottom>
+                            Do you want to remove the follow request ?
+                          </Typography>
+                          <Card variant="outlined">
+                            <CardActionArea onClick={handleRemoveRequest}>
+                              <CardContent>
+                                <Typography
+                                  variant="body1"
+                                  align="center"
+                                  color="secondary"
+                                >
+                                  REMOVE
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                            <Divider />
+                            <CardActionArea
+                              onClick={() => setIsModalOpen(false)}
+                            >
+                              <CardContent>
+                                <Typography variant="body1" align="center">
+                                  Cancel
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </div>
+                      </Fade>
+                    </Modal>
                   </React.Fragment>
                 ) : (
-                  // フレンド申請をしていて、承認されている場合
-                  <Chip
-                    clickable
-                    color="primary"
-                    label="Following"
-                    component="button"
-                    className={classes.requestButton}
-                    onClick={handleUnfollow}
-                  />
+                  // パターン③：フレンド申請をしていて、承認されている場合
+                  <React.Fragment>
+                    <Chip
+                      clickable
+                      color="primary"
+                      label="Following"
+                      component="button"
+                      className={classes.requestButton}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                      }}
+                    />
+                    {/* ===================================
+                        Unfollowボタンを押したときのモーダル
+                    ==================================== */}
+                    <Modal
+                      aria-labelledby="unfollow-modal-title"
+                      aria-describedby="unfollow-modal-description"
+                      className={classes.modal}
+                      open={isModalOpen}
+                      onClose={() => {
+                        setIsModalOpen(false);
+                      }}
+                      closeAfterTransition
+                      BackdropComponent={Backdrop}
+                      BackdropProps={{
+                        timeout: 500,
+                      }}
+                    >
+                      <Fade in={isModalOpen}>
+                        <div className={classes.modalPaper}>
+                          <Typography variant="h6" align="center" gutterBottom>
+                            Do you want to unfollow ?
+                          </Typography>
+                          <Card variant="outlined">
+                            <CardActionArea onClick={handleUnfollow}>
+                              <CardContent>
+                                <Typography
+                                  variant="body1"
+                                  align="center"
+                                  color="secondary"
+                                >
+                                  UNFOLLOW
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                            <Divider />
+                            <CardActionArea
+                              onClick={() => setIsModalOpen(false)}
+                            >
+                              <CardContent>
+                                <Typography variant="body1" align="center">
+                                  Cancel
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </div>
+                      </Fade>
+                    </Modal>
+                  </React.Fragment>
                 )}
               </Grid>
+              // マイプロフィールではない場合の要素ここまで
             )}
           </Grid>
           <Grid item container xs={9}>

@@ -113,12 +113,12 @@ export const fetchEditPost = createAsyncThunk(
 export const fetchDeletePost = createAsyncThunk(
   'post/deletePost',
   async (id: number) => {
-    const res = await axios.delete(`${apiUrl}post/${id}`, {
+    await axios.delete(`${apiUrl}post/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
       },
     });
-    return res.data;
+    return id;
   }
 );
 
@@ -209,12 +209,11 @@ export const postSlice = createSlice({
       };
     });
     builder.addCase(fetchDeletePost.fulfilled, (state, action) => {
+      console.log(`action.payload: ${action.payload}`);
       return {
         ...state,
-        posts: state.posts.filter((post) => post.id !== action.payload.id),
-        myposts: state.myposts.filter(
-          (mypost) => mypost.id !== action.payload.id
-        ),
+        posts: state.posts.filter((post) => post.id !== action.payload),
+        myposts: state.myposts.filter((mypost) => mypost.id !== action.payload),
       };
     });
   },

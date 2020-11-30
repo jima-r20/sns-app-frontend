@@ -100,12 +100,16 @@ export const fetchApproveRequest = createAsyncThunk(
 export const fetchDeleteFollow = createAsyncThunk(
   'delete/deleteFollow',
   async (id: number) => {
-    const res = await axios.delete(`${apiUrl}follow/request/${id}`, {
+    await axios.delete(`${apiUrl}follow/request/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
       },
     });
-    return res.data;
+    /*  
+      APIを叩いた時にレスポンスとしてオブジェクトを返さないので、
+      storeから該当オブジェクトを削除するために引数のidをaction.payloadとして返す
+     */
+    return id;
   }
 );
 
@@ -174,9 +178,7 @@ export const followSlice = createSlice({
     builder.addCase(fetchDeleteFollow.fulfilled, (state, action) => {
       return {
         ...state,
-        follows: state.follows.filter(
-          (follow) => follow.id !== action.payload.id
-        ),
+        follows: state.follows.filter((follow) => follow.id !== action.payload),
       };
     });
   },
