@@ -34,7 +34,7 @@ interface InitialState {
   selectedPost: SelectedPost;
 }
 
-const apiUrl = 'http://localhost:3000/';
+const apiUrl = process.env.REACT_APP_DEV_API_URL;
 
 /* ============================
         投稿の全取得

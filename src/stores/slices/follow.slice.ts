@@ -19,7 +19,7 @@ interface InitialState {
   friends: Follow[];
 }
 
-const apiUrl = 'http://localhost:3000/';
+const apiUrl = process.env.REACT_APP_DEV_API_URL;
 
 /* ============================
       フォロー情報の全取得

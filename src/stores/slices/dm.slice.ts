@@ -27,7 +27,7 @@ interface InitialState {
   selectedDM: DM;
 }
 
-const apiUrl = 'http://localhost:3000/';
+const apiUrl = process.env.REACT_APP_DEV_API_URL;
 
 /* ============================
       自身へ送信されたDM全取得
