@@ -1,14 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { PROPS_CREATE_DM } from '../../types';
+import { PROPS_CREATE_DM } from '../../interfaces/slice-props.interface';
 import { RootState } from '../store';
-
-// interface User {
-//   id: number;
-//   displayName: string;
-//   avatar: string;
-//   about: string;
-// }
 
 interface DMFormat {
   id: number;
@@ -156,16 +149,6 @@ export const dmSlice = createSlice({
     builder.addCase(fetchGetDmInbox.fulfilled, (state, action) => {
       return { ...state, dmInbox: action.payload };
     });
-    // builder.addCase(fetchCreateDm.fulfilled, (state, action) => {
-    //   return {
-    //     ...state,
-    //     dmInbox: state.dmInbox.map((dm) =>
-    //       dm.targetUser === action.payload.receiver
-    //         ? { ...dm, messages: action.payload }
-    //         : dm
-    //     ),
-    //   };
-    // });
   },
 });
 

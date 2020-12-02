@@ -19,19 +19,8 @@ import {
   setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 
+import { PROPS_DM } from '../../interfaces/component-props.interface';
 import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
-
-interface PROPS_DM {
-  targetUser: number;
-  messages: [
-    {
-      id: number;
-      sender: number;
-      receiver: number;
-      message: string;
-    }
-  ];
-}
 
 const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
   const classes = RightSideBarDMItemStyle();
@@ -71,12 +60,9 @@ const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
               </Grid>
               <Divider />
               <Grid item xs={12}>
-                {/* <Paper variant="outlined" className={classes.DMTextPaper}> */}
-                {/* <Typography variant="body2" component="p"> */}
                 <Typography variant="caption" className={classes.message}>
                   {messages[0].message}
                 </Typography>
-                {/* </Paper> */}
               </Grid>
             </Grid>
           </Link>

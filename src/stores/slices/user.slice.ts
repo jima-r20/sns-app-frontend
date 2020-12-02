@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import axios from 'axios';
-import { PROPS_SIGNIN, PROPS_SIGNUP, PROPS_UPDATE_USER } from '../../types';
+import {
+  PROPS_SIGNIN,
+  PROPS_SIGNUP,
+  PROPS_UPDATE_USER,
+} from '../../interfaces/slice-props.interface';
 
 interface Profile {
   id: number;

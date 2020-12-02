@@ -1,10 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Chip, Grid, Paper, Typography } from '@material-ui/core';
-import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
-import { FriendStyles } from '../../styles/Friend.style';
 import { useHistory } from 'react-router-dom';
+import { Avatar, Chip, Grid, Paper, Typography } from '@material-ui/core';
 import { AppDispatch } from '../../stores/store';
+import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
 import {
   resetApproveOrUnfollowButtomClicked,
   setApproveOrUnfollowButtomClicked,
@@ -17,18 +16,15 @@ import {
   selectFollowers,
   selectFollows,
 } from '../../stores/slices/follow.slice';
-
-interface PROPS_FRIEND {
-  askFrom: number;
-  askTo: number;
-  approved: boolean;
-}
+import { PROPS_FRIEND } from '../../interfaces/component-props.interface';
+import { FriendStyles } from '../../styles/Friend.style';
 
 const Friend: React.FC<PROPS_FRIEND> = (props) => {
   const classes = FriendStyles();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
   const { askFrom, askTo, approved } = props;
+
   const follows = useSelector(selectFollows);
   const followers = useSelector(selectFollowers);
   const myProfile = useSelector(selectMyProfile);

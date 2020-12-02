@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { PROPS_CREATE_POST, PROPS_EDIT_POST } from '../../types';
+import {
+  PROPS_CREATE_POST,
+  PROPS_EDIT_POST,
+} from '../../interfaces/slice-props.interface';
 import { RootState } from '../store';
 
 interface User {

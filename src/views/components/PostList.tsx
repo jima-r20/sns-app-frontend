@@ -11,16 +11,9 @@ import {
   selectPosts,
   selectUserPosts,
 } from '../../stores/slices/post.slice';
-import {
-  resetPostSelected,
-  setSubHeaderTitle,
-} from '../../stores/slices/page.slice';
+import { resetPostSelected } from '../../stores/slices/page.slice';
+import { PROPS_POSTLIST } from '../../interfaces/component-props.interface';
 import { selectMyProfile } from '../../stores/slices/user.slice';
-
-interface PROPS_POSTLIST {
-  mypost?: boolean;
-  postFromId?: number;
-}
 
 const PostList: React.FC<PROPS_POSTLIST> = ({ mypost, postFromId }) => {
   const dispatch: AppDispatch = useDispatch();

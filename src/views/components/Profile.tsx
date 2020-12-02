@@ -20,8 +20,6 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-// import ProfileEditModal from '../modals/ProfileEdit.modal';
-
 import { AppDispatch } from '../../stores/store';
 import {
   fetchUpdateUser,
@@ -40,16 +38,8 @@ import {
   setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 
+import { PROPS_PROFILE } from '../../interfaces/component-props.interface';
 import { ProfileStyles } from '../../styles/Profile.style';
-
-interface PROPS_PROFILE {
-  profile: {
-    id: number;
-    displayName: string;
-    avatar: string;
-    about: string;
-  };
-}
 
 interface FormData {
   displayName: string;

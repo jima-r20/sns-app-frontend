@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Avatar, Typography, Card, Chip } from '@material-ui/core';
-import { selectUsers } from '../../stores/slices/user.slice';
-import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
 import { AppDispatch } from '../../stores/store';
+import { selectUsers } from '../../stores/slices/user.slice';
 import {
   resetApproveOrUnfollowButtomClicked,
   setApproveOrUnfollowButtomClicked,
@@ -13,10 +12,8 @@ import {
   fetchCreateFollow,
   selectFollows,
 } from '../../stores/slices/follow.slice';
-
-interface PROPS_FRIEND_REQUEST {
-  askFrom: number;
-}
+import { PROPS_FRIEND_REQUEST } from '../../interfaces/component-props.interface';
+import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
 
 const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
   const dispatch: AppDispatch = useDispatch();

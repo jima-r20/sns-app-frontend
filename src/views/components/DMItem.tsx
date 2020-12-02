@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -34,19 +34,9 @@ import {
   setSelectedDM,
 } from '../../stores/slices/dm.slice';
 
-import { DMItemStyle } from '../../styles/DMItem.style';
+import { PROPS_DM } from '../../interfaces/component-props.interface';
 
-interface PROPS_DM {
-  targetUser: number;
-  messages: [
-    {
-      id: number;
-      sender: number;
-      receiver: number;
-      message: string;
-    }
-  ];
-}
+import { DMItemStyle } from '../../styles/DMItem.style';
 
 interface FormData {
   message: string;
@@ -55,11 +45,10 @@ interface FormData {
 const DMItem: React.FC<PROPS_DM> = (props) => {
   const classes = DMItemStyle();
   const dispatch: AppDispatch = useDispatch();
-  const history = useHistory();
   const match = useRouteMatch();
-  const { register, errors, handleSubmit } = useForm();
-  const [inputMessage, setInputMessage] = useState<string>('');
   const { targetUser, messages } = props;
+  const { register, errors, handleSubmit } = useForm();
+
   const user = useSelector(selectUsers).find((u) => u.id === targetUser);
   const dmInboxByTargetUser = useSelector(selectDmInbox).find(
     (u) => u.targetUser === targetUser
@@ -67,6 +56,8 @@ const DMItem: React.FC<PROPS_DM> = (props) => {
   const avatarIcon = user?.displayName.charAt(0).toUpperCase();
   const isDMSelected = useSelector(selectIsDMSelected);
   const myProfile = useSelector(selectMyProfile);
+
+  const [inputMessage, setInputMessage] = useState<string>('');
 
   useEffect(() => {
     // チャット部分のスクロールが一番下にくるように調整

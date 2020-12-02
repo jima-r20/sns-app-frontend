@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { PROPS_APPROVE_REQUEST, PROPS_CREATE_REQUEST } from '../../types';
+import {
+  PROPS_APPROVE_REQUEST,
+  PROPS_CREATE_REQUEST,
+} from '../../interfaces/slice-props.interface';
 import { RootState } from '../store';
 
 interface Follow {

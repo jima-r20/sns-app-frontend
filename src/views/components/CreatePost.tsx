@@ -24,10 +24,10 @@ interface FormData {
 
 const CreatePost: React.FC = () => {
   const classes = CreatePostStyle();
-  const { register, errors, handleSubmit } = useForm<{ content: string }>();
-  const [content, setContent] = useState<string>('');
   const dispatch: AppDispatch = useDispatch();
+  const { register, errors, handleSubmit } = useForm<{ content: string }>();
   const myprofile = useSelector(selectMyProfile);
+  const [content, setContent] = useState<string>('');
 
   useEffect(() => {
     dispatch(setSubHeaderTitle('HOME'));

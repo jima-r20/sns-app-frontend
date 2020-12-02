@@ -1,4 +1,6 @@
-/* auth.slice.ts */
+/* ====================
+    user.slice.ts 
+=====================*/
 export interface PROPS_SIGNUP {
   email: string;
   password: string;
@@ -19,6 +21,9 @@ export interface PROPS_UPDATE_USER {
   about: string;
 }
 
+/* ====================
+    post.slice.ts 
+=====================*/
 export interface PROPS_CREATE_POST {
   content: string;
 }
@@ -28,11 +33,17 @@ export interface PROPS_EDIT_POST {
   content: string;
 }
 
+/* ====================
+    dm.slice.ts 
+=====================*/
 export interface PROPS_CREATE_DM {
   receiver: number;
   message: string;
 }
 
+/* ====================
+    follow.slice.ts 
+=====================*/
 export interface PROPS_APPROVE_REQUEST {
   askFrom?: number;
   askTo?: number;

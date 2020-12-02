@@ -39,14 +39,8 @@ import {
   selectUsers,
 } from '../../stores/slices/user.slice';
 
+import { PROPS_POST } from '../../interfaces/component-props.interface';
 import { PostItemStyle } from '../../styles/PostItem.style';
-
-interface PROPS_POST {
-  id: number;
-  postFromId: number;
-  displayName: string;
-  content: string;
-}
 
 interface FormData {
   content: string;

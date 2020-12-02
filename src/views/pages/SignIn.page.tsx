@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link as RRLink, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -28,11 +28,6 @@ import { AppDispatch } from '../../stores/store';
 import { fetchGetUser, fetchSignIn } from '../../stores/slices/user.slice';
 
 import { authDefaultStyles } from '../../styles/Auth.styles';
-import * as H from 'history';
-
-interface Props extends RouteComponentProps<{}> {
-  history: H.History;
-}
 
 interface State {
   email: string;
@@ -48,8 +43,9 @@ interface FormData {
   password: string;
 }
 
-const SignInPage: React.FC<Props> = (props: Props) => {
+const SignInPage: React.FC = () => {
   const classes = authDefaultStyles();
+  const history = useHistory();
   const emailPattern: RegExp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
   const { register, errors, handleSubmit } = useForm<FormData>();
   const dispatch: AppDispatch = useDispatch();
@@ -67,7 +63,7 @@ const SignInPage: React.FC<Props> = (props: Props) => {
     const result = await dispatch(fetchSignIn(data));
     if (fetchSignIn.fulfilled.match(result)) {
       await dispatch(fetchGetUser());
-      props.history.push('/top');
+      history.push('/top');
     }
   });
 
@@ -206,7 +202,7 @@ const SignInPage: React.FC<Props> = (props: Props) => {
             Sign In
           </Button>
           <Box textAlign="center">
-            <RRLink to="/signup">Don't have an account? Sign Up</RRLink>
+            <Link to="/signup">Don't have an account? Sign Up</Link>
           </Box>
         </form>
       </div>

@@ -29,8 +29,8 @@ import {
 
 const CreateDM: React.FC = () => {
   const classes = CreateDMStyle();
-  const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
+  const dispatch: AppDispatch = useDispatch();
   const { register, errors, handleSubmit } = useForm();
 
   const myProfile = useSelector(selectMyProfile);
@@ -38,6 +38,7 @@ const CreateDM: React.FC = () => {
   const users = useSelector(selectUsers);
   const dmInbox = useSelector(selectDmInbox);
   const sendToReceiver = useSelector(selectSendToReceiver);
+
   const [receiver, setReceiver] = useState<number | unknown>(
     sendToReceiver ? sendToReceiver : undefined
   );

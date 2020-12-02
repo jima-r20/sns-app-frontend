@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 
 import {
   Box,
@@ -23,6 +23,7 @@ import CreatePost from '../components/CreatePost';
 import Profile from '../components/Profile';
 import DMList from '../components/DMList';
 import DMItem from '../components/DMItem';
+import CreateDM from '../components/CreateDM';
 import FriendList from '../components/FriendList';
 
 import { AppDispatch } from '../../stores/store';
@@ -52,7 +53,6 @@ import {
 } from '../../stores/slices/page.slice';
 
 import { TopPageStyles } from '../../styles/TopPage.styles';
-import CreateDM from '../components/CreateDM';
 
 const theme = createMuiTheme({
   palette: {
@@ -72,6 +72,7 @@ const TopPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   let match = useRouteMatch();
+  const history = useHistory();
 
   const subHeaderTitle = useSelector(selectSubHeaderTitle);
   const selectedPost = useSelector(selectSelectedPost);
@@ -95,12 +96,13 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetFollowList());
         await dispatch(fetchGetFollowerList());
         await dispatch(fetchGetFriendsList());
+        dispatch(fetchGetDmInbox(myProfile.id));
+      } else {
+        history.push('/signin');
       }
     };
     fetchBootLoader();
   }, [dispatch, isApproveOrUnfollowButtomClicked]);
-
-  dispatch(fetchGetDmInbox(myProfile.id));
 
   return (
     <div className={classes.root}>
