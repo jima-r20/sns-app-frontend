@@ -96,13 +96,14 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetFollowList());
         await dispatch(fetchGetFollowerList());
         await dispatch(fetchGetFriendsList());
-        dispatch(fetchGetDmInbox(myProfile.id));
       } else {
         history.push('/signin');
       }
     };
     fetchBootLoader();
   }, [dispatch, isApproveOrUnfollowButtomClicked]);
+
+  dispatch(fetchGetDmInbox(myProfile.id));
 
   return (
     <div className={classes.root}>

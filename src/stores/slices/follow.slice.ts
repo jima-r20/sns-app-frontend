@@ -72,7 +72,6 @@ export const fetchGetFriendsList = createAsyncThunk(
 export const fetchCreateFollow = createAsyncThunk(
   'post/createFollow',
   async (data: PROPS_CREATE_REQUEST) => {
-    console.log(`createFollow data: ${data}`);
     const res = await axios.post(`${apiUrl}follow/request`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
