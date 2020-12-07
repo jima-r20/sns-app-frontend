@@ -9,7 +9,7 @@ import {
   Modal,
   Typography,
 } from '@material-ui/core';
-import { ConfirmationStyle } from '../../styles/Confirmation.style';
+import { ConfirmationModalStyle } from '../../styles/ConfirmationModal.style';
 
 interface PROPS_CONFIRMATION_MODAL {
   mainText: string;
@@ -20,7 +20,7 @@ interface PROPS_CONFIRMATION_MODAL {
 }
 
 const ConfirmationModal: React.FC<PROPS_CONFIRMATION_MODAL> = (props) => {
-  const classes = ConfirmationStyle();
+  const classes = ConfirmationModalStyle();
   const {
     mainText,
     selectionText,

@@ -1,6 +1,6 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
-export const ConfirmationStyle = makeStyles((theme: Theme) =>
+export const ConfirmationModalStyle = makeStyles((theme: Theme) =>
   createStyles({
     modal: {
       display: 'flex',
