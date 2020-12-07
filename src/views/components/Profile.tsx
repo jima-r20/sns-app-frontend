@@ -5,9 +5,6 @@ import { useForm } from 'react-hook-form';
 import {
   Avatar,
   Backdrop,
-  Card,
-  CardActionArea,
-  CardContent,
   Chip,
   Divider,
   Fade,
@@ -16,7 +13,6 @@ import {
   Modal,
   Paper,
   TextField,
-  Typography,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
@@ -40,6 +36,7 @@ import {
 
 import { PROPS_PROFILE } from '../../interfaces/component-props.interface';
 import { ProfileStyles } from '../../styles/Profile.style';
+import ConfirmationModal from '../modals/Confirmation.modal';
 
 interface FormData {
   displayName: string;
@@ -251,51 +248,13 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                     {/* ===================================
                     Waiting for request approvalボタンを押したときのモーダル
                     ==================================== */}
-                    <Modal
-                      aria-labelledby="remove-request-modal-title"
-                      aria-describedby="remove-request-modal-description"
-                      className={classes.modal}
-                      open={isModalOpen}
-                      onClose={() => {
-                        setIsModalOpen(false);
-                      }}
-                      closeAfterTransition
-                      BackdropComponent={Backdrop}
-                      BackdropProps={{
-                        timeout: 500,
-                      }}
-                    >
-                      <Fade in={isModalOpen}>
-                        <div className={classes.modalPaper}>
-                          <Typography variant="h6" align="center" gutterBottom>
-                            Do you want to remove the follow request ?
-                          </Typography>
-                          <Card variant="outlined">
-                            <CardActionArea onClick={handleRemoveRequest}>
-                              <CardContent>
-                                <Typography
-                                  variant="body1"
-                                  align="center"
-                                  color="secondary"
-                                >
-                                  REMOVE
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                            <Divider />
-                            <CardActionArea
-                              onClick={() => setIsModalOpen(false)}
-                            >
-                              <CardContent>
-                                <Typography variant="body1" align="center">
-                                  Cancel
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                          </Card>
-                        </div>
-                      </Fade>
-                    </Modal>
+                    <ConfirmationModal
+                      mainText="Do you want to remove the follow request ?"
+                      selectionText="REMOVE"
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      handleModalFunction={handleRemoveRequest}
+                    />
                   </React.Fragment>
                 ) : (
                   // パターン③：フレンド申請をしていて、承認されている場合
@@ -313,51 +272,13 @@ const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
                     {/* ===================================
                         Unfollowボタンを押したときのモーダル
                     ==================================== */}
-                    <Modal
-                      aria-labelledby="unfollow-modal-title"
-                      aria-describedby="unfollow-modal-description"
-                      className={classes.modal}
-                      open={isModalOpen}
-                      onClose={() => {
-                        setIsModalOpen(false);
-                      }}
-                      closeAfterTransition
-                      BackdropComponent={Backdrop}
-                      BackdropProps={{
-                        timeout: 500,
-                      }}
-                    >
-                      <Fade in={isModalOpen}>
-                        <div className={classes.modalPaper}>
-                          <Typography variant="h6" align="center" gutterBottom>
-                            Do you want to unfollow ?
-                          </Typography>
-                          <Card variant="outlined">
-                            <CardActionArea onClick={handleUnfollow}>
-                              <CardContent>
-                                <Typography
-                                  variant="body1"
-                                  align="center"
-                                  color="secondary"
-                                >
-                                  UNFOLLOW
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                            <Divider />
-                            <CardActionArea
-                              onClick={() => setIsModalOpen(false)}
-                            >
-                              <CardContent>
-                                <Typography variant="body1" align="center">
-                                  Cancel
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                          </Card>
-                        </div>
-                      </Fade>
-                    </Modal>
+                    <ConfirmationModal
+                      mainText="Do you want to unfollow ?"
+                      selectionText="UNFOLLOW"
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      handleModalFunction={handleUnfollow}
+                    />
                   </React.Fragment>
                 )}
               </Grid>

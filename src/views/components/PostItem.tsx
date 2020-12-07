@@ -41,6 +41,7 @@ import {
 
 import { PROPS_POST } from '../../interfaces/component-props.interface';
 import { PostItemStyle } from '../../styles/PostItem.style';
+import ConfirmationModal from '../modals/Confirmation.modal';
 
 interface FormData {
   content: string;
@@ -260,57 +261,13 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           setIsDeleteModalOpen(true);
                         }}
                       />
-                      <Modal
-                        aria-labelledby="post-delete-modal-title"
-                        aria-describedby="post-delete-modal-description"
-                        className={classes.modal}
-                        open={isDeleteModalOpen}
-                        onClose={() => {
-                          setIsDeleteModalOpen(false);
-                        }}
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                          timeout: 500,
-                        }}
-                      >
-                        <Fade in={isDeleteModalOpen}>
-                          <div className={classes.modalPaper}>
-                            <Typography
-                              variant="h6"
-                              align="center"
-                              gutterBottom
-                            >
-                              Are you sure ?
-                            </Typography>
-                            <Card variant="outlined">
-                              <CardActionArea
-                                onClick={() => handleDeletePost(id)}
-                              >
-                                <CardContent>
-                                  <Typography
-                                    variant="body1"
-                                    align="center"
-                                    color="secondary"
-                                  >
-                                    DELETE
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                              <Divider />
-                              <CardActionArea
-                                onClick={() => setIsDeleteModalOpen(false)}
-                              >
-                                <CardContent>
-                                  <Typography variant="body1" align="center">
-                                    Cancel
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                          </div>
-                        </Fade>
-                      </Modal>
+                      <ConfirmationModal
+                        mainText="Are you sure ?"
+                        selectionText="DELETE"
+                        isModalOpen={isDeleteModalOpen}
+                        setIsModalOpen={setIsDeleteModalOpen}
+                        handleModalFunction={() => handleDeletePost(id)}
+                      />
                     </Grid>
                   </React.Fragment>
                 ) : (
@@ -318,10 +275,11 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 )}
 
                 <Grid item xs={4}>
-                  <Button className={classes.backButton}>
-                    <Link to="/top" className={classes.link}>
-                      Back
-                    </Link>
+                  <Button
+                    className={classes.backButton}
+                    onClick={() => history.push('/top')}
+                  >
+                    Back
                   </Button>
                 </Grid>
               </Grid>
