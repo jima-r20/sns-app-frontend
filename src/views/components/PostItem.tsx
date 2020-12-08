@@ -42,6 +42,7 @@ import {
 import { PROPS_POST } from '../../interfaces/component-props.interface';
 import { PostItemStyle } from '../../styles/PostItem.style';
 import ConfirmationModal from '../modals/Confirmation.modal';
+import PostEditModal from '../modals/PostEdit.modal';
 
 interface FormData {
   content: string;
@@ -89,15 +90,6 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
     dispatch(setPostSelected());
     dispatch(setSubHeaderTitle('Post Detail'));
   };
-
-  const handleEditPost = handleSubmit(async (formData: FormData) => {
-    const data = { ...formData, id };
-    const result = await dispatch(fetchEditPost(data));
-    if (fetchEditPost.fulfilled.match(result)) {
-      setIsEditModalOpen(false);
-      setView(result.payload.content);
-    }
-  });
 
   const handleDeletePost = async (id: number) => {
     const result = await dispatch(fetchDeletePost(id));
@@ -191,63 +183,13 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                           setIsEditModalOpen(true);
                         }}
                       />
-                      <Modal
-                        aria-labelledby="post-edit-modal-title"
-                        aria-describedby="post-edit-modal-description"
-                        className={classes.modal}
-                        open={isEditModalOpen}
-                        onClose={() => {
-                          setIsEditModalOpen(false);
-                        }}
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                          timeout: 500,
-                        }}
-                      >
-                        <Fade in={isEditModalOpen}>
-                          <div className={classes.modalPaper}>
-                            <Grid container spacing={1}>
-                              <Grid item xs={10}>
-                                <h2 id="post-edit-modal-title">Edit Post</h2>
-                              </Grid>
-                              <Grid item xs={2}>
-                                <IconButton
-                                  onClick={() => setIsEditModalOpen(false)}
-                                >
-                                  <Close />
-                                </IconButton>
-                              </Grid>
-                            </Grid>
-
-                            <Divider />
-                            <form noValidate onSubmit={handleEditPost}>
-                              <TextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                multiline
-                                id="content"
-                                label="Content"
-                                name="content"
-                                defaultValue={view}
-                                inputRef={register({
-                                  required: true,
-                                  maxLength: 256,
-                                })}
-                              />
-                              <Chip
-                                clickable
-                                color="primary"
-                                label="Save"
-                                component="button"
-                                className={classes.saveButton}
-                                type="submit"
-                              />
-                            </form>
-                          </div>
-                        </Fade>
-                      </Modal>
+                      <PostEditModal
+                        id={id}
+                        isEditModalOpen={isEditModalOpen}
+                        setIsEditModalOpen={setIsEditModalOpen}
+                        view={view}
+                        setView={setView}
+                      />
                     </Grid>
 
                     <Grid item container xs={2} justify="center">
