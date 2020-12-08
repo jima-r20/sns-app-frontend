@@ -22,8 +22,8 @@ export const ProfileEditModalStyle = makeStyles((theme: Theme) =>
     saveButton: {
       display: 'block',
       margin: '0 auto',
-      marginTop: '10%',
-      marginBottom: '10%',
+      marginTop: '5%',
+      marginBottom: '5%',
       paddingRight: '10%',
       paddingLeft: '10%',
     },

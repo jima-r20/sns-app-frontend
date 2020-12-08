@@ -65,7 +65,10 @@ const PostEditModal: React.FC<PROPS_POST_EDIT_MODAL> = (props) => {
               <h2 id="post-edit-modal-title">Edit Post</h2>
             </Grid>
             <Grid item xs={2}>
-              <IconButton onClick={() => setIsEditModalOpen(false)}>
+              <IconButton
+                className={classes.closeButton}
+                onClick={() => setIsEditModalOpen(false)}
+              >
                 <Close />
               </IconButton>
             </Grid>

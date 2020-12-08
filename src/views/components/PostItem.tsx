@@ -19,8 +19,9 @@ import {
   Fade,
   IconButton,
   TextField,
+  Icon,
 } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+import { ArrowBack, Backspace, Close, Undo } from '@material-ui/icons';
 
 import { AppDispatch } from '../../stores/store';
 import {
@@ -157,6 +158,14 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                     <Avatar>{avatarIcon}</Avatar>
                   </Link>
                 }
+                action={
+                  <IconButton
+                    className={classes.backButton}
+                    onClick={() => history.push('/top')}
+                  >
+                    <ArrowBack />
+                  </IconButton>
+                }
                 title={displayName}
               />
               <CardContent>
@@ -166,13 +175,12 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                 </Typography>
               </CardContent>
               <Grid container spacing={1}>
-                <Grid item xs={4}></Grid>
                 {/* 
                     自分の投稿の場合、Edit, Deleteボタンを表示 
                   */}
                 {displayName === myProfile.displayName ? (
                   <React.Fragment>
-                    <Grid item container xs={2} justify="center">
+                    <Grid item container xs={12} justify="center">
                       <Chip
                         clickable
                         color="primary"
@@ -190,9 +198,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                         view={view}
                         setView={setView}
                       />
-                    </Grid>
 
-                    <Grid item container xs={2} justify="center">
                       <Chip
                         clickable
                         color="secondary"
@@ -212,18 +218,7 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
                       />
                     </Grid>
                   </React.Fragment>
-                ) : (
-                  <Grid item xs={4}></Grid>
-                )}
-
-                <Grid item xs={4}>
-                  <Button
-                    className={classes.backButton}
-                    onClick={() => history.push('/top')}
-                  >
-                    Back
-                  </Button>
-                </Grid>
+                ) : null}
               </Grid>
             </React.Fragment>
           )}

@@ -7,13 +7,12 @@ export const PostItemStyle = makeStyles((theme: Theme) =>
       color: 'inherit',
     },
     button: {
-      width: '100%',
+      margin: theme.spacing(1, 1, 2, 2),
+      width: '15%',
     },
     backButton: {
-      margin: '2%',
       display: 'block',
       marginLeft: 'auto',
-      backgroundColor: '#ddd',
     },
     modal: {
       display: 'flex',

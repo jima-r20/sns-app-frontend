@@ -20,11 +20,15 @@ export const PostEditModalStyle = makeStyles((theme: Theme) =>
       marginTop: '5%',
       marginBottom: '5%',
     },
+    closeButton: {
+      display: 'block',
+      marginLeft: 'auto',
+    },
     saveButton: {
       display: 'block',
       margin: '0 auto',
-      marginTop: '10%',
-      marginBottom: '10%',
+      marginTop: '5%',
+      marginBottom: '5%',
       paddingRight: '10%',
       paddingLeft: '10%',
     },
