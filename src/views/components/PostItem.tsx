@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
 
 import {
   Grid,
@@ -9,24 +8,16 @@ import {
   CardActionArea,
   CardHeader,
   Avatar,
-  Divider,
   CardContent,
   Typography,
-  Button,
   Chip,
-  Modal,
-  Backdrop,
-  Fade,
   IconButton,
-  TextField,
-  Icon,
 } from '@material-ui/core';
-import { ArrowBack, Backspace, Close, Undo } from '@material-ui/icons';
+import { ArrowBack } from '@material-ui/icons';
 
 import { AppDispatch } from '../../stores/store';
 import {
   fetchDeletePost,
-  fetchEditPost,
   setSelectedPost,
 } from '../../stores/slices/post.slice';
 import {
@@ -40,10 +31,10 @@ import {
   selectUsers,
 } from '../../stores/slices/user.slice';
 
-import { PROPS_POST } from '../../interfaces/component-props.interface';
-import { PostItemStyle } from '../../styles/PostItem.style';
 import ConfirmationModal from '../modals/Confirmation.modal';
 import PostEditModal from '../modals/PostEdit.modal';
+import { PROPS_POST } from '../../interfaces/component-props.interface';
+import { PostItemStyle } from '../../styles/PostItem.style';
 
 interface FormData {
   content: string;
@@ -57,7 +48,6 @@ const PostItem: React.FC<PROPS_POST> = (props) => {
   const { id, postFromId, displayName, content } = props;
   const avatarIcon = displayName.charAt(0).toUpperCase();
 
-  const { register, errors, handleSubmit } = useForm<FormData>();
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [view, setView] = useState<string>(content); // 投稿編集後にページに反映させるために必要
