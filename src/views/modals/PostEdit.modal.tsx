@@ -14,7 +14,7 @@ import {
 import { Close } from '@material-ui/icons';
 import { AppDispatch } from '../../stores/store';
 import { fetchEditPost } from '../../stores/slices/post.slice';
-import { PostEditModalStyle } from '../../styles/PostEditModal.style';
+import { PostEditModalStyle } from '../../styles/modals/PostEditModal.style';
 
 interface PROPS_POST_EDIT_MODAL {
   id: number;

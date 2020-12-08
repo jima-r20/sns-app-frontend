@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { selectFriends } from '../../stores/slices/follow.slice';
-import { CreateDMStyle } from '../../styles/CreateDM.style';
+import { CreateDMStyle } from '../../styles/components/CreateDM.style';
 import { selectMyProfile, selectUsers } from '../../stores/slices/user.slice';
 import {
   fetchCreateDm,

@@ -9,7 +9,7 @@ import {
   Modal,
   Typography,
 } from '@material-ui/core';
-import { ConfirmationModalStyle } from '../../styles/ConfirmationModal.style';
+import { ConfirmationModalStyle } from '../../styles/modals/ConfirmationModal.style';
 
 interface PROPS_CONFIRMATION_MODAL {
   mainText: string;

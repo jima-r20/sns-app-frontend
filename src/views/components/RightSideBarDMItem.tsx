@@ -20,7 +20,7 @@ import {
 } from '../../stores/slices/page.slice';
 
 import { PROPS_DM } from '../../interfaces/component-props.interface';
-import { RightSideBarDMItemStyle } from '../../styles/RightSideBarDMItem.style';
+import { RightSideBarDMItemStyle } from '../../styles/components/RightSideBarDMItem.style';
 
 const RightSideBarDMItem: React.FC<PROPS_DM> = (props) => {
   const classes = RightSideBarDMItemStyle();

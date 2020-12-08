@@ -17,7 +17,7 @@ import {
   selectFollows,
 } from '../../stores/slices/follow.slice';
 import { PROPS_FRIEND } from '../../interfaces/component-props.interface';
-import { FriendStyles } from '../../styles/Friend.style';
+import { FriendStyles } from '../../styles/components/Friend.style';
 
 const Friend: React.FC<PROPS_FRIEND> = (props) => {
   const classes = FriendStyles();

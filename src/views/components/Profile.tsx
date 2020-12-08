@@ -21,7 +21,7 @@ import {
 import { PROPS_PROFILE } from '../../interfaces/component-props.interface';
 import ConfirmationModal from '../modals/Confirmation.modal';
 import ProfileEditModal from '../modals/ProfileEdit.modal';
-import { ProfileStyles } from '../../styles/Profile.style';
+import { ProfileStyles } from '../../styles/components/Profile.style';
 
 const Profile: React.FC<PROPS_PROFILE> = ({ profile }) => {
   const classes = ProfileStyles();

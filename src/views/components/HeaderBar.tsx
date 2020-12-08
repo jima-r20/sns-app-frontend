@@ -14,7 +14,7 @@ import {
   openSideBar,
   selectIsOpenSideBar,
 } from '../../stores/slices/page.slice';
-import { HeaderBarStyle } from '../../styles/HeaderBar.style';
+import { HeaderBarStyle } from '../../styles/components/HeaderBar.style';
 
 const HeaderBar: React.FC = () => {
   const classes = HeaderBarStyle();

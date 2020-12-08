@@ -52,7 +52,7 @@ import {
   selectSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 
-import { TopPageStyles } from '../../styles/TopPage.styles';
+import { TopPageStyles } from '../../styles/views/TopPage.styles';
 
 const theme = createMuiTheme({
   palette: {

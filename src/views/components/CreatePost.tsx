@@ -15,7 +15,7 @@ import { AppDispatch } from '../../stores/store';
 import { fetchCreatePost } from '../../stores/slices/post.slice';
 import { selectMyProfile } from '../../stores/slices/user.slice';
 
-import { CreatePostStyle } from '../../styles/CreatePost.style';
+import { CreatePostStyle } from '../../styles/components/CreatePost.style';
 import { setSubHeaderTitle } from '../../stores/slices/page.slice';
 
 interface FormData {

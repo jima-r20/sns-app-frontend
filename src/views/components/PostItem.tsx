@@ -34,11 +34,7 @@ import {
 import ConfirmationModal from '../modals/Confirmation.modal';
 import PostEditModal from '../modals/PostEdit.modal';
 import { PROPS_POST } from '../../interfaces/component-props.interface';
-import { PostItemStyle } from '../../styles/PostItem.style';
-
-interface FormData {
-  content: string;
-}
+import { PostItemStyle } from '../../styles/components/PostItem.style';
 
 const PostItem: React.FC<PROPS_POST> = (props) => {
   const classes = PostItemStyle();

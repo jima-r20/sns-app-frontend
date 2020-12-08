@@ -15,7 +15,7 @@ import {
 import { Close } from '@material-ui/icons';
 import { AppDispatch } from '../../stores/store';
 import { fetchUpdateUser } from '../../stores/slices/user.slice';
-import { ProfileEditModalStyle } from '../../styles/ProfileEditModal.style';
+import { ProfileEditModalStyle } from '../../styles/modals/ProfileEditModal.style';
 
 interface PROPS_PROFILE_EDIT_MODAL {
   id: number;

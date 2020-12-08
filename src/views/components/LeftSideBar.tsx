@@ -9,7 +9,7 @@ import {
   closeSideBar,
   selectIsOpenSideBar,
 } from '../../stores/slices/page.slice';
-import { LeftSideBarStyle } from '../../styles/LeftSideBar.style';
+import { LeftSideBarStyle } from '../../styles/components/LeftSideBar.style';
 
 const LeftSideBar: React.FC = () => {
   const classes = LeftSideBarStyle();

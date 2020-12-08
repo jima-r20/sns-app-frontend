@@ -25,7 +25,7 @@ import Copyright from '../components/Copyright';
 import { AppDispatch } from '../../stores/store';
 import { fetchSignUp } from '../../stores/slices/user.slice';
 
-import { authDefaultStyles } from '../../styles/Auth.styles';
+import { authDefaultStyles } from '../../styles/views/Auth.styles';
 
 interface State {
   email: string;

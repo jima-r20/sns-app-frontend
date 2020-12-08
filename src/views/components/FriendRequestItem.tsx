@@ -13,7 +13,7 @@ import {
   selectFollows,
 } from '../../stores/slices/follow.slice';
 import { PROPS_FRIEND_REQUEST } from '../../interfaces/component-props.interface';
-import { FriendRequestItmStyle } from '../../styles/FriendRequestItem.style';
+import { FriendRequestItmStyle } from '../../styles/components/FriendRequestItem.style';
 
 const FriendRequestItem: React.FC<PROPS_FRIEND_REQUEST> = (props) => {
   const dispatch: AppDispatch = useDispatch();

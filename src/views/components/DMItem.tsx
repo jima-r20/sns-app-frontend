@@ -36,7 +36,7 @@ import {
 
 import { PROPS_DM } from '../../interfaces/component-props.interface';
 
-import { DMItemStyle } from '../../styles/DMItem.style';
+import { DMItemStyle } from '../../styles/components/DMItem.style';
 
 interface FormData {
   message: string;

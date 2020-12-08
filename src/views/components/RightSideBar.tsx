@@ -19,7 +19,7 @@ import FriendRequestItem from './FriendRequestItem';
 import { selectDmInbox } from '../../stores/slices/dm.slice';
 import { selectFollowers } from '../../stores/slices/follow.slice';
 
-import { RightSideBarStyle } from '../../styles/RightSideBar.style';
+import { RightSideBarStyle } from '../../styles/components/RightSideBar.style';
 
 const RightSideBar: React.FC = () => {
   const classes = RightSideBarStyle();
