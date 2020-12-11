@@ -7,6 +7,7 @@ import {
   Container,
   createMuiTheme,
   CssBaseline,
+  Fab,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -53,6 +54,8 @@ import {
 } from '../../stores/slices/page.slice';
 
 import { TopPageStyles } from '../../styles/views/TopPage.styles';
+import ScrollTop from '../components/ScrollTop';
+import { KeyboardArrowUp } from '@material-ui/icons';
 
 const theme = createMuiTheme({
   palette: {
@@ -115,7 +118,7 @@ const TopPage: React.FC = () => {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           {/* <Switch> */}
-          <Toolbar className={classes.subHeader}>
+          <Toolbar className={classes.subHeader} id="back-to-top-anchor">
             <Typography variant="h5" className={classes.pageTitle}>
               {subHeaderTitle}
             </Typography>
@@ -214,6 +217,11 @@ const TopPage: React.FC = () => {
               <Copyright />
             </Box>
           </Container>
+          <ScrollTop>
+            <Fab color="primary" size="small" aria-label="scroll back to top">
+              <KeyboardArrowUp />
+            </Fab>
+          </ScrollTop>
         </main>
 
         <RightSideBar />
