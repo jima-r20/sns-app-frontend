@@ -5,7 +5,7 @@ export const ScrollTopStyle = makeStyles((theme: Theme) =>
     scrollTopButton: {
       position: 'fixed',
       bottom: theme.spacing(2),
-      right: theme.spacing(2),
+      right: 340,
     },
   })
 );

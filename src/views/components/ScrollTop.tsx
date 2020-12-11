@@ -1,18 +1,14 @@
-import { useScrollTrigger, Zoom } from '@material-ui/core';
 import React from 'react';
+import { Fab, useScrollTrigger, Zoom } from '@material-ui/core';
+import { KeyboardArrowUp } from '@material-ui/icons';
 import { ScrollTopStyle } from '../../styles/components/ScrollTop.style';
 
-interface PROPS_SCROLLTOP {
-  children: React.ReactElement;
-}
-
-const ScrollTop: React.FC<PROPS_SCROLLTOP> = (props) => {
+const ScrollTop: React.FC = () => {
   const classes = ScrollTopStyle();
-  const { children } = props;
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 100,
-  });
+  // const trigger = useScrollTrigger({
+  //   disableHysteresis: true,
+  //   threshold: 100,
+  // });
 
   const handleScrollTop = (e: React.MouseEvent<HTMLDivElement>) => {
     const anchor = (
@@ -23,18 +19,18 @@ const ScrollTop: React.FC<PROPS_SCROLLTOP> = (props) => {
     }
   };
 
-  console.log('rendered scroll top button');
-
   return (
-    <Zoom in={trigger}>
-      <div
-        onClick={handleScrollTop}
-        role="presentation"
-        className={classes.scrollTopButton}
-      >
-        {children}
-      </div>
-    </Zoom>
+    // <Zoom in={trigger}>
+    <div
+      onClick={handleScrollTop}
+      role="presentation"
+      className={classes.scrollTopButton}
+    >
+      <Fab color="primary" size="small" aria-label="scroll back to top">
+        <KeyboardArrowUp />
+      </Fab>
+    </div>
+    // </Zoom>
   );
 };
 
