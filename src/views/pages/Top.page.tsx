@@ -124,7 +124,7 @@ const TopPage: React.FC = () => {
 
           <div id="back-to-top-anchor" />
 
-          <Container maxWidth="lg" className={classes.container}>
+          <Container maxWidth="lg" className={classes.container} id="container">
             <Switch>
               {/* ================================
                           投稿一覧表示
@@ -132,6 +132,7 @@ const TopPage: React.FC = () => {
               <Route path={match.url} exact>
                 <CreatePost />
                 <PostList />
+                <ScrollTop />
               </Route>
               {/* ================================
                           投稿詳細表示
@@ -150,6 +151,7 @@ const TopPage: React.FC = () => {
               <Route path={`${match.url}/myprofile`} exact>
                 <Profile profile={myProfile} />
                 <PostList mypost />
+                <ScrollTop />
               </Route>
               {/* ================================
                 マイプロフィールページから投稿詳細表示
@@ -168,6 +170,7 @@ const TopPage: React.FC = () => {
               <Route path={`${match.url}/profile/:id`} exact>
                 <Profile profile={selectedUser} />
                 <PostList postFromId={selectedUser.id} />
+                <ScrollTop />
               </Route>
               {/* ================================
               自分以外のユーザのプロフィールページから投稿詳細表示
@@ -189,6 +192,7 @@ const TopPage: React.FC = () => {
               ================================= */}
               <Route path={`${match.url}/dm`} exact>
                 <DMList />
+                <ScrollTop />
               </Route>
               {/* ================================
                             DM新規作成
@@ -210,6 +214,7 @@ const TopPage: React.FC = () => {
               ================================= */}
               <Route path={`${match.url}/friends`} exact>
                 <FriendList />
+                <ScrollTop />
               </Route>
             </Switch>
 
@@ -217,7 +222,6 @@ const TopPage: React.FC = () => {
               <Copyright />
             </Box>
           </Container>
-          <ScrollTop />
         </main>
 
         <RightSideBar />
