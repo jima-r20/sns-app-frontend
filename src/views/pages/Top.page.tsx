@@ -4,6 +4,7 @@ import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 
 import {
   Box,
+  Button,
   Container,
   createMuiTheme,
   CssBaseline,
@@ -115,7 +116,6 @@ const TopPage: React.FC = () => {
 
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          {/* <Switch> */}
           <Toolbar className={classes.subHeader}>
             <Typography variant="h5" className={classes.pageTitle}>
               {subHeaderTitle}

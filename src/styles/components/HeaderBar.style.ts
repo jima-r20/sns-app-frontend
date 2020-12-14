@@ -32,5 +32,12 @@ export const HeaderBarStyle = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
     },
+    popoverText: {
+      padding: theme.spacing(2),
+    },
+    linkText: {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
   })
 );

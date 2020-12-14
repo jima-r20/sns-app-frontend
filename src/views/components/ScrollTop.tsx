@@ -17,8 +17,6 @@ const ScrollTop: React.FC = () => {
     const elm = document.getElementById('container');
     setContainerHeight(elm?.clientHeight);
     setWindowHeight(window.innerHeight);
-    console.log(`container height ${containerHeight}`);
-    console.log(`window height ${windowHeight}`);
   });
   // }, []);
 
