@@ -38,15 +38,21 @@ const CreatePost: React.FC = () => {
   const myprofile = useSelector(selectMyProfile);
   const isCreatePostPage = useSelector(selectIsCreatePostPage);
 
+  // ヘッダーから新規投稿画面に遷移した後に、
+  // 投稿せずにトップ画面へ遷移した場合「isCreatePostPage」を「false」にする必要あり
+  if (match.url === '/top' && isCreatePostPage) {
+    dispatch(resetIsCreatePostPage());
+  }
+
+  console.log(match.url === '/top');
+
   useEffect(() => {
-    // 下記修正対象
     if (isCreatePostPage) {
       dispatch(setSubHeaderTitle('Create Post'));
     } else {
       dispatch(setSubHeaderTitle('HOME'));
     }
-    console.log(match.url);
-  }, []);
+  }, [isCreatePostPage]); // isCreatePostPageが変更される可能性があるためここで指定
 
   const handleCreatePost = handleSubmit(async (data: FormData) => {
     /* 
