@@ -16,7 +16,12 @@ import { fetchCreatePost } from '../../stores/slices/post.slice';
 import { selectMyProfile } from '../../stores/slices/user.slice';
 
 import { CreatePostStyle } from '../../styles/components/CreatePost.style';
-import { setSubHeaderTitle } from '../../stores/slices/page.slice';
+import {
+  resetIsCreatePostPage,
+  selectIsCreatePostPage,
+  setSubHeaderTitle,
+} from '../../stores/slices/page.slice';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 interface FormData {
   content: string;
@@ -25,12 +30,22 @@ interface FormData {
 const CreatePost: React.FC = () => {
   const classes = CreatePostStyle();
   const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
+  const match = useRouteMatch();
   const { register, errors, handleSubmit } = useForm<{ content: string }>();
-  const myprofile = useSelector(selectMyProfile);
   const [content, setContent] = useState<string>('');
 
+  const myprofile = useSelector(selectMyProfile);
+  const isCreatePostPage = useSelector(selectIsCreatePostPage);
+
   useEffect(() => {
-    dispatch(setSubHeaderTitle('HOME'));
+    // 下記修正対象
+    if (isCreatePostPage) {
+      dispatch(setSubHeaderTitle('Create Post'));
+    } else {
+      dispatch(setSubHeaderTitle('HOME'));
+    }
+    console.log(match.url);
   }, []);
 
   const handleCreatePost = handleSubmit(async (data: FormData) => {
@@ -43,6 +58,12 @@ const CreatePost: React.FC = () => {
           4.その後の入力は１文字目だけ一回では入力されない 
     */
     await dispatch(fetchCreatePost(data));
+
+    // 新規投稿コンポーネントのみのページの場合は投稿後、投稿リストページに遷移
+    if (isCreatePostPage) {
+      history.push('/top');
+      await dispatch(resetIsCreatePostPage());
+    }
     setContent(''); // 投稿後、入力フォームを空にする
   });
 

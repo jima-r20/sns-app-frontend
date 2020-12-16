@@ -18,6 +18,7 @@ import {
   openSideBar,
   resetSendToReceiver,
   selectIsOpenSideBar,
+  setIsCreatePostPage,
 } from '../../stores/slices/page.slice';
 import { HeaderBarStyle } from '../../styles/components/HeaderBar.style';
 import { Link } from 'react-router-dom';
@@ -38,6 +39,10 @@ const HeaderBar: React.FC = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onClickCreateNewPost = async () => {
+    await dispatch(setIsCreatePostPage());
   };
 
   const onClickSendDM = async () => {
@@ -98,11 +103,17 @@ const HeaderBar: React.FC = () => {
               }}
             >
               <List>
-                <ListItem button>
-                  <Typography className={classes.popoverText}>
-                    Create NEW Post
-                  </Typography>
-                </ListItem>
+                <Link
+                  to="/top/post/create"
+                  className={classes.linkText}
+                  onClick={onClickCreateNewPost}
+                >
+                  <ListItem button>
+                    <Typography className={classes.popoverText}>
+                      Create NEW Post
+                    </Typography>
+                  </ListItem>
+                </Link>
                 <Divider />
                 <Link
                   to="/top/dm/create"

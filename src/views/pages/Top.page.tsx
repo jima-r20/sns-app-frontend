@@ -135,6 +135,12 @@ const TopPage: React.FC = () => {
                 <ScrollTop />
               </Route>
               {/* ================================
+                        新規投稿専用画面表示
+              ================================= */}
+              <Route path={`${match.url}/post/create`} exact>
+                <CreatePost />
+              </Route>
+              {/* ================================
                           投稿詳細表示
               ================================= */}
               <Route path={`${match.url}/post/:id`} exact>

@@ -8,6 +8,7 @@ interface PageSliceState {
   isDMSelected: boolean;
   isApproveOrUnfollowButtomClicked: boolean;
   sendToReceiver: number | null;
+  isCreatePostPage: boolean;
 }
 
 export const pageSlice = createSlice({
@@ -19,6 +20,7 @@ export const pageSlice = createSlice({
     isDMSelected: false,
     isApproveOrUnfollowButtomClicked: false,
     sendToReceiver: null,
+    isCreatePostPage: false,
   } as PageSliceState,
   reducers: {
     setSubHeaderTitle(state, action) {
@@ -54,6 +56,12 @@ export const pageSlice = createSlice({
     resetSendToReceiver(state) {
       state.sendToReceiver = null;
     },
+    setIsCreatePostPage(state) {
+      state.isCreatePostPage = true;
+    },
+    resetIsCreatePostPage(state) {
+      state.isCreatePostPage = false;
+    },
   },
 });
 
@@ -69,6 +77,8 @@ export const {
   resetApproveOrUnfollowButtomClicked,
   setSendToReceiver,
   resetSendToReceiver,
+  setIsCreatePostPage,
+  resetIsCreatePostPage,
 } = pageSlice.actions;
 
 export const selectSubHeaderTitle = (state: RootState) =>
@@ -82,5 +92,7 @@ export const selectIsApproveOrUnfollowButtomClicked = (state: RootState) =>
   state.page.isApproveOrUnfollowButtomClicked;
 export const selectSendToReceiver = (state: RootState) =>
   state.page.sendToReceiver;
+export const selectIsCreatePostPage = (state: RootState) =>
+  state.page.isCreatePostPage;
 
 export default pageSlice.reducer;
