@@ -19,6 +19,7 @@ import { CreatePostStyle } from '../../styles/components/CreatePost.style';
 import {
   resetIsCreatePostPage,
   selectIsCreatePostPage,
+  setIsCreatePostPage,
   setSubHeaderTitle,
 } from '../../stores/slices/page.slice';
 import { useHistory, useRouteMatch } from 'react-router-dom';
@@ -42,6 +43,10 @@ const CreatePost: React.FC = () => {
   // 投稿せずにトップ画面へ遷移した場合「isCreatePostPage」を「false」にする必要あり
   if (match.url === '/top' && isCreatePostPage) {
     dispatch(resetIsCreatePostPage());
+  }
+  // 新規投稿画面でリロードした場合「isCreatePostPage」を「true」にする必要あり
+  if (match.url === '/top/post/create' && !isCreatePostPage) {
+    dispatch(setIsCreatePostPage());
   }
 
   console.log(match.url === '/top');
