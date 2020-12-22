@@ -129,11 +129,6 @@ const HeaderBar: React.FC = () => {
               </List>
             </Popover>
           </div>
-          <IconButton color="inherit">
-            <Badge badgeContent={99} color="secondary">
-              <Notifications />
-            </Badge>
-          </IconButton>
         </Toolbar>
       </AppBar>
     </React.Fragment>

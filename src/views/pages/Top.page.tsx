@@ -4,7 +4,6 @@ import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 
 import {
   Box,
-  Button,
   Container,
   createMuiTheme,
   CssBaseline,

@@ -49,8 +49,6 @@ const CreatePost: React.FC = () => {
     dispatch(setIsCreatePostPage());
   }
 
-  console.log(match.url === '/top');
-
   useEffect(() => {
     if (isCreatePostPage) {
       dispatch(setSubHeaderTitle('Create Post'));
