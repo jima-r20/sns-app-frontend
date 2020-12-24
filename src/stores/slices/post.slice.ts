@@ -34,7 +34,8 @@ interface InitialState {
   selectedPost: SelectedPost;
 }
 
-const apiUrl = process.env.REACT_APP_DEV_API_URL;
+// const apiUrl = process.env.REACT_APP_DEV_API_URL;
+const apiUrl = process.env.REACT_APP_PRD_API_URL;
 
 /* ============================
         投稿の全取得

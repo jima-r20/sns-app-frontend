@@ -19,7 +19,8 @@ interface InitialState {
   friends: Follow[];
 }
 
-const apiUrl = process.env.REACT_APP_DEV_API_URL;
+// const apiUrl = process.env.REACT_APP_DEV_API_URL;
+const apiUrl = process.env.REACT_APP_PRD_API_URL;
 
 /* ============================
       フォロー情報の全取得

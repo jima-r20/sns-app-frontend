@@ -20,7 +20,8 @@ interface InitialState {
   selectedUser: Profile;
 }
 
-const apiUrl = process.env.REACT_APP_DEV_API_URL;
+// const apiUrl = process.env.REACT_APP_DEV_API_URL;
+const apiUrl = process.env.REACT_APP_PRD_API_URL;
 
 export const fetchSignUp = createAsyncThunk(
   'user/signUp',
