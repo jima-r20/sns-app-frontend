@@ -86,17 +86,17 @@ const CreatePost: React.FC = () => {
       <Paper className={classes.paper}>
         <form noValidate onSubmit={handleCreatePost}>
           <Grid container spacing={1} className={classes.container}>
-            <Grid item xs={1}>
+            <Grid item md={1} xs={3}>
               <Avatar className={classes.avater}>
                 {myprofile.displayName.charAt(0).toUpperCase()}
               </Avatar>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item md={9} xs={7}>
               <Typography variant="body2" component="p">
                 What's happening?
               </Typography>
             </Grid>
-            <Grid item xs={2} className={classes.postButton}>
+            <Grid item md={2} xs={2} className={classes.postButton}>
               {content !== '' ? (
                 <Chip
                   clickable

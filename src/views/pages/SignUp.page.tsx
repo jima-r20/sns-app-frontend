@@ -68,7 +68,9 @@ const SignUpPage: React.FC = () => {
   });
 
   const handleSignUp = handleSubmit(async (data: FormData) => {
-    console.log(data);
+    if (!data.avatar) {
+      data.avatar = '';
+    }
     const result = await dispatch(fetchSignUp(data));
     if (fetchSignUp.fulfilled.match(result)) {
       history.push('/signin');

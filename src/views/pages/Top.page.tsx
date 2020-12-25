@@ -228,8 +228,7 @@ const TopPage: React.FC = () => {
             </Box>
           </Container>
         </main>
-
-        <RightSideBar />
+        {window.outerWidth > 1024 ? <RightSideBar /> : null}
       </ThemeProvider>
     </div>
   );

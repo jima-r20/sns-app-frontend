@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { Divider, Drawer, IconButton, List } from '@material-ui/core';
@@ -15,6 +15,12 @@ const LeftSideBar: React.FC = () => {
   const classes = LeftSideBarStyle();
   const dispatch: AppDispatch = useDispatch();
   const open = useSelector(selectIsOpenSideBar);
+
+  useEffect(() => {
+    if (window.outerWidth <= 768) {
+      dispatch(closeSideBar());
+    }
+  }, []);
 
   const handleDrawerClose = async () => {
     await dispatch(closeSideBar());
