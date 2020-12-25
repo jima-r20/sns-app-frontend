@@ -27,8 +27,8 @@ interface InitialState {
   selectedDM: DM;
 }
 
-// const apiUrl = process.env.REACT_APP_DEV_API_URL;
-const apiUrl = process.env.REACT_APP_PRD_API_URL;
+const apiUrl = process.env.REACT_APP_DEV_API_URL;
+// const apiUrl = process.env.REACT_APP_PRD_API_URL;
 
 /* ============================
       自身へ送信されたDM全取得
@@ -58,7 +58,6 @@ export const fetchCreateDm = createAsyncThunk(
         Authorization: `Bearer ${localStorage.getItem('localJwtToken')}`,
       },
     });
-    console.log(res.data);
     // return res.data;
   }
 );

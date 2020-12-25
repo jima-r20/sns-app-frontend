@@ -89,6 +89,9 @@ const TopPage: React.FC = () => {
       if (localStorage.getItem('localJwtToken')) {
         const result = await dispatch(fetchGetUser());
         if (fetchGetUser.rejected.match(result)) {
+          // Tokenはあるが期限が切れている場合。持っているTokenを破棄してログインページへ
+          localStorage.removeItem('localJwtToken');
+          history.push('/signin');
           return null;
         }
         await dispatch(fetchGetPosts());
@@ -98,6 +101,7 @@ const TopPage: React.FC = () => {
         await dispatch(fetchGetFollowerList());
         await dispatch(fetchGetFriendsList());
       } else {
+        // Tokenがない場合。ログインページへ
         history.push('/signin');
       }
     };
